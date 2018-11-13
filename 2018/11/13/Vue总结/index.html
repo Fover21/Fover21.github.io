@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="vue总结 MVC  Model View Controller   MVVM Model View ViweMode  1. ES6常用语法1.1 变量的提升  1.2 模板字符串 ``${}  1.3 数据的结构  1.4 类  1.5 函数      1.5.1 注意this和普通函数的区别  1.6 箭头函数  1.7 单体模式 2. Vue常用指令2.1 v-text  inne">
+<meta name="description" content="vue总结 MVC  Model View Controller   MVVM Model View ViweMode  ES6常用语法1.1 变量的提升  1.2 模板字符串 ``${}  1.3 数据的结构  1.4 类  1.5 函数      1.5.1 注意this和普通函数的区别  1.6 箭头函数  1.7 单体模式 Vue常用指令2.1 v-text  innerText">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue总结">
 <meta property="og:url" content="http://yoursite.com/2018/11/13/Vue总结/index.html">
 <meta property="og:site_name" content="海燕的博客">
-<meta property="og:description" content="vue总结 MVC  Model View Controller   MVVM Model View ViweMode  1. ES6常用语法1.1 变量的提升  1.2 模板字符串 ``${}  1.3 数据的结构  1.4 类  1.5 函数      1.5.1 注意this和普通函数的区别  1.6 箭头函数  1.7 单体模式 2. Vue常用指令2.1 v-text  inne">
+<meta property="og:description" content="vue总结 MVC  Model View Controller   MVVM Model View ViweMode  ES6常用语法1.1 变量的提升  1.2 模板字符串 ``${}  1.3 数据的结构  1.4 类  1.5 函数      1.5.1 注意this和普通函数的区别  1.6 箭头函数  1.7 单体模式 Vue常用指令2.1 v-text  innerText">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-13T01:41:55.207Z">
+<meta property="og:updated_time" content="2018-11-13T02:51:50.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue总结">
-<meta name="twitter:description" content="vue总结 MVC  Model View Controller   MVVM Model View ViweMode  1. ES6常用语法1.1 变量的提升  1.2 模板字符串 ``${}  1.3 数据的结构  1.4 类  1.5 函数      1.5.1 注意this和普通函数的区别  1.6 箭头函数  1.7 单体模式 2. Vue常用指令2.1 v-text  inne">
+<meta name="twitter:description" content="vue总结 MVC  Model View Controller   MVVM Model View ViweMode  ES6常用语法1.1 变量的提升  1.2 模板字符串 ``${}  1.3 数据的结构  1.4 类  1.5 函数      1.5.1 注意this和普通函数的区别  1.6 箭头函数  1.7 单体模式 Vue常用指令2.1 v-text  innerText">
 
 
 
@@ -305,7 +305,7 @@
 <blockquote>
 <p>MVVM Model View ViweMode</p>
 </blockquote>
-<h2 id="1-ES6常用语法"><a href="#1-ES6常用语法" class="headerlink" title="1. ES6常用语法"></a>1. ES6常用语法</h2><pre><code>1.1 变量的提升
+<h2 id="ES6常用语法"><a href="#ES6常用语法" class="headerlink" title="ES6常用语法"></a>ES6常用语法</h2><pre><code>1.1 变量的提升
 
 1.2 模板字符串 ``${}
 
@@ -320,7 +320,7 @@
 1.6 箭头函数
 
 1.7 单体模式
-</code></pre><h2 id="2-Vue常用指令"><a href="#2-Vue常用指令" class="headerlink" title="2. Vue常用指令"></a>2. Vue常用指令</h2><pre><code>2.1 v-text  innerText
+</code></pre><h2 id="Vue常用指令"><a href="#Vue常用指令" class="headerlink" title="Vue常用指令"></a>Vue常用指令</h2><pre><code>2.1 v-text  innerText
 
 2.2 v-html  innerHtml
 
@@ -355,7 +355,51 @@
     2.10.1 放入缓存
 
     2.10.2 只有数据改变的时候才会重新计算
-</code></pre>
+
+2.11 数据监听
+
+    2.11.1 注意可变类型和不可变
+
+2.12 获取DOM
+
+    2.12.1 给便签绑定ref属性  ref=“属性值”
+
+    2.12.2 this.$refs.属性值
+
+2.13 自定义指令
+
+    2.13.1 vue.directive(“指令名称”, function(el, binding){
+        el 绑定指令的便签元素
+        binding 指令的所有信息
+    })
+</code></pre><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><pre><code>3.1 数据监听
+
+    3.1.1 改变数据
+        直接赋值
+    3.1.2 改变数组长度
+        能够被监听到，新值和旧值一样
+    3.1.3 改变数组内的值
+        app = new vue({})
+        app.$set(this.hobby, 0, &apos;抽烟&apos;)
+        $set()修改数组中的值可以监听
+        $delete()
+</code></pre><h2 id="Vue的组件"><a href="#Vue的组件" class="headerlink" title="Vue的组件"></a>Vue的组件</h2><h3 id="组件的注册"><a href="#组件的注册" class="headerlink" title="组件的注册"></a>组件的注册</h3><h4 id="全局注册"><a href="#全局注册" class="headerlink" title="全局注册"></a>全局注册</h4><pre><code>Vue.compontent(“组件名称”, {})
+</code></pre><h4 id="局部注册"><a href="#局部注册" class="headerlink" title="局部注册"></a>局部注册</h4><pre><code>const = app = new Vue({
+    el: &apos;#app&apos;,
+    components: {
+        组件的名称: 组件的配置信息
+    }
+})
+</code></pre><h4 id="子组件的注册"><a href="#子组件的注册" class="headerlink" title="子组件的注册"></a>子组件的注册</h4><pre><code>在父组件中注册components
+## 注意写组件标签
+## 每个组件的template只识别一个作用域块
+</code></pre><h3 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h3><h4 id="父子的通信"><a href="#父子的通信" class="headerlink" title="父子的通信"></a>父子的通信</h4><pre><code>在父组件中给子组件绑定属性
+子组件通过props=[&quot;属性名称&quot;]
+</code></pre><h4 id="子父的通信"><a href="#子父的通信" class="headerlink" title="子父的通信"></a>子父的通信</h4><pre><code>子组件先提交事件
+    this.$emit(&quot;事件名称&quot;, 值)
+在父组件中给子组件绑定事件
+    &lt;child @事件名称=&quot;父亲处理的方法&quot;&gt;&lt;/child&gt;
+</code></pre><h4 id="非父子的通信"><a href="#非父子的通信" class="headerlink" title="非父子的通信"></a>非父子的通信</h4>
       
     </div>
     
@@ -485,7 +529,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vue总结"><span class="nav-number">1.</span> <span class="nav-text">vue总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-ES6常用语法"><span class="nav-number">1.1.</span> <span class="nav-text">1. ES6常用语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Vue常用指令"><span class="nav-number">1.2.</span> <span class="nav-text">2. Vue常用指令</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vue总结"><span class="nav-number">1.</span> <span class="nav-text">vue总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6常用语法"><span class="nav-number">1.1.</span> <span class="nav-text">ES6常用语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue常用指令"><span class="nav-number">1.2.</span> <span class="nav-text">Vue常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">1.3.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue的组件"><span class="nav-number">1.4.</span> <span class="nav-text">Vue的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件的注册"><span class="nav-number">1.4.1.</span> <span class="nav-text">组件的注册</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局注册"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">全局注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局部注册"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">局部注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子组件的注册"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">子组件的注册</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通信"><span class="nav-number">1.4.2.</span> <span class="nav-text">通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#父子的通信"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">父子的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子父的通信"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">子父的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非父子的通信"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">非父子的通信</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
