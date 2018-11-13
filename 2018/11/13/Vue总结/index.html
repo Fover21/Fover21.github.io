@@ -74,6 +74,8 @@
 
 
 
+  <link rel="alternate" href="/atom.xml" title="海燕的博客" type="application/atom+xml">
+
 
 
 
@@ -86,7 +88,7 @@
 <meta property="og:site_name" content="海燕的博客">
 <meta property="og:description" content="vue总结 MVC  Model View Controller   MVVM Model View ViweMode  ES6常用语法1.1 变量的提升  1.2 模板字符串 ``${}  1.3 数据的结构  1.4 类  1.5 函数      1.5.1 注意this和普通函数的区别  1.6 箭头函数  1.7 单体模式 Vue常用指令2.1 v-text  innerText">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-13T02:51:50.589Z">
+<meta property="og:updated_time" content="2018-11-13T03:42:34.956Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue总结">
 <meta name="twitter:description" content="vue总结 MVC  Model View Controller   MVVM Model View ViweMode  ES6常用语法1.1 变量的提升  1.2 模板字符串 ``${}  1.3 数据的结构  1.4 类  1.5 函数      1.5.1 注意this和普通函数的区别  1.6 箭头函数  1.7 单体模式 Vue常用指令2.1 v-text  innerText">
@@ -99,7 +101,7 @@
     root: '/',
     scheme: 'Muse',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -190,6 +192,36 @@
         </li>
       
         
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -199,11 +231,53 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
 
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
       
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -399,7 +473,35 @@
     this.$emit(&quot;事件名称&quot;, 值)
 在父组件中给子组件绑定事件
     &lt;child @事件名称=&quot;父亲处理的方法&quot;&gt;&lt;/child&gt;
-</code></pre><h4 id="非父子的通信"><a href="#非父子的通信" class="headerlink" title="非父子的通信"></a>非父子的通信</h4>
+</code></pre><h4 id="非父子的通信"><a href="#非父子的通信" class="headerlink" title="非父子的通信"></a>非父子的通信</h4><pre><code>其中一个组件向中间调度器提交事件
+另一个组件监听中间调度器的事件
+注意this的问题
+
+中间调度器  let temp = new Vue();
+temp.$emit(&quot;say&quot;, value) // 事件名称和值
+mounted(){
+    that = this
+    // 监听中间调度器中的方法
+    temp.$on(&quot;say&quot;, function(data){
+        // 这里的this是temp的this
+        that.xxx = data // 这样改值
+    })
+}
+</code></pre><h3 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h3><pre><code>&lt;slot&gt;&lt;/slot&gt;
+命名的插槽
+</code></pre><h3 id="混合"><a href="#混合" class="headerlink" title="混合"></a>混合</h3><pre><code>代码重用的
+mixins = [base] 
+</code></pre><h2 id="Vue的声明周期"><a href="#Vue的声明周期" class="headerlink" title="Vue的声明周期"></a>Vue的声明周期</h2><h3 id="vue生命周期之beforeCreate"><a href="#vue生命周期之beforeCreate" class="headerlink" title="vue生命周期之beforeCreate"></a>vue生命周期之beforeCreate</h3><pre><code>实例创建之前除标签外，所有的vue需要的数据，事件都不存在
+</code></pre><h3 id="vue生命周期之created"><a href="#vue生命周期之created" class="headerlink" title="vue生命周期之created"></a>vue生命周期之created</h3><pre><code>实例创建之后，data和事件已经被解析到，el还没有找到
+</code></pre><h3 id="vue生命周期之beforeMount"><a href="#vue生命周期之beforeMount" class="headerlink" title="vue生命周期之beforeMount"></a>vue生命周期之beforeMount</h3><pre><code>开始找标签，数据还没有被渲染，事件也没有被监听
+</code></pre><h3 id="vue生命周期之mounted"><a href="#vue生命周期之mounted" class="headerlink" title="vue生命周期之mounted"></a>vue生命周期之mounted</h3><pre><code>开始渲染数据，开始监听事件
+</code></pre><h3 id="vue生命周期之beforeUpdata"><a href="#vue生命周期之beforeUpdata" class="headerlink" title="vue生命周期之beforeUpdata"></a>vue生命周期之beforeUpdata</h3><pre><code>数据已经被修改在虚拟DOM，但没有被渲染到页面上
+</code></pre><h3 id="vue生命周期之updata"><a href="#vue生命周期之updata" class="headerlink" title="vue生命周期之updata"></a>vue生命周期之updata</h3><pre><code>开始使用Diff算法，将虚拟DOM中的修改应用大页面上，此时真实DOM中数据被修改
+</code></pre><h3 id="vue生命周期之beforeDestory"><a href="#vue生命周期之beforeDestory" class="headerlink" title="vue生命周期之beforeDestory"></a>vue生命周期之beforeDestory</h3><pre><code>所有的数据都存在
+</code></pre><h3 id="vue生命周期之destoryed"><a href="#vue生命周期之destoryed" class="headerlink" title="vue生命周期之destoryed"></a>vue生命周期之destoryed</h3><pre><code>所有的数据都有(虚拟DOM中找)
+&lt;keep-alive&gt;&lt;/keep-alive&gt;vue提供的用来缓存被消除的标签
+用activated和deactivated取代了beforeUpdate和destory的执行
+</code></pre>
       
     </div>
     
@@ -505,6 +607,13 @@
           </nav>
 
           
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
 
           
 
@@ -529,7 +638,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vue总结"><span class="nav-number">1.</span> <span class="nav-text">vue总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6常用语法"><span class="nav-number">1.1.</span> <span class="nav-text">ES6常用语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue常用指令"><span class="nav-number">1.2.</span> <span class="nav-text">Vue常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">1.3.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue的组件"><span class="nav-number">1.4.</span> <span class="nav-text">Vue的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件的注册"><span class="nav-number">1.4.1.</span> <span class="nav-text">组件的注册</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局注册"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">全局注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局部注册"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">局部注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子组件的注册"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">子组件的注册</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通信"><span class="nav-number">1.4.2.</span> <span class="nav-text">通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#父子的通信"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">父子的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子父的通信"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">子父的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非父子的通信"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">非父子的通信</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vue总结"><span class="nav-number">1.</span> <span class="nav-text">vue总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6常用语法"><span class="nav-number">1.1.</span> <span class="nav-text">ES6常用语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue常用指令"><span class="nav-number">1.2.</span> <span class="nav-text">Vue常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">1.3.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue的组件"><span class="nav-number">1.4.</span> <span class="nav-text">Vue的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件的注册"><span class="nav-number">1.4.1.</span> <span class="nav-text">组件的注册</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局注册"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">全局注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局部注册"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">局部注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子组件的注册"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">子组件的注册</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通信"><span class="nav-number">1.4.2.</span> <span class="nav-text">通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#父子的通信"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">父子的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子父的通信"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">子父的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非父子的通信"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">非父子的通信</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插槽"><span class="nav-number">1.4.3.</span> <span class="nav-text">插槽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混合"><span class="nav-number">1.4.4.</span> <span class="nav-text">混合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue的声明周期"><span class="nav-number">1.5.</span> <span class="nav-text">Vue的声明周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeCreate"><span class="nav-number">1.5.1.</span> <span class="nav-text">vue生命周期之beforeCreate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之created"><span class="nav-number">1.5.2.</span> <span class="nav-text">vue生命周期之created</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeMount"><span class="nav-number">1.5.3.</span> <span class="nav-text">vue生命周期之beforeMount</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之mounted"><span class="nav-number">1.5.4.</span> <span class="nav-text">vue生命周期之mounted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeUpdata"><span class="nav-number">1.5.5.</span> <span class="nav-text">vue生命周期之beforeUpdata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之updata"><span class="nav-number">1.5.6.</span> <span class="nav-text">vue生命周期之updata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeDestory"><span class="nav-number">1.5.7.</span> <span class="nav-text">vue生命周期之beforeDestory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之destoryed"><span class="nav-number">1.5.8.</span> <span class="nav-text">vue生命周期之destoryed</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -714,6 +823,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 
