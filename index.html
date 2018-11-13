@@ -499,9 +499,63 @@ mixins = [base]
 </code></pre><h3 id="vue生命周期之beforeUpdata"><a href="#vue生命周期之beforeUpdata" class="headerlink" title="vue生命周期之beforeUpdata"></a>vue生命周期之beforeUpdata</h3><pre><code>数据已经被修改在虚拟DOM，但没有被渲染到页面上
 </code></pre><h3 id="vue生命周期之updata"><a href="#vue生命周期之updata" class="headerlink" title="vue生命周期之updata"></a>vue生命周期之updata</h3><pre><code>开始使用Diff算法，将虚拟DOM中的修改应用大页面上，此时真实DOM中数据被修改
 </code></pre><h3 id="vue生命周期之beforeDestory"><a href="#vue生命周期之beforeDestory" class="headerlink" title="vue生命周期之beforeDestory"></a>vue生命周期之beforeDestory</h3><pre><code>所有的数据都存在
-</code></pre><h3 id="vue生命周期之destoryed"><a href="#vue生命周期之destoryed" class="headerlink" title="vue生命周期之destoryed"></a>vue生命周期之destoryed</h3><pre><code>所有的数据都有(虚拟DOM中找)
+</code></pre><h3 id="vue生命周期之destoryed"><a href="#vue生命周期之destoryed" class="headerlink" title="vue生命周期之destoryed"></a>vue生命周期之destoryed</h3><pre><code>所有的数据都有(虚拟DOM中找数据)展示的真实DOM已经是静态页面了
 &lt;keep-alive&gt;&lt;/keep-alive&gt;vue提供的用来缓存被消除的标签
 用activated和deactivated取代了beforeUpdate和destory的执行
+</code></pre><h3 id="最常用的钩子"><a href="#最常用的钩子" class="headerlink" title="最常用的钩子"></a>最常用的钩子</h3><pre><code>beforeMount
+mounted
+</code></pre><h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><pre><code>let url = [
+    {
+        path: &apos;/&apos;,
+        name: &quot;home&quot;,
+        component: {
+            template: ``,
+        }
+    }
+]
+
+let router = nwe VueRouter({
+    routes: url
+})
+
+const app = new Vue({
+    el: &apos;app&apos;,
+    router: router,
+})
+
+&lt;router-link to=&apos;/&apos;&gt;首页&lt;/router-link&gt;
+&lt;router-link :to=&apos;{name: &quot;home&quot;}&apos;&gt;首页&lt;/router-link&gt;
+
+&lt;router-view&gt;&lt;/router-view&gt;
+</code></pre><h3 id="子路由"><a href="#子路由" class="headerlink" title="子路由"></a>子路由</h3><pre><code>children: [
+    {}
+]
+
+append
+
+在父路由对应的组件的template里面写router-link router-view
+</code></pre><h3 id="路由的命名"><a href="#路由的命名" class="headerlink" title="路由的命名"></a>路由的命名</h3><pre><code>name
+注意to加冒号动态绑定
+</code></pre><h3 id="路由的参数"><a href="#路由的参数" class="headerlink" title="路由的参数"></a>路由的参数</h3><pre><code>{
+    path: &quot;/course/:id&quot;,
+}
+
+this.$route.params.id
+this.$route.query.xxx
+$route 是一个对象 存放当前路由的所有信息
+$router VueRouter实例化对象
+</code></pre><h3 id="手动路由"><a href="#手动路由" class="headerlink" title="手动路由"></a>手动路由</h3><pre><code>this.$router.push(&apos;/&apos;)
+this.$router.push({name:&quot;home&quot;})
+</code></pre><h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><pre><code>redirect: {name: &apos;xxx&apos;}
+</code></pre><h3 id="路由的钩子"><a href="#路由的钩子" class="headerlink" title="路由的钩子"></a>路由的钩子</h3><pre><code>router.beforeEach(function(to, from next){
+    // to 你要去哪
+    // from 你要从哪里来
+    // next() 你要去做什么 参数可以给路径  必须有，没有就不走
+})
+router.afterEach(function(to, from){
+    // to 你要去哪
+    // from 你从哪里来
+})
 </code></pre>
           
         
