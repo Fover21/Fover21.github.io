@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-11-14T11:12:56.507Z</updated>
+  <updated>2018-11-14T12:51:03.168Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vue-cli自己总结的步骤</title>
+    <link href="http://yoursite.com/2018/11/14/vue-cli%E8%87%AA%E5%B7%B1%E6%80%BB%E7%BB%93%E7%9A%84%E6%AD%A5%E9%AA%A4/"/>
+    <id>http://yoursite.com/2018/11/14/vue-cli自己总结的步骤/</id>
+    <published>2018-11-14T12:37:04.000Z</published>
+    <updated>2018-11-14T12:51:03.168Z</updated>
+    
+    <content type="html"><![CDATA[<center><h1>vue-cli目录结果总结的步骤</h1></center><h1 id="main-js这是js的入口文件"><a href="#main-js这是js的入口文件" class="headerlink" title="main.js这是js的入口文件"></a>main.js这是js的入口文件</h1><pre><code>// The Vue build version to load with the `import` command// (runtime-only or standalone) has been set in webpack.base.conf with an alias.import Vue from &apos;vue&apos;import App from &apos;./App&apos;import router from &apos;./router&apos;import store from &quot;./store&quot;import axios from &apos;axios&apos;// 使用element-uiimport ElementUI from &apos;element-ui&apos;import &apos;element-ui/lib/theme-chalk/index.css&apos;Vue.use(ElementUI);// 全局的（一个一个比较麻烦）// axios.request({//   url: XXX,//   method: &quot;get&quot;// });// 通过使用原型链 这样所有的组件都可以通过$axios去访问了Vue.prototype.$axios = axios;Vue.config.productionTip = false;/* eslint-disable no-new */new Vue({el: &apos;#app&apos;,router,store,components: { App },template: &apos;&lt;App/&gt;&apos;});</code></pre><h1 id="App-vue页面级App组件"><a href="#App-vue页面级App组件" class="headerlink" title="App.vue页面级App组件"></a>App.vue页面级App组件</h1><pre><code>&lt;template&gt;&lt;div id=&quot;app&quot;&gt;    &lt;MyHeader&gt;&lt;/MyHeader&gt;    &lt;router-view&gt;&lt;/router-view&gt;    &lt;MyFooter&gt;&lt;/MyFooter&gt;&lt;/div&gt;&lt;/template&gt;&lt;script&gt;import MyHeader from &quot;./components/MyHeader&quot;import MyFooter from &quot;./components/MyFooter&quot;export default {name: &apos;App&apos;,components: {    MyHeader,    MyFooter,}}&lt;/script&gt;&lt;style&gt;body {    margin: 0;    padding: 0;}&lt;/style&gt;</code></pre><h1 id="router-index-js"><a href="#router-index-js" class="headerlink" title="router-index.js"></a>router-index.js</h1><pre><code>import Vue from &apos;vue&apos;import Router from &apos;vue-router&apos;import Home from &apos;../components/headers/Home&apos;import Course from &apos;../components/headers/Course&apos;Vue.use(Router);export default new Router({routes: [    {    path: &apos;/&apos;,    name: &apos;home&apos;,    component: Home    },    {    path: &apos;/course&apos;,    name: &apos;course&apos;,    component: Course    }]})</code></pre><h1 id="Vuex-axios的使用"><a href="#Vuex-axios的使用" class="headerlink" title="Vuex+axios的使用"></a>Vuex+axios的使用</h1><h2 id="store-js"><a href="#store-js" class="headerlink" title="store.js"></a>store.js</h2><pre><code>import Vue from &quot;vue&quot;import Vuex from &quot;vuex&quot;Vue.use(Vuex);export default new Vuex.Store({// this.$store.state.name    拿数据state: {    name: &apos;1&apos;,},// 对state中的数据进行处理// this.$store.getters.new_name    拿数据getters: {    new_name: function (state) {    return state.name + &apos;xxx&apos;;    },    new_new_name: function (state, getters) {    return getters.new_name + &apos;000&apos;;    },},mutations: {    change_data: function (state, data) {    // 自己处理change_data事件的    state.name = data;    }}})</code></pre><h2 id="Course-vue"><a href="#Course-vue" class="headerlink" title="Course.vue"></a>Course.vue</h2><pre><code>&lt;template&gt;&lt;div&gt;&lt;h1&gt;course&lt;/h1&gt;{{name}}{{new_name}}&lt;hr&gt;{{try_again}}&lt;/div&gt;&lt;/template&gt;&lt;script&gt;    export default {        name: &quot;Course&quot;,    data(){        return {            name : this.$store.state.name,            new_name: this.$store.getters.new_new_name,            try_again: &apos;&apos;,        }    },    // 方法执行完会改版数据但是不会刷新    // methods: {    //     my_click: function () {    //       this.$store.commit(&quot;change_data&quot;, &apos;到到&apos;)    //     }    // },    // 能够监听到数据的改变能够实时跟新    // computed: {    //     name: function () {    //       return  this.$store.state.name;    //     }    // }    mounted(){        let that = this;        this.$axios.request({            url: &quot;http://127.0.0.1:8000/tryagain/&quot;,            method: &apos;get&apos;,        }).then(function (data) {            // success do something~~            that.try_again = data.data        }).catch(function (data) {            // fail do something~~        })        // 单纯的发get请求        // this.$axios.get(&quot;url&quot;, {}).then()    }    }&lt;/script&gt;&lt;style scoped&gt;&lt;/style&gt;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;center&gt;&lt;h1&gt;vue-cli目录结果总结的步骤&lt;/h1&gt;&lt;/center&gt;
+
+&lt;h1 id=&quot;main-js这是js的入口文件&quot;&gt;&lt;a href=&quot;#main-js这是js的入口文件&quot; class=&quot;headerlink&quot; title=&quot;main.js这是js的入口文件
+      
+    
+    </summary>
+    
+      <category term="Vue" scheme="http://yoursite.com/categories/Vue/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>git下</title>

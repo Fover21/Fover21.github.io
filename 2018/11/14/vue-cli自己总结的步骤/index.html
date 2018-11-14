@@ -81,17 +81,17 @@
 
 
 
-<meta name="description" content="vue总结">
+<meta name="description" content="vue-cli目录结果总结的步骤  main.js这是js的入口文件// The Vue build version to load with the `import` command // (runtime-only or standalone) has been set in webpack.base.conf with an alias.  import Vue from &amp;apos;vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue总结">
-<meta property="og:url" content="http://yoursite.com/2018/11/13/Vue总结/index.html">
+<meta property="og:title" content="vue-cli自己总结的步骤">
+<meta property="og:url" content="http://yoursite.com/2018/11/14/vue-cli自己总结的步骤/index.html">
 <meta property="og:site_name" content="海燕">
-<meta property="og:description" content="vue总结">
+<meta property="og:description" content="vue-cli目录结果总结的步骤  main.js这是js的入口文件// The Vue build version to load with the `import` command // (runtime-only or standalone) has been set in webpack.base.conf with an alias.  import Vue from &amp;apos;vue">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-14T03:28:28.508Z">
+<meta property="og:updated_time" content="2018-11-14T12:51:03.168Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vue总结">
-<meta name="twitter:description" content="vue总结">
+<meta name="twitter:title" content="vue-cli自己总结的步骤">
+<meta name="twitter:description" content="vue-cli目录结果总结的步骤  main.js这是js的入口文件// The Vue build version to load with the `import` command // (runtime-only or standalone) has been set in webpack.base.conf with an alias.  import Vue from &amp;apos;vue">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/13/Vue总结/">
+  <link rel="canonical" href="http://yoursite.com/2018/11/14/vue-cli自己总结的步骤/">
 
 
 
 
 
-  <title>Vue总结 | 海燕</title>
+  <title>vue-cli自己总结的步骤 | 海燕</title>
   
 
 
@@ -286,7 +286,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/13/Vue总结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/14/vue-cli自己总结的步骤/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="海燕">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Vue总结</h1>
+          <h1 class="post-title" itemprop="name headline">vue-cli自己总结的步骤</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-13T08:30:00+08:00">
-                2018-11-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-14T20:37:04+08:00">
+                2018-11-14
               </time>
             
 
@@ -375,286 +375,173 @@
       
 
       
-        <p><center><h1>vue总结</h1></center><br><a id="more"></a></p>
-<h1 id="vue总结"><a href="#vue总结" class="headerlink" title="vue总结"></a>vue总结</h1><blockquote>
-<p>MVC  Model View Controller</p>
-</blockquote>
-<blockquote>
-<p>MVVM Model View ViweMode</p>
-</blockquote>
-<h2 id="ES6常用语法"><a href="#ES6常用语法" class="headerlink" title="ES6常用语法"></a>ES6常用语法</h2><pre><code>1.1 变量的提升
+        <center><h1>vue-cli目录结果总结的步骤</h1></center>
 
-1.2 模板字符串 ``${}
+<h1 id="main-js这是js的入口文件"><a href="#main-js这是js的入口文件" class="headerlink" title="main.js这是js的入口文件"></a>main.js这是js的入口文件</h1><pre><code>// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
-1.3 数据的解构
+import Vue from &apos;vue&apos;
+import App from &apos;./App&apos;
+import router from &apos;./router&apos;
+import store from &quot;./store&quot;
+import axios from &apos;axios&apos;
 
-1.4 类 class extends constructor  super
+// 使用element-ui
+import ElementUI from &apos;element-ui&apos;
+import &apos;element-ui/lib/theme-chalk/index.css&apos;
 
-1.5 函数
+Vue.use(ElementUI);
 
-    1.5.1 注意this和普通函数的区别
+// 全局的（一个一个比较麻烦）
+// axios.request({
+//   url: XXX,
+//   method: &quot;get&quot;
+// });
 
-1.6 箭头函数
+// 通过使用原型链 这样所有的组件都可以通过$axios去访问了
+Vue.prototype.$axios = axios;
 
-1.7 单体模式
 
-1.8 import export   export default
-</code></pre><h2 id="Vue常用指令"><a href="#Vue常用指令" class="headerlink" title="Vue常用指令"></a>Vue常用指令</h2><pre><code>2.1 v-text  innerText
+Vue.config.productionTip = false;
 
-2.2 v-html  innerHtml
+/* eslint-disable no-new */
+new Vue({
+el: &apos;#app&apos;,
+router,
+store,
+components: { App },
+template: &apos;&lt;App/&gt;&apos;
+});
+</code></pre><h1 id="App-vue页面级App组件"><a href="#App-vue页面级App组件" class="headerlink" title="App.vue页面级App组件"></a>App.vue页面级App组件</h1><pre><code>&lt;template&gt;
+&lt;div id=&quot;app&quot;&gt;
+    &lt;MyHeader&gt;&lt;/MyHeader&gt;
+    &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;MyFooter&gt;&lt;/MyFooter&gt;
+&lt;/div&gt;
+&lt;/template&gt;
 
-2.3 v-for  :key
-
-2.4 v-if v-else-if v-else  appendChild
-
-2.5 v-show  display
-
-2.6 v-on  @xxxx=&quot;自己处理的方法&quot;
-
-2.7 v-bind  :属性名称=“属性的值”
-
-2.8 v-model
-
-    2.8.1 input
-
-    2.8.2 textarea
-
-    2.8.3 select
-
-2.9 指令修饰符
-
-    2.9.1 .lazy
-
-    2.9.2 .number
-
-    2.9.3 .trim
-
-2.10 计算属性
-
-    2.10.1 放入缓存
-
-    2.10.2 只有数据改变的时候才会重新计算
-
-2.11 数据监听
-
-    2.11.1 注意可变类型和不可变
-    2.11.2 深监听  deep=true
-
-2.12 获取DOM
-
-    2.12.1 给便签绑定ref属性  ref=“属性值”
-
-    2.12.2 this.$refs.属性值
-
-2.13 自定义指令
-
-    2.13.1 vue.directive(“指令名称”, function(el, binding){
-        el 绑定指令的便签元素
-        binding 指令的所有信息
-    })
-</code></pre><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><pre><code>3.1 数据监听
-
-    3.1.1 改变数据
-        直接赋值
-    3.1.2 改变数组长度
-        能够被监听到，新值和旧值一样
-    3.1.3 改变数组内的值
-        app = new vue({})
-        app.$set(this.hobby, 0, &apos;抽烟&apos;)
-        $set()修改数组中的值可以监听
-        $delete()
-</code></pre><h2 id="Vue的组件"><a href="#Vue的组件" class="headerlink" title="Vue的组件"></a>Vue的组件</h2><h3 id="组件的注册"><a href="#组件的注册" class="headerlink" title="组件的注册"></a>组件的注册</h3><h4 id="全局注册"><a href="#全局注册" class="headerlink" title="全局注册"></a>全局注册</h4><pre><code>Vue.compontent(“组件名称”, {})
-</code></pre><h4 id="局部注册"><a href="#局部注册" class="headerlink" title="局部注册"></a>局部注册</h4><pre><code>const = app = new Vue({
-    el: &apos;#app&apos;,
-    components: {
-        组件的名称: 组件的配置信息
-    }
-})
-</code></pre><h4 id="子组件的注册"><a href="#子组件的注册" class="headerlink" title="子组件的注册"></a>子组件的注册</h4><pre><code>在父组件中注册components
-## 注意写组件标签
-## 每个组件的template只识别一个作用域块
-</code></pre><h3 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h3><h4 id="父子的通信"><a href="#父子的通信" class="headerlink" title="父子的通信"></a>父子的通信</h4><pre><code>在父组件中给子组件绑定属性
-子组件通过props=[&quot;属性名称&quot;]
-</code></pre><h4 id="子父的通信"><a href="#子父的通信" class="headerlink" title="子父的通信"></a>子父的通信</h4><pre><code>子组件先提交事件
-    this.$emit(&quot;事件名称&quot;, 值)
-在父组件中给子组件绑定事件
-    &lt;child @事件名称=&quot;父亲处理的方法&quot;&gt;&lt;/child&gt;
-</code></pre><h4 id="非父子的通信"><a href="#非父子的通信" class="headerlink" title="非父子的通信"></a>非父子的通信</h4><pre><code>其中一个组件向中间调度器提交事件
-另一个组件监听中间调度器的事件
-注意this的问题
-
-中间调度器  let temp = new Vue();
-temp.$emit(&quot;say&quot;, value) // 事件名称和值
-mounted(){
-    that = this
-    // 监听中间调度器中的方法
-    temp.$on(&quot;say&quot;, function(data){
-        // 这里的this是temp的this
-        that.xxx = data // 这样改值
-    })
+&lt;script&gt;
+import MyHeader from &quot;./components/MyHeader&quot;
+import MyFooter from &quot;./components/MyFooter&quot;
+export default {
+name: &apos;App&apos;,
+components: {
+    MyHeader,
+    MyFooter,
 }
-</code></pre><h3 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h3><pre><code>&lt;slot&gt;&lt;/slot&gt;
-命名的插槽
-</code></pre><h3 id="混合"><a href="#混合" class="headerlink" title="混合"></a>混合</h3><pre><code>代码重用的
-mixins = [base] 
-</code></pre><h2 id="Vue的生命周期"><a href="#Vue的生命周期" class="headerlink" title="Vue的生命周期"></a>Vue的生命周期</h2><h3 id="vue生命周期之beforeCreate"><a href="#vue生命周期之beforeCreate" class="headerlink" title="vue生命周期之beforeCreate"></a>vue生命周期之beforeCreate</h3><pre><code>实例创建之前除标签外，所有的vue需要的数据，事件都不存在
-</code></pre><h3 id="vue生命周期之created"><a href="#vue生命周期之created" class="headerlink" title="vue生命周期之created"></a>vue生命周期之created</h3><pre><code>实例创建之后，data和事件已经被解析到，el还没有找到
-</code></pre><h3 id="vue生命周期之beforeMount"><a href="#vue生命周期之beforeMount" class="headerlink" title="vue生命周期之beforeMount"></a>vue生命周期之beforeMount</h3><pre><code>开始找标签，数据还没有被渲染，事件也没有被监听
-</code></pre><h3 id="vue生命周期之mounted"><a href="#vue生命周期之mounted" class="headerlink" title="vue生命周期之mounted"></a>vue生命周期之mounted</h3><pre><code>开始渲染数据，开始监听事件
-</code></pre><h3 id="vue生命周期之beforeUpdata"><a href="#vue生命周期之beforeUpdata" class="headerlink" title="vue生命周期之beforeUpdata"></a>vue生命周期之beforeUpdata</h3><pre><code>数据已经被修改在虚拟DOM，但没有被渲染到页面上
-</code></pre><h3 id="vue生命周期之updata"><a href="#vue生命周期之updata" class="headerlink" title="vue生命周期之updata"></a>vue生命周期之updata</h3><pre><code>开始使用Diff算法，将虚拟DOM中的修改应用大页面上，此时真实DOM中数据被修改
-</code></pre><h3 id="vue生命周期之beforeDestory"><a href="#vue生命周期之beforeDestory" class="headerlink" title="vue生命周期之beforeDestory"></a>vue生命周期之beforeDestory</h3><pre><code>所有的数据都存在
-</code></pre><h3 id="vue生命周期之destoryed"><a href="#vue生命周期之destoryed" class="headerlink" title="vue生命周期之destoryed"></a>vue生命周期之destoryed</h3><pre><code>所有的数据都有(虚拟DOM中找数据)展示的真实DOM已经是静态页面了
-&lt;keep-alive&gt;&lt;/keep-alive&gt;vue提供的用来缓存被消除的标签
-用activated和deactivated取代了beforeUpdate和destory的执行
-</code></pre><h3 id="最常用的钩子"><a href="#最常用的钩子" class="headerlink" title="最常用的钩子"></a>最常用的钩子</h3><pre><code>beforeMount
-mounted
-</code></pre><h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><pre><code>let url = [
+}
+&lt;/script&gt;
+
+&lt;style&gt;
+body {
+    margin: 0;
+    padding: 0;
+}
+&lt;/style&gt;
+</code></pre><h1 id="router-index-js"><a href="#router-index-js" class="headerlink" title="router-index.js"></a>router-index.js</h1><pre><code>import Vue from &apos;vue&apos;
+import Router from &apos;vue-router&apos;
+import Home from &apos;../components/headers/Home&apos;
+import Course from &apos;../components/headers/Course&apos;
+
+
+Vue.use(Router);
+
+export default new Router({
+routes: [
     {
-        path: &apos;/&apos;,
-        name: &quot;home&quot;,
-        component: {
-            template: ``,
-        }
+    path: &apos;/&apos;,
+    name: &apos;home&apos;,
+    component: Home
+    },
+    {
+    path: &apos;/course&apos;,
+    name: &apos;course&apos;,
+    component: Course
     }
 ]
-
-let router = nwe VueRouter({
-    routes: url
 })
+</code></pre><h1 id="Vuex-axios的使用"><a href="#Vuex-axios的使用" class="headerlink" title="Vuex+axios的使用"></a>Vuex+axios的使用</h1><h2 id="store-js"><a href="#store-js" class="headerlink" title="store.js"></a>store.js</h2><pre><code>import Vue from &quot;vue&quot;
+import Vuex from &quot;vuex&quot;
 
-const app = new Vue({
-    el: &apos;app&apos;,
-    router: router,
-})
+Vue.use(Vuex);
 
-&lt;router-link to=&apos;/&apos;&gt;首页&lt;/router-link&gt;
-&lt;router-link :to=&apos;{name: &quot;home&quot;}&apos;&gt;首页&lt;/router-link&gt;
-
-&lt;router-view&gt;&lt;/router-view&gt;
-</code></pre><h3 id="子路由"><a href="#子路由" class="headerlink" title="子路由"></a>子路由</h3><pre><code>children: [
-    {}
-]
-
-append
-
-在父路由对应的组件的template里面写router-link router-view
-</code></pre><h3 id="路由的命名"><a href="#路由的命名" class="headerlink" title="路由的命名"></a>路由的命名</h3><pre><code>name
-注意to加冒号动态绑定
-</code></pre><h3 id="路由的参数"><a href="#路由的参数" class="headerlink" title="路由的参数"></a>路由的参数</h3><pre><code>{
-    path: &quot;/course/:id&quot;,
+export default new Vuex.Store({
+// this.$store.state.name    拿数据
+state: {
+    name: &apos;1&apos;,
+},
+// 对state中的数据进行处理
+// this.$store.getters.new_name    拿数据
+getters: {
+    new_name: function (state) {
+    return state.name + &apos;xxx&apos;;
+    },
+    new_new_name: function (state, getters) {
+    return getters.new_name + &apos;000&apos;;
+    },
+},
+mutations: {
+    change_data: function (state, data) {
+    // 自己处理change_data事件的
+    state.name = data;
+    }
 }
-
-this.$route.params.id
-this.$route.query.xxx
-$route 是一个对象 存放当前路由的所有信息
-$router VueRouter实例化对象
-</code></pre><h3 id="手动路由"><a href="#手动路由" class="headerlink" title="手动路由"></a>手动路由</h3><pre><code>this.$router.push(&apos;/&apos;)
-this.$router.push({name:&quot;home&quot;})
-</code></pre><h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><pre><code>redirect: {name: &apos;xxx&apos;, params: {key: value}}
-</code></pre><h3 id="路由的钩子"><a href="#路由的钩子" class="headerlink" title="路由的钩子"></a>路由的钩子</h3><pre><code>router.beforeEach(function(to, from next){
-    // to 你要去哪
-    // from 你要从哪里来
-    // next() 你要去做什么 参数可以给路径  必须有，没有就不走
 })
-router.afterEach(function(to, from){
-    // to 你要去哪
-    // from 你从哪里来
-})
+</code></pre><h2 id="Course-vue"><a href="#Course-vue" class="headerlink" title="Course.vue"></a>Course.vue</h2><pre><code>&lt;template&gt;
+&lt;div&gt;
+&lt;h1&gt;course&lt;/h1&gt;
+{{name}}
+{{new_name}}
+&lt;hr&gt;
+{{try_again}}
+&lt;/div&gt;
+&lt;/template&gt;
 
-to和from都是$route对象   路由的所有信息
-</code></pre><p></p>
-<h2 id="node-js-npm-webpack-vue-cli-自带webpack"><a href="#node-js-npm-webpack-vue-cli-自带webpack" class="headerlink" title="node.js + npm + webpack + vue-cli(自带webpack)"></a>node.js + npm + webpack + vue-cli(自带webpack)</h2><pre><code>node.js / npm
-    - npm 管理工作目录
-        npm init -y
-    - 下载包
-        npm i xxx@0.0.0
-    - 卸载
-        npm uninstall xxx
-    - 更新
-        npm updata xxx
-webpack  4
-    - 下载
-        npm i webpack webpack-cli
-    - 打包
-        webpack --mode development/production
-    - 打包默认的入口文件
-        src目录下的index.js
-    - 出口文件
-        dist目录的main.js
-wue-cli  2
-    - 帮助我们快速搭建项目的脚手架工具
-    - 下载
-        npm i vue-cli
-    - 用vue-cli帮助我们创建项目
-        vue init webpack xxxx(项目名称)
-    - 启动项目
-        cd xxxx(项目名称)
-        npm run dev
-    - 打吧包
-        npm run build
-</code></pre><h2 id="Vuex和axios"><a href="#Vuex和axios" class="headerlink" title="Vuex和axios"></a>Vuex和axios</h2><h3 id="Vuex"><a href="#Vuex" class="headerlink" title="Vuex"></a>Vuex</h3><pre><code>存放一些公共的东西,是一个仓库
-
-安装
-    npm i vuex
-配置
-    导入
-        import vuex from &quot;vuex&quot;
-
-    vue使用vuex
-        vue.use(vuex)
-
-    实例化仓库
-        new vuex.Store({
-            state: {},
-            getters: {},
-            mutations: {}
-        })
-
-    new Vue({
-        el: &apos;#app&apos;,
-        store,
-    })
-
-获取残仓库数据
-    this.$store.state.xxx
-    this.$store.getters.xxx
-
-改变仓库中的数据
-    组件向仓库提交修改事件
-        this.$store.commit(&quot;事件名称&quot;, data)
-    在仓库中的mutations中
-        mutations: {
-            &quot;事件名称&quot;: function(state, data){
-                修改state中的数据
-            }
+&lt;script&gt;
+    export default {
+        name: &quot;Course&quot;,
+    data(){
+        return {
+            name : this.$store.state.name,
+            new_name: this.$store.getters.new_new_name,
+            try_again: &apos;&apos;,
         }
-注意计算属性
-    仓库中的数据建议都放在计算属性中
-</code></pre><h3 id="axios"><a href="#axios" class="headerlink" title="axios"></a>axios</h3><pre><code>向后端服务器发送请求
+    },
+    // 方法执行完会改版数据但是不会刷新
+    // methods: {
+    //     my_click: function () {
+    //       this.$store.commit(&quot;change_data&quot;, &apos;到到&apos;)
+    //     }
+    // },
+    // 能够监听到数据的改变能够实时跟新
+    // computed: {
+    //     name: function () {
+    //       return  this.$store.state.name;
+    //     }
+    // }
 
-实现ajax技术的工具
+    mounted(){
+        let that = this;
+        this.$axios.request({
+            url: &quot;http://127.0.0.1:8000/tryagain/&quot;,
+            method: &apos;get&apos;,
 
-配置
-    下载
-        npm i axios
-    导入
-        import axios from “axios”
-    在vue的原型链中加入方法
-        Vue.prototype.#axios = axios
-发送请求
-    this.$axios.request({
-        url: &apos;&apos;,
-        method: &apos;&apos;,
-    }).then(function(){
+        }).then(function (data) {
+            // success do something~~
+            that.try_again = data.data
+        }).catch(function (data) {
+            // fail do something~~
+        })
+        // 单纯的发get请求
+        // this.$axios.get(&quot;url&quot;, {}).then()
+    }
 
-    }).catch(function(){
+    }
+&lt;/script&gt;
 
-    })
-</code></pre><h2 id="前后端的接通"><a href="#前后端的接通" class="headerlink" title="前后端的接通"></a>前后端的接通</h2><pre><code>后端设计一个接口
-前端通过axios发送请求拿到数据
-跨域问题
-</code></pre><h2 id="element-ui"><a href="#element-ui" class="headerlink" title="element-ui"></a>element-ui</h2><pre><code>按照文档安装，并研究如何使用
+&lt;style scoped&gt;
+
+&lt;/style&gt;
 </code></pre>
       
     </div>
@@ -679,15 +566,15 @@ wue-cli  2
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/11/14/git下/" rel="next" title="git下">
+                <i class="fa fa-chevron-left"></i> git下
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/13/git上/" rel="prev" title="git上">
-                git上 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -817,7 +704,7 @@ wue-cli  2
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">vue总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vue总结"><span class="nav-number">2.</span> <span class="nav-text">vue总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6常用语法"><span class="nav-number">2.1.</span> <span class="nav-text">ES6常用语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue常用指令"><span class="nav-number">2.2.</span> <span class="nav-text">Vue常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">2.3.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue的组件"><span class="nav-number">2.4.</span> <span class="nav-text">Vue的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件的注册"><span class="nav-number">2.4.1.</span> <span class="nav-text">组件的注册</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局注册"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">全局注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局部注册"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">局部注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子组件的注册"><span class="nav-number">2.4.1.3.</span> <span class="nav-text">子组件的注册</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通信"><span class="nav-number">2.4.2.</span> <span class="nav-text">通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#父子的通信"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">父子的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子父的通信"><span class="nav-number">2.4.2.2.</span> <span class="nav-text">子父的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非父子的通信"><span class="nav-number">2.4.2.3.</span> <span class="nav-text">非父子的通信</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插槽"><span class="nav-number">2.4.3.</span> <span class="nav-text">插槽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混合"><span class="nav-number">2.4.4.</span> <span class="nav-text">混合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue的生命周期"><span class="nav-number">2.5.</span> <span class="nav-text">Vue的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeCreate"><span class="nav-number">2.5.1.</span> <span class="nav-text">vue生命周期之beforeCreate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之created"><span class="nav-number">2.5.2.</span> <span class="nav-text">vue生命周期之created</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeMount"><span class="nav-number">2.5.3.</span> <span class="nav-text">vue生命周期之beforeMount</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之mounted"><span class="nav-number">2.5.4.</span> <span class="nav-text">vue生命周期之mounted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeUpdata"><span class="nav-number">2.5.5.</span> <span class="nav-text">vue生命周期之beforeUpdata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之updata"><span class="nav-number">2.5.6.</span> <span class="nav-text">vue生命周期之updata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeDestory"><span class="nav-number">2.5.7.</span> <span class="nav-text">vue生命周期之beforeDestory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之destoryed"><span class="nav-number">2.5.8.</span> <span class="nav-text">vue生命周期之destoryed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最常用的钩子"><span class="nav-number">2.5.9.</span> <span class="nav-text">最常用的钩子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由"><span class="nav-number">2.6.</span> <span class="nav-text">路由</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册"><span class="nav-number">2.6.1.</span> <span class="nav-text">注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子路由"><span class="nav-number">2.6.2.</span> <span class="nav-text">子路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由的命名"><span class="nav-number">2.6.3.</span> <span class="nav-text">路由的命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由的参数"><span class="nav-number">2.6.4.</span> <span class="nav-text">路由的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动路由"><span class="nav-number">2.6.5.</span> <span class="nav-text">手动路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重定向"><span class="nav-number">2.6.6.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由的钩子"><span class="nav-number">2.6.7.</span> <span class="nav-text">路由的钩子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#node-js-npm-webpack-vue-cli-自带webpack"><span class="nav-number">2.7.</span> <span class="nav-text">node.js + npm + webpack + vue-cli(自带webpack)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vuex和axios"><span class="nav-number">2.8.</span> <span class="nav-text">Vuex和axios</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Vuex"><span class="nav-number">2.8.1.</span> <span class="nav-text">Vuex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#axios"><span class="nav-number">2.8.2.</span> <span class="nav-text">axios</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前后端的接通"><span class="nav-number">2.9.</span> <span class="nav-text">前后端的接通</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#element-ui"><span class="nav-number">2.10.</span> <span class="nav-text">element-ui</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">vue-cli目录结果总结的步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#main-js这是js的入口文件"><span class="nav-number">2.</span> <span class="nav-text">main.js这是js的入口文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#App-vue页面级App组件"><span class="nav-number">3.</span> <span class="nav-text">App.vue页面级App组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#router-index-js"><span class="nav-number">4.</span> <span class="nav-text">router-index.js</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vuex-axios的使用"><span class="nav-number">5.</span> <span class="nav-text">Vuex+axios的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#store-js"><span class="nav-number">5.1.</span> <span class="nav-text">store.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Course-vue"><span class="nav-number">5.2.</span> <span class="nav-text">Course.vue</span></a></li></ol></li></ol></div>
             
 
           </div>
