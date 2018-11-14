@@ -81,14 +81,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="git上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git上">
+<meta property="og:url" content="http://yoursite.com/2018/11/13/git上/index.html">
 <meta property="og:site_name" content="海燕">
+<meta property="og:description" content="git上">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-13T06:25:37.477Z">
+<meta property="og:updated_time" content="2018-11-14T11:14:40.318Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分类">
+<meta name="twitter:title" content="git上">
+<meta name="twitter:description" content="git上">
 
 
 
@@ -118,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/">
+  <link rel="canonical" href="http://yoursite.com/2018/11/13/git上/">
 
 
 
 
 
-  <title>分类 | 海燕</title>
+  <title>git上 | 海燕</title>
   
 
 
@@ -271,40 +274,248 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/13/git上/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="海燕">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="海燕">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">分类</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共计 4 个分类
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue/">Vue</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/conda/">conda</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/restful-framework/">restful framework</a><span class="category-list-count">2</span></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">git上</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-13T14:52:40+08:00">
+                2018-11-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p><center><h1>git上</h1></center><br><a id="more"></a><br>目录：<br>    建立本地版本库<br>    本地版本库与远程关联<br>    修改文件并提交<br>    创建分支,修改文件合并至master</p>
+<h1 id="git的由来"><a href="#git的由来" class="headerlink" title="git的由来"></a>git的由来</h1><pre><code>linux系统是很多开发者贡献代码不断完善的,linux的创始人linus起初管理贡献者的代码,是通过手工的方式,但随着代码的增多,很难通过手工方式去管理,于是找了一个商业的版本控制系统BitKeeper管理代码.
+开发Samba的Andrew试图破解BitKeeper的协议（这么干的其实也不只他一个），被BitMover公司发现了（监控工作做得不错！），于是BitMover公司怒了，要收回Linux社区的免费使用权。
+Linus可以向BitMover公司道个歉，保证以后严格管教弟兄们，嗯，这是不可能的。实际情况是这样的：
+Linus花了两周时间自己用C写了一个分布式版本控制系统，这就是Git！一个月之内，Linux系统的源码已经由Git管理了！
+</code></pre><h1 id="集中式与分布式区别"><a href="#集中式与分布式区别" class="headerlink" title="集中式与分布式区别"></a>集中式与分布式区别</h1><pre><code>- 集中式： cvs, svn
+版本库集中放在中央服务器上,所有人干活时,都要先从中央服务器获取最新版本到本地,然后在本地修改,干完活后,将修改推送到中央服务器.
+**必须联网**才能工作.
+- 分布式
+每个人的电脑都是一个版本库,工作的时候 **不需要联网**,直接在本地修改,提交就可以.你和同事同时修改一个文件A,修改完成后互相将自己修改的文件推送给对方即可.
+**安全性高**, 每个人的本地都有一个完整的版本库,某个人的电脑突然崩溃,从其他人那直接copy一份就可以了.
+但集中式版本控制系统,一旦中央服务器垮掉,版本库信息就都丢失了.
+</code></pre><h1 id="创建版本库-添加文件"><a href="#创建版本库-添加文件" class="headerlink" title="创建版本库,添加文件"></a>创建版本库,添加文件</h1><pre><code>命令:
+    - 创建版本库
+        mkdir studyGit
+        git init
+    - 添加文件
+        vim readme.txt
+        git add readme.txt
+        git commit -m &quot;注释说明,方便自己或他人查看&quot;
+</code></pre><h1 id="修改文件并提交"><a href="#修改文件并提交" class="headerlink" title="修改文件并提交"></a>修改文件并提交</h1><pre><code>命令:
+    - vim  编辑修改文件内容
+    - git status  查看当前仓库状态
+    - git diff filename  查看文件具体改动内容
+    - 提交:
+        git add filename
+        git commit -m &quot;本次提交注释说明&quot;
+</code></pre><h1 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h1><pre><code>Git的版本回退速度非常快，因为Git在内部有个指向当前版本的HEAD指针，当你回退版本的时候，Git仅仅是把HEAD指向至你切换的版本.
+命令:
+    - 回退到上一个版本
+        git reset --hard HEAD^
+    - 回退到上上版本
+        git reset --hard HEAD^^
+    - 回退到指定版本
+        git log  查看你要切换版本的commit id
+        或 git log --pretty=oneline
+        git reset --hard target_commit_id
+    - 回退之后后悔了,想切换到回退前的版本
+        1) 通过git log是找不到回退前那次提交的日志的,没办法指定commit id回退切换
+        2) 通过git reflog查看, git reflog是记录我们的历史命令的,找到你那次提交历史命令前的commit id,即可切换回去
+</code></pre><h1 id="工作区和暂存区"><a href="#工作区和暂存区" class="headerlink" title="工作区和暂存区"></a>工作区和暂存区</h1><pre><code>工作区: 电脑上直接看到的,你管理的文件夹(使用git init创建的),就是工作区
+暂存区: 在工作区下,隐藏的.git文件夹,其中有很多文件,有几个重要的要理解:
+        - 暂存区: stage
+        - 版本信息(master分支)
+        - HEAD指针,指向具体分支
+提交工作区的文件修改或新增文件:
+    1) git add files  -&gt; 实际将这些修改先推送到本地暂存区(暂存区中存放了所有待提交的文件)
+    2) git commit -m &quot;说明&quot;  -&gt; 提交暂存区中的所有文件至master或分支版本
+</code></pre><h1 id="管理修改"><a href="#管理修改" class="headerlink" title="管理修改"></a>管理修改</h1><pre><code>工作区中readme.txt文件
+1) 第一次修改, 增加一行内容, git add readme.txt
+2) 第二次修改, 又增加了一行内容, 但未执行 git add readme.txt
+3) git commit -m &quot;注释&quot;; 那么此次提交的只是第一次修改的内容
+git diff HEAD -- readme.txt  查看工作区中与版本库中的不同之处
+</code></pre><h1 id="撤销修改"><a href="#撤销修改" class="headerlink" title="撤销修改"></a>撤销修改</h1><pre><code>1) 工作区修改,改乱了,还没有提交至暂存区; 可以通过 git checkout -- filename 恢复至与版本库一致的状态
+2) 工作区修改,改乱了,但之前已提交至暂存区,撤销修改:
+    git reset HEAD filename  把暂存区的修改撤销掉(unstage)
+    git checkout -- filename  恢复工作区与版本库一致
+</code></pre><h1 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h1><pre><code>git rm filename
+git commit -m &quot;delete file filename&quot;
+</code></pre><h1 id="远程仓库关联"><a href="#远程仓库关联" class="headerlink" title="远程仓库关联"></a>远程仓库关联</h1><pre><code>1) 创建ssh key:
+ssh-keygen -t rsa -C &quot;youremail@example.com&quot;  # 一路回车即可
+在用户主目录里会生成一个.ssh文件夹,里面有id_rsa和id_rsa.pub, id_rsa是私钥, id_rsa.pub是公钥;
+登录github,进入个人账户settings页面,选择ssh key -&gt; add new; 添加, 将id_rsa.pub复制到页面中,完成.
+2) 添加远程仓库
+    - 在github网站新增仓库,与本地要关联的仓库同名
+    - 进入本地仓库所在的目录, git remote add origin &lt;新增的远程仓库地址&gt;
+    - git push -u origin master  # 将本地仓库的master分支推送到远程服务器上,后续提交可以省略参数-u(远程初始仓库为空,所以加-u)
+    - 本地修改文件,提交; 推送至远程
+</code></pre><h1 id="克隆远程仓库"><a href="#克隆远程仓库" class="headerlink" title="克隆远程仓库"></a>克隆远程仓库</h1><pre><code>进入你想保存仓库的路径,然后执行:
+git clone &lt;远程仓库地址&gt;
+</code></pre><h1 id="创建与合并分支"><a href="#创建与合并分支" class="headerlink" title="创建与合并分支"></a>创建与合并分支</h1><pre><code>查看分支：git branch
+
+创建分支：git branch &lt;name&gt;
+
+切换分支：git checkout &lt;name&gt;
+
+创建+切换分支：git checkout -b &lt;name&gt;
+
+合并某分支到当前分支：git merge &lt;name&gt;
+
+删除分支：git branch -d &lt;name&gt;
+</code></pre><h1 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h1><pre><code>1) 在分支上修改了文件,并commit
+2) 在mster上修改了文件,并commit
+3) git merge &lt;ranchname&gt;; 报错, 无法实现快速合并, 需先解决冲突, 把冲突文件改成自己想要的内容,
+然后 git add filename, git commit -m &quot;注释&quot;.        
+</code></pre>
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/13/Vue总结/" rel="next" title="Vue总结">
+                <i class="fa fa-chevron-left"></i> Vue总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/13/npm-webpack-vue-cli快速上手/" rel="prev" title="npm+webpack+vue-cli快速上手">
+                npm+webpack+vue-cli快速上手 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -313,6 +524,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -333,8 +548,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -392,6 +616,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">git上</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git的由来"><span class="nav-number">2.</span> <span class="nav-text">git的由来</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集中式与分布式区别"><span class="nav-number">3.</span> <span class="nav-text">集中式与分布式区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建版本库-添加文件"><span class="nav-number">4.</span> <span class="nav-text">创建版本库,添加文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改文件并提交"><span class="nav-number">5.</span> <span class="nav-text">修改文件并提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本回退"><span class="nav-number">6.</span> <span class="nav-text">版本回退</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工作区和暂存区"><span class="nav-number">7.</span> <span class="nav-text">工作区和暂存区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#管理修改"><span class="nav-number">8.</span> <span class="nav-text">管理修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#撤销修改"><span class="nav-number">9.</span> <span class="nav-text">撤销修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除文件"><span class="nav-number">10.</span> <span class="nav-text">删除文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#远程仓库关联"><span class="nav-number">11.</span> <span class="nav-text">远程仓库关联</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#克隆远程仓库"><span class="nav-number">12.</span> <span class="nav-text">克隆远程仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建与合并分支"><span class="nav-number">13.</span> <span class="nav-text">创建与合并分支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决冲突"><span class="nav-number">14.</span> <span class="nav-text">解决冲突</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

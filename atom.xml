@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-11-14T10:23:26.688Z</updated>
+  <updated>2018-11-14T11:12:56.507Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>git下</title>
+    <link href="http://yoursite.com/2018/11/14/git%E4%B8%8B/"/>
+    <id>http://yoursite.com/2018/11/14/git下/</id>
+    <published>2018-11-14T11:08:25.000Z</published>
+    <updated>2018-11-14T11:12:56.507Z</updated>
+    
+    <content type="html"><![CDATA[<p><center><h1>git下</h1></center><br><a id="more"></a></p><hr><h1 id="分支管理策略"><a href="#分支管理策略" class="headerlink" title="分支管理策略"></a>分支管理策略</h1><pre><code>1）master分支非常稳定的，只用来发布新版本，平时不在上面干活2）dev分支不稳定的，主要在上面干活，每个人都有自己的分支，时不时的往dev分支上合并通常，合并分支时，如果可能，Git会用`Fast forward`模式，但这种模式下，删除分支后，会丢掉分支信息。如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。&gt; git log --graph --pretty=oneline --abbrev-commit</code></pre><h1 id="Bug分支"><a href="#Bug分支" class="headerlink" title="Bug分支"></a>Bug分支</h1><pre><code>你目前在dev分支上工作，工作到一半，但突然有一个紧急的bug需要修复，可以先保存你的工作现场，修复完bug后，在切回来。步骤：当前在dev分支上：    git stash  # 把当前工作现场“储藏”起来切换到要修复bug的分支（假定master）：    git checkout master    git checkout -b issue-101    .... 修复问题    git add filename    git commit filename把修改合并到修复的分支：    git checkout master    git merge --no-ff -m &quot;merge fix 101 modification&quot; issue-101    git branch -D issue-101切换回工作现场：    git checkout dev    git stash list  # 查看之前保存了哪些工作现场    git stash drop    两种恢复方式：    1）git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除        git stash apply stash@{0}        git stash drop stash@{0}    2）git stash pop，恢复的同时把stash内容也删了</code></pre><h1 id="Feature分支"><a href="#Feature分支" class="headerlink" title="Feature分支"></a>Feature分支</h1><pre><code>与bug分支类似两条命令：1）git branch -d dev_name  # 已经合并完的分支可以使用此命令删除2）git branch -d dev_name  # 强制删除分支（未合并的也可以）</code></pre><h1 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h1><pre><code>多个人在同一分支上工作，如何正确的合并文件？两种情况：**1）你和他人同时修改同一个文件，他人修改完成，提前推送到远程，如何提交你的修改**详细步骤：    1）试图用git push origin &lt;branch-name&gt;推送自己的修改；    2）如果推送失败，则因为远程分支比你的本地更新，需要先用git pull拉取远程最新的版本；    3）如果合并有冲突，则解决冲突，并在本地提交；    4）没有冲突或者解决掉冲突后，再用git push origin &lt;branch-name&gt;推送**2）你和他人操作的不是同一个文件详细步骤：    1）试图用git push origin &lt;branch-name&gt;推送自己的修改；    2）如果推送失败，先用git pull拉取远程最新的版本；    3）git add .  # 添加本地的全部修改到暂存区    4）git commit -m &quot;说明信息&quot;  # 提交更改至本地    5）git push origin &lt;branch-name&gt;推送本地分支至远程提交更改前，都要先git pull拉取远程最新版本  当从远程克隆时，Git自动把本地的master分支与远程的master分支对应起来，远程仓库的默认名称是origin。查看远程库信息：    git remote -v推送分支：    git push origin master  把本地的mater分支推送到远程对应的master分支上    git push origin dev     把本地的dev分支推送到远程对应的dev分支（远程没有dev分支会自动创建一个dev分支）创建远程origin的dev分支到本地    git checkout -b dev origin/dev指定本地dev分支与远程origin/dev分支的链接    git branch --set-upstream-to origin/dev dev    或    git branch --track origin/dev dev</code></pre><h1 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h1><pre><code>tag是一个容易记住的有意义的名字，它跟某个commit绑定在一起。打标签：    git tag tag_name  # 默认打在最新提交的commit上,当前HEAD的指向    git tag  # 查看标签    git show tag_name  # 查看标签详细信息在指定的commit上打标签：    git log --pretty=oneline  # 查看commit id    git log -a tag_name -m &quot;explain content&quot; commit_id推送标签：    git push origin tag_name    # 推送一个指定的标签    git push origin --tags      # 推送全部尚未推送到远程的本地标签删除标签：    1) 标签尚未推送到远程    git tag -d tag_name    2）标签已推送到远程    git tag -d tag_name    git push origin :refs/tags/tag_name</code></pre><h1 id="Rebase"><a href="#Rebase" class="headerlink" title="Rebase"></a>Rebase</h1><pre><code>解决查看log分支多，混乱的问题；遗留</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;center&gt;&lt;h1&gt;git下&lt;/h1&gt;&lt;/center&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="git" scheme="http://yoursite.com/categories/git/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Django-Rest-Framework的序列化</title>
@@ -117,17 +137,21 @@
   </entry>
   
   <entry>
-    <title>restful_framework(1)</title>
-    <link href="http://yoursite.com/2018/11/13/restful-framework/"/>
-    <id>http://yoursite.com/2018/11/13/restful-framework/</id>
+    <title>git上</title>
+    <link href="http://yoursite.com/2018/11/13/git%E4%B8%8A/"/>
+    <id>http://yoursite.com/2018/11/13/git上/</id>
     <published>2018-11-13T06:52:40.000Z</published>
-    <updated>2018-11-13T06:54:36.129Z</updated>
+    <updated>2018-11-14T11:14:40.318Z</updated>
+    
+    <content type="html"><![CDATA[<p><center><h1>git上</h1></center><br><a id="more"></a><br>目录：<br>    建立本地版本库<br>    本地版本库与远程关联<br>    修改文件并提交<br>    创建分支,修改文件合并至master</p><h1 id="git的由来"><a href="#git的由来" class="headerlink" title="git的由来"></a>git的由来</h1><pre><code>linux系统是很多开发者贡献代码不断完善的,linux的创始人linus起初管理贡献者的代码,是通过手工的方式,但随着代码的增多,很难通过手工方式去管理,于是找了一个商业的版本控制系统BitKeeper管理代码.开发Samba的Andrew试图破解BitKeeper的协议（这么干的其实也不只他一个），被BitMover公司发现了（监控工作做得不错！），于是BitMover公司怒了，要收回Linux社区的免费使用权。Linus可以向BitMover公司道个歉，保证以后严格管教弟兄们，嗯，这是不可能的。实际情况是这样的：Linus花了两周时间自己用C写了一个分布式版本控制系统，这就是Git！一个月之内，Linux系统的源码已经由Git管理了！</code></pre><h1 id="集中式与分布式区别"><a href="#集中式与分布式区别" class="headerlink" title="集中式与分布式区别"></a>集中式与分布式区别</h1><pre><code>- 集中式： cvs, svn版本库集中放在中央服务器上,所有人干活时,都要先从中央服务器获取最新版本到本地,然后在本地修改,干完活后,将修改推送到中央服务器.**必须联网**才能工作.- 分布式每个人的电脑都是一个版本库,工作的时候 **不需要联网**,直接在本地修改,提交就可以.你和同事同时修改一个文件A,修改完成后互相将自己修改的文件推送给对方即可.**安全性高**, 每个人的本地都有一个完整的版本库,某个人的电脑突然崩溃,从其他人那直接copy一份就可以了.但集中式版本控制系统,一旦中央服务器垮掉,版本库信息就都丢失了.</code></pre><h1 id="创建版本库-添加文件"><a href="#创建版本库-添加文件" class="headerlink" title="创建版本库,添加文件"></a>创建版本库,添加文件</h1><pre><code>命令:    - 创建版本库        mkdir studyGit        git init    - 添加文件        vim readme.txt        git add readme.txt        git commit -m &quot;注释说明,方便自己或他人查看&quot;</code></pre><h1 id="修改文件并提交"><a href="#修改文件并提交" class="headerlink" title="修改文件并提交"></a>修改文件并提交</h1><pre><code>命令:    - vim  编辑修改文件内容    - git status  查看当前仓库状态    - git diff filename  查看文件具体改动内容    - 提交:        git add filename        git commit -m &quot;本次提交注释说明&quot;</code></pre><h1 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h1><pre><code>Git的版本回退速度非常快，因为Git在内部有个指向当前版本的HEAD指针，当你回退版本的时候，Git仅仅是把HEAD指向至你切换的版本.命令:    - 回退到上一个版本        git reset --hard HEAD^    - 回退到上上版本        git reset --hard HEAD^^    - 回退到指定版本        git log  查看你要切换版本的commit id        或 git log --pretty=oneline        git reset --hard target_commit_id    - 回退之后后悔了,想切换到回退前的版本        1) 通过git log是找不到回退前那次提交的日志的,没办法指定commit id回退切换        2) 通过git reflog查看, git reflog是记录我们的历史命令的,找到你那次提交历史命令前的commit id,即可切换回去</code></pre><h1 id="工作区和暂存区"><a href="#工作区和暂存区" class="headerlink" title="工作区和暂存区"></a>工作区和暂存区</h1><pre><code>工作区: 电脑上直接看到的,你管理的文件夹(使用git init创建的),就是工作区暂存区: 在工作区下,隐藏的.git文件夹,其中有很多文件,有几个重要的要理解:        - 暂存区: stage        - 版本信息(master分支)        - HEAD指针,指向具体分支提交工作区的文件修改或新增文件:    1) git add files  -&gt; 实际将这些修改先推送到本地暂存区(暂存区中存放了所有待提交的文件)    2) git commit -m &quot;说明&quot;  -&gt; 提交暂存区中的所有文件至master或分支版本</code></pre><h1 id="管理修改"><a href="#管理修改" class="headerlink" title="管理修改"></a>管理修改</h1><pre><code>工作区中readme.txt文件1) 第一次修改, 增加一行内容, git add readme.txt2) 第二次修改, 又增加了一行内容, 但未执行 git add readme.txt3) git commit -m &quot;注释&quot;; 那么此次提交的只是第一次修改的内容git diff HEAD -- readme.txt  查看工作区中与版本库中的不同之处</code></pre><h1 id="撤销修改"><a href="#撤销修改" class="headerlink" title="撤销修改"></a>撤销修改</h1><pre><code>1) 工作区修改,改乱了,还没有提交至暂存区; 可以通过 git checkout -- filename 恢复至与版本库一致的状态2) 工作区修改,改乱了,但之前已提交至暂存区,撤销修改:    git reset HEAD filename  把暂存区的修改撤销掉(unstage)    git checkout -- filename  恢复工作区与版本库一致</code></pre><h1 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h1><pre><code>git rm filenamegit commit -m &quot;delete file filename&quot;</code></pre><h1 id="远程仓库关联"><a href="#远程仓库关联" class="headerlink" title="远程仓库关联"></a>远程仓库关联</h1><pre><code>1) 创建ssh key:ssh-keygen -t rsa -C &quot;youremail@example.com&quot;  # 一路回车即可在用户主目录里会生成一个.ssh文件夹,里面有id_rsa和id_rsa.pub, id_rsa是私钥, id_rsa.pub是公钥;登录github,进入个人账户settings页面,选择ssh key -&gt; add new; 添加, 将id_rsa.pub复制到页面中,完成.2) 添加远程仓库    - 在github网站新增仓库,与本地要关联的仓库同名    - 进入本地仓库所在的目录, git remote add origin &lt;新增的远程仓库地址&gt;    - git push -u origin master  # 将本地仓库的master分支推送到远程服务器上,后续提交可以省略参数-u(远程初始仓库为空,所以加-u)    - 本地修改文件,提交; 推送至远程</code></pre><h1 id="克隆远程仓库"><a href="#克隆远程仓库" class="headerlink" title="克隆远程仓库"></a>克隆远程仓库</h1><pre><code>进入你想保存仓库的路径,然后执行:git clone &lt;远程仓库地址&gt;</code></pre><h1 id="创建与合并分支"><a href="#创建与合并分支" class="headerlink" title="创建与合并分支"></a>创建与合并分支</h1><pre><code>查看分支：git branch创建分支：git branch &lt;name&gt;切换分支：git checkout &lt;name&gt;创建+切换分支：git checkout -b &lt;name&gt;合并某分支到当前分支：git merge &lt;name&gt;删除分支：git branch -d &lt;name&gt;</code></pre><h1 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h1><pre><code>1) 在分支上修改了文件,并commit2) 在mster上修改了文件,并commit3) git merge &lt;ranchname&gt;; 报错, 无法实现快速合并, 需先解决冲突, 把冲突文件改成自己想要的内容,然后 git add filename, git commit -m &quot;注释&quot;.        </code></pre>]]></content>
     
     <summary type="html">
     
+      &lt;p&gt;&lt;center&gt;&lt;h1&gt;git上&lt;/h1&gt;&lt;/center&gt;&lt;br&gt;
+    
     </summary>
     
-      <category term="restful framework" scheme="http://yoursite.com/categories/restful-framework/"/>
+      <category term="git" scheme="http://yoursite.com/categories/git/"/>
     
     
   </entry>
