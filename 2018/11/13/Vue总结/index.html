@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="海燕">
 <meta property="og:description" content="vue总结">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-13T13:11:36.372Z">
+<meta property="og:updated_time" content="2018-11-14T01:21:20.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue总结">
 <meta name="twitter:description" content="vue总结">
@@ -386,9 +386,9 @@
 
 1.2 模板字符串 ``${}
 
-1.3 数据的结构
+1.3 数据的解构
 
-1.4 类
+1.4 类 class extends constructor  super
 
 1.5 函数
 
@@ -397,6 +397,8 @@
 1.6 箭头函数
 
 1.7 单体模式
+
+1.8 import export   export default
 </code></pre><h2 id="Vue常用指令"><a href="#Vue常用指令" class="headerlink" title="Vue常用指令"></a>Vue常用指令</h2><pre><code>2.1 v-text  innerText
 
 2.2 v-html  innerHtml
@@ -436,6 +438,7 @@
 2.11 数据监听
 
     2.11.1 注意可变类型和不可变
+    2.11.2 深监听  deep=true
 
 2.12 获取DOM
 
@@ -548,7 +551,7 @@ $route 是一个对象 存放当前路由的所有信息
 $router VueRouter实例化对象
 </code></pre><h3 id="手动路由"><a href="#手动路由" class="headerlink" title="手动路由"></a>手动路由</h3><pre><code>this.$router.push(&apos;/&apos;)
 this.$router.push({name:&quot;home&quot;})
-</code></pre><h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><pre><code>redirect: {name: &apos;xxx&apos;}
+</code></pre><h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><pre><code>redirect: {name: &apos;xxx&apos;, params: {key: value}}
 </code></pre><h3 id="路由的钩子"><a href="#路由的钩子" class="headerlink" title="路由的钩子"></a>路由的钩子</h3><pre><code>router.beforeEach(function(to, from next){
     // to 你要去哪
     // from 你要从哪里来
@@ -558,6 +561,8 @@ router.afterEach(function(to, from){
     // to 你要去哪
     // from 你从哪里来
 })
+
+to和from都是$route对象   路由的所有信息
 </code></pre><p></p>
 <h2 id="node-js-npm-webpack-vue-cli-自带webpack"><a href="#node-js-npm-webpack-vue-cli-自带webpack" class="headerlink" title="node.js + npm + webpack + vue-cli(自带webpack)"></a>node.js + npm + webpack + vue-cli(自带webpack)</h2><pre><code>node.js / npm
     - npm 管理工作目录
@@ -584,7 +589,7 @@ wue-cli  2
     - 启动项目
         cd xxxx
         npm run dev
-</code></pre>
+</code></pre><h2 id="Vuex和axios"><a href="#Vuex和axios" class="headerlink" title="Vuex和axios"></a>Vuex和axios</h2>
       
     </div>
     
@@ -746,7 +751,7 @@ wue-cli  2
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">vue总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vue总结"><span class="nav-number">2.</span> <span class="nav-text">vue总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6常用语法"><span class="nav-number">2.1.</span> <span class="nav-text">ES6常用语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue常用指令"><span class="nav-number">2.2.</span> <span class="nav-text">Vue常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">2.3.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue的组件"><span class="nav-number">2.4.</span> <span class="nav-text">Vue的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件的注册"><span class="nav-number">2.4.1.</span> <span class="nav-text">组件的注册</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局注册"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">全局注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局部注册"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">局部注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子组件的注册"><span class="nav-number">2.4.1.3.</span> <span class="nav-text">子组件的注册</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通信"><span class="nav-number">2.4.2.</span> <span class="nav-text">通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#父子的通信"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">父子的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子父的通信"><span class="nav-number">2.4.2.2.</span> <span class="nav-text">子父的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非父子的通信"><span class="nav-number">2.4.2.3.</span> <span class="nav-text">非父子的通信</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插槽"><span class="nav-number">2.4.3.</span> <span class="nav-text">插槽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混合"><span class="nav-number">2.4.4.</span> <span class="nav-text">混合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue的生命周期"><span class="nav-number">2.5.</span> <span class="nav-text">Vue的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeCreate"><span class="nav-number">2.5.1.</span> <span class="nav-text">vue生命周期之beforeCreate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之created"><span class="nav-number">2.5.2.</span> <span class="nav-text">vue生命周期之created</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeMount"><span class="nav-number">2.5.3.</span> <span class="nav-text">vue生命周期之beforeMount</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之mounted"><span class="nav-number">2.5.4.</span> <span class="nav-text">vue生命周期之mounted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeUpdata"><span class="nav-number">2.5.5.</span> <span class="nav-text">vue生命周期之beforeUpdata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之updata"><span class="nav-number">2.5.6.</span> <span class="nav-text">vue生命周期之updata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeDestory"><span class="nav-number">2.5.7.</span> <span class="nav-text">vue生命周期之beforeDestory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之destoryed"><span class="nav-number">2.5.8.</span> <span class="nav-text">vue生命周期之destoryed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最常用的钩子"><span class="nav-number">2.5.9.</span> <span class="nav-text">最常用的钩子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由"><span class="nav-number">2.6.</span> <span class="nav-text">路由</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册"><span class="nav-number">2.6.1.</span> <span class="nav-text">注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子路由"><span class="nav-number">2.6.2.</span> <span class="nav-text">子路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由的命名"><span class="nav-number">2.6.3.</span> <span class="nav-text">路由的命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由的参数"><span class="nav-number">2.6.4.</span> <span class="nav-text">路由的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动路由"><span class="nav-number">2.6.5.</span> <span class="nav-text">手动路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重定向"><span class="nav-number">2.6.6.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由的钩子"><span class="nav-number">2.6.7.</span> <span class="nav-text">路由的钩子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#node-js-npm-webpack-vue-cli-自带webpack"><span class="nav-number">2.7.</span> <span class="nav-text">node.js + npm + webpack + vue-cli(自带webpack)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">vue总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vue总结"><span class="nav-number">2.</span> <span class="nav-text">vue总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6常用语法"><span class="nav-number">2.1.</span> <span class="nav-text">ES6常用语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue常用指令"><span class="nav-number">2.2.</span> <span class="nav-text">Vue常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">2.3.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue的组件"><span class="nav-number">2.4.</span> <span class="nav-text">Vue的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件的注册"><span class="nav-number">2.4.1.</span> <span class="nav-text">组件的注册</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局注册"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">全局注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局部注册"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">局部注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子组件的注册"><span class="nav-number">2.4.1.3.</span> <span class="nav-text">子组件的注册</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通信"><span class="nav-number">2.4.2.</span> <span class="nav-text">通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#父子的通信"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">父子的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子父的通信"><span class="nav-number">2.4.2.2.</span> <span class="nav-text">子父的通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非父子的通信"><span class="nav-number">2.4.2.3.</span> <span class="nav-text">非父子的通信</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插槽"><span class="nav-number">2.4.3.</span> <span class="nav-text">插槽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混合"><span class="nav-number">2.4.4.</span> <span class="nav-text">混合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue的生命周期"><span class="nav-number">2.5.</span> <span class="nav-text">Vue的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeCreate"><span class="nav-number">2.5.1.</span> <span class="nav-text">vue生命周期之beforeCreate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之created"><span class="nav-number">2.5.2.</span> <span class="nav-text">vue生命周期之created</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeMount"><span class="nav-number">2.5.3.</span> <span class="nav-text">vue生命周期之beforeMount</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之mounted"><span class="nav-number">2.5.4.</span> <span class="nav-text">vue生命周期之mounted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeUpdata"><span class="nav-number">2.5.5.</span> <span class="nav-text">vue生命周期之beforeUpdata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之updata"><span class="nav-number">2.5.6.</span> <span class="nav-text">vue生命周期之updata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之beforeDestory"><span class="nav-number">2.5.7.</span> <span class="nav-text">vue生命周期之beforeDestory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue生命周期之destoryed"><span class="nav-number">2.5.8.</span> <span class="nav-text">vue生命周期之destoryed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最常用的钩子"><span class="nav-number">2.5.9.</span> <span class="nav-text">最常用的钩子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由"><span class="nav-number">2.6.</span> <span class="nav-text">路由</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注册"><span class="nav-number">2.6.1.</span> <span class="nav-text">注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子路由"><span class="nav-number">2.6.2.</span> <span class="nav-text">子路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由的命名"><span class="nav-number">2.6.3.</span> <span class="nav-text">路由的命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由的参数"><span class="nav-number">2.6.4.</span> <span class="nav-text">路由的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动路由"><span class="nav-number">2.6.5.</span> <span class="nav-text">手动路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重定向"><span class="nav-number">2.6.6.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由的钩子"><span class="nav-number">2.6.7.</span> <span class="nav-text">路由的钩子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#node-js-npm-webpack-vue-cli-自带webpack"><span class="nav-number">2.7.</span> <span class="nav-text">node.js + npm + webpack + vue-cli(自带webpack)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vuex和axios"><span class="nav-number">2.8.</span> <span class="nav-text">Vuex和axios</span></a></li></ol></li></ol></div>
             
 
           </div>
