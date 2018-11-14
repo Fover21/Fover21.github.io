@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="https://www.cnblogs.com/xiao-xue-di/p/9931414.html" title="海燕" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Django-Rest-Framework的序列化之serializers 序列化组件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django-Rest-Framework的序列化">
+<meta property="og:url" content="http://yoursite.com/2018/11/14/Django-Rest-Framework的序列化/index.html">
+<meta property="og:site_name" content="海燕">
+<meta property="og:description" content="Django-Rest-Framework的序列化之serializers 序列化组件">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-14T10:23:26.688Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django-Rest-Framework的序列化">
+<meta name="twitter:description" content="Django-Rest-Framework的序列化之serializers 序列化组件">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/14/Django-Rest-Framework的序列化/">
+
+
+
+
+
+  <title>Django-Rest-Framework的序列化 | 海燕</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">海燕</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">热爱编程，爱算法，爱生活，爱钻研</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/14/Django-Rest-Framework的序列化/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="海燕">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="海燕">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Django-Rest-Framework的序列化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-14T16:34:44+08:00">
+                2018-11-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/restful-framework/" itemprop="url" rel="index">
+                    <span itemprop="name">restful framework</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center><h1>Django-Rest-Framework的序列化之serializers 序列化组件</h1></center><br><a id="more"></a></p>
+<h1 id="正常的序列化"><a href="#正常的序列化" class="headerlink" title="正常的序列化"></a>正常的序列化</h1><pre><code>from django.http import HttpResponse, JsonResponse
+from django.views import View
+from demo import models
+import json
+from django.core import serializers
+
+class BookView(View):
+def get(self, request):
+    book_queryset = models.Book.objects.all().values(&quot;id&quot;, &apos;title&apos;)
+    book_list = list(book_queryset)
+    # 方式一
+    # ret = json.dumps(book_list, ensure_ascii=False)
+    # return HttpResponse(ret)
+    # 方式二 Django的序列化
+    # book_list_obj = models.Book.objects.all()
+    # ret = serializers.serialize(&apos;json&apos;, book_list_obj, ensure_ascii=False)
+    # return HttpResponse(ret)
+    # 方式三
+    return JsonResponse(book_list, safe=False, json_dumps_params={&quot;ensure_ascii&quot;: False})
+</code></pre><h1 id="为什么要用序列化组件"><a href="#为什么要用序列化组件" class="headerlink" title="为什么要用序列化组件"></a>为什么要用序列化组件</h1><pre><code>当我们做前后端分离的项目~~我们前后端交互一般都选择JSON数据格式，JSON是一个轻量级的数据交互格式。
+
+那么我们给前端数据的时候都要转成json格式，那就需要对我们从数据库拿到的数据进行序列化。
+
+接下来我们看下django序列化和rest_framework序列化的对比~~
+</code></pre><h1 id="Django的序列化方法"><a href="#Django的序列化方法" class="headerlink" title="Django的序列化方法"></a>Django的序列化方法</h1><p>.values序列化结果</p>
+<pre><code>class BooksView(View):
+    def get(self, request):
+        book_list = Book.objects.values(&quot;id&quot;, &quot;title&quot;, &quot;chapter&quot;, &quot;pub_time&quot;, &quot;publisher&quot;)
+        book_list = list(book_list)
+        # 如果我们需要取外键关联的字段信息 需要循环获取外键 再去数据库查然后拼接成我们想要的
+        ret = []
+        for book in book_list:
+            pub_dict = {}
+            pub_obj = Publish.objects.filter(pk=book[&quot;publisher&quot;]).first()
+            pub_dict[&quot;id&quot;] = pub_obj.pk
+            pub_dict[&quot;title&quot;] = pub_obj.title
+            book[&quot;publisher&quot;] = pub_dict
+            ret.append(book)
+        ret = json.dumps(book_list, ensure_ascii=False, cls=MyJson)
+        return HttpResponse(ret)
+
+
+# json.JSONEncoder.default()
+# 解决json不能序列化时间字段的问题
+class MyJson(json.JSONEncoder):
+    def default(self, field):
+        if isinstance(field, datetime.datetime):
+            return field.strftime(&apos;%Y-%m-%d %H:%M:%S&apos;)
+        elif isinstance(field, datetime.date):
+            return field.strftime(&apos;%Y-%m-%d&apos;)
+        else:
+            return json.JSONEncoder.default(self, field)
+</code></pre><p>django serializers</p>
+<pre><code>from django.core import serializers
+
+# 能够得到我们要的效果 结构有点复杂
+class BooksView(View):
+    def get(self, request):
+        book_list = Book.objects.all()
+        ret = serializers.serialize(&quot;json&quot;, book_list)
+        return HttpResponse(ret)
+</code></pre><h1 id="DRF序列化的方法"><a href="#DRF序列化的方法" class="headerlink" title="DRF序列化的方法"></a>DRF序列化的方法</h1><p>首先，我们要用DRF的序列化，就要遵循人家框架的一些标准，</p>
+<p>　　– Django我们CBV继承类是View，现在DRF我们要用APIView</p>
+<p>　　– Django中返回的时候我们用HTTPResponse，JsonResponse，render ，DRF我们用Response</p>
+<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><h3 id="第一步-声明序列化类"><a href="#第一步-声明序列化类" class="headerlink" title="第一步 声明序列化类"></a>第一步 声明序列化类</h3><pre><code>class BookSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    title = serializers.CharField(max_length=32)
+    CHOICES = ((1, &quot;Linux&quot;), (2, &quot;Django&quot;), (3, &quot;Python&quot;))
+    chapter = serializers.ChoiceField(choices=CHOICES, source=&quot;get_chapter_display&quot;)
+    pub_time = serializers.DateField()
+</code></pre><h3 id="第二步-序列化对象"><a href="#第二步-序列化对象" class="headerlink" title="第二步 序列化对象"></a>第二步 序列化对象</h3><pre><code>from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class BookView(APIView):
+    def get(self, request):
+        book_list = Book.objects.all()
+        ret = BookSerializer(book_list, many=True)
+        return Response(ret.data)
+</code></pre><h2 id="外键关系的序列化"><a href="#外键关系的序列化" class="headerlink" title="外键关系的序列化"></a>外键关系的序列化</h2><pre><code>from rest_framework import serializers
+from .models import Book
+
+
+class PublisherSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=32)
+
+
+class UserSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(max_length=32)
+    age = serializers.IntegerField()
+
+
+class BookSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=32)
+    CHOICES = ((1, &quot;Linux&quot;), (2, &quot;Django&quot;), (3, &quot;Python&quot;))
+    chapter = serializers.ChoiceField(choices=CHOICES, source=&quot;get_chapter_display&quot;, read_only=True)
+    pub_time = serializers.DateField()
+
+    publisher = PublisherSerializer(read_only=True)
+    user = UserSerializer(many=True, read_only=True)
+</code></pre><h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><pre><code>当前端给我们发post的请求的时候~前端给我们传过来的数据~我们要进行一些校验然后保存到数据库~
+
+这些校验以及保存工作，DRF的Serializer也给我们提供了一些方法了~~
+
+首先~我们要写反序列化用的一些字段~有些字段要跟序列化区分开~~
+
+Serializer提供了.is_valid()  和.save()方法~~
+</code></pre><h3 id="save"><a href="#save" class="headerlink" title=".save()"></a>.save()</h3><p>反序列化 serializer.py</p>
+<pre><code>class BookSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=32)
+    CHOICES = ((1, &quot;Linux&quot;), (2, &quot;Django&quot;), (3, &quot;Python&quot;))
+    chapter = serializers.ChoiceField(choices=CHOICES, source=&quot;get_chapter_display&quot;, read_only=True)
+    w_chapter = serializers.IntegerField(write_only=True)
+    pub_time = serializers.DateField()
+
+    publisher = PublisherSerializer(read_only=True)
+    user = UserSerializer(many=True, read_only=True)
+
+    users = serializers.ListField(write_only=True)
+    publisher_id = serializers.IntegerField(write_only=True)
+
+    def create(self, validated_data):
+        book = Book.objects.create(title=validated_data[&quot;title&quot;], chapter=validated_data[&quot;w_chapter&quot;], pub_time=validated_data[&quot;pub_time&quot;],                                  publisher_id=validated_data[&quot;publisher_id&quot;])
+        book.user.add(*validated_data[&quot;users&quot;])
+        return book
+</code></pre><p>序列化 views.py</p>
+<pre><code>class BookView(APIView):
+    def get(self, request):
+        book_list = Book.objects.all()
+        ret = BookSerializer(book_list, many=True)
+        return Response(ret.data)
+
+    def post(self, request):
+        # book_obj = request.data
+        print(request.data)
+        serializer = BookSerializer(data=request.data)
+        if serializer.is_valid():
+            print(12341253)
+            serializer.save()
+            return Response(serializer.validated_data)
+        else:
+            return Response(serializer.errors)
+</code></pre><p>当前端给我们发送patch请求的时候，前端传给我们用户要更新的数据，我们要对数据进行部分验证~~</p>
+<h3 id="is-valid"><a href="#is-valid" class="headerlink" title=".is_valid()"></a>.is_valid()</h3><p>PATCH请求serializers.py</p>
+<pre><code>class BookSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=32)
+    CHOICES = ((1, &quot;Linux&quot;), (2, &quot;Django&quot;), (3, &quot;Python&quot;))
+    chapter = serializers.ChoiceField(choices=CHOICES, source=&quot;get_chapter_display&quot;, read_only=True)
+    w_chapter = serializers.IntegerField(write_only=True)
+    pub_time = serializers.DateField()
+
+    publisher = PublisherSerializer(read_only=True)
+    user = UserSerializer(many=True, read_only=True)
+
+    users = serializers.ListField(write_only=True)
+    publisher_id = serializers.IntegerField(write_only=True)
+
+    def create(self, validated_data):
+        book = Book.objects.create(title=validated_data[&quot;title&quot;], chapter=validated_data[&quot;w_chapter&quot;], pub_time=validated_data[&quot;pub_time&quot;],
+                                publisher_id=validated_data[&quot;publisher_id&quot;])
+        book.user.add(*validated_data[&quot;users&quot;])
+        return book
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get(&quot;title&quot;, instance.title)
+        instance.chapter = validated_data.get(&quot;w_chapter&quot;, instance.chapter)
+        instance.pub_time = validated_data.get(&quot;pub_time&quot;, instance.pub_time)
+        instance.publisher_id = validated_data.get(&quot;publisher_id&quot;, instance.publisher_id)
+        if validated_data.get(&quot;users&quot;):
+            instance.user.set(validated_data.get(&quot;users&quot;))
+        instance.save()
+        return instance
+</code></pre><p>PATCH请求views.py</p>
+<pre><code>class BookView(APIView):
+    def patch(self, request):
+        print(request.data)
+        book_id = request.data[&quot;id&quot;]
+        book_info = request.data[&quot;book_info&quot;]
+        book_obj = Book.objects.filter(pk=book_id).first()
+        serializer = BookSerializer(book_obj, data=book_info, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.validated_data)
+        else:
+            return Response(serializer.errors)
+</code></pre><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>如果需要对一些字段进行自定义的验证—DRF也给我们提供了钩子方法</p>
+<h3 id="单个字段的验证"><a href="#单个字段的验证" class="headerlink" title="单个字段的验证"></a>单个字段的验证</h3><pre><code>class BookSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=32)
+    # 省略了一些字段 跟上面代码里一样的
+    # 。。。。。
+    def validate_title(self, value):
+        if &quot;python&quot; not in value.lower():
+            raise serializers.ValidationError(&quot;标题必须含有Python&quot;)
+        return value
+</code></pre><h3 id="多个字段的验证"><a href="#多个字段的验证" class="headerlink" title="多个字段的验证"></a>多个字段的验证</h3><pre><code>class BookSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=32)
+    CHOICES = ((1, &quot;Linux&quot;), (2, &quot;Django&quot;), (3, &quot;Python&quot;))
+    chapter = serializers.ChoiceField(choices=CHOICES, source=&quot;get_chapter_display&quot;, read_only=True)
+    w_chapter = serializers.IntegerField(write_only=True)
+    pub_time = serializers.DateField()
+    date_added = serializers.DateField(write_only=True)
+    # 新增了一个上架时间字段  
+    # 省略一些字段。。都是在原基础代码上增加的
+    # 。。。。。。
+
+    # 对多个字段进行验证 要求上架日期不能早于出版日期 上架日期要大
+    def validate(self, attrs):
+        if attrs[&quot;pub_time&quot;] &gt; attrs[&quot;date_added&quot;]:
+            raise serializers.ValidationError(&quot;上架日期不能早于出版日期&quot;)
+        return attrs
+</code></pre><h2 id="验证器-validators"><a href="#验证器-validators" class="headerlink" title="验证器 validators"></a>验证器 validators</h2><pre><code>def my_validate(value):
+    if &quot;敏感词汇&quot; in value.lower:
+        raise serializers.ValidationError(&quot;包含敏感词汇，请重新提交&quot;)
+    return value
+
+
+class BookSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=32, validators=[my_validate])
+    # 。。。。。。
+</code></pre><h1 id="ModelSerializer"><a href="#ModelSerializer" class="headerlink" title="ModelSerializer"></a>ModelSerializer</h1><pre><code>已经清楚了Serializer的用法，会发现我们所有的序列化跟我们的模型都紧密相关~
+
+那么，DRF也给我们提供了跟模型紧密相关的序列化器~~ModelSerializer~~
+
+　　-- 它会根据模型自动生成一组字段
+
+　　-- 它简单的默认实现了.update()以及.create()方法
+</code></pre><h2 id="定义一个ModelSerializer序列化器"><a href="#定义一个ModelSerializer序列化器" class="headerlink" title="定义一个ModelSerializer序列化器"></a>定义一个ModelSerializer序列化器</h2><p>定义ModelSerializer</p>
+<pre><code>class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = &quot;__all__&quot;
+        # fields = [&quot;id&quot;, &quot;title&quot;, &quot;pub_time&quot;]
+        # exclude = [&quot;user&quot;]
+        # 分别是所有字段 包含某些字段 排除某些字段
+</code></pre><h2 id="外键关系的序列化-1"><a href="#外键关系的序列化-1" class="headerlink" title="外键关系的序列化"></a>外键关系的序列化</h2><p>注意：当序列化类MATE中定义了depth时，这个序列化类中引用字段（外键）则自动变为只读</p>
+<p>外键关系序列化</p>
+<pre><code>class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = &quot;__all__&quot;
+        # fields = [&quot;id&quot;, &quot;title&quot;, &quot;pub_time&quot;]
+        # exclude = [&quot;user&quot;]
+        # 分别是所有字段 包含某些字段 排除某些字段
+        depth = 1
+# depth 代表找嵌套关系的第几层
+</code></pre><h2 id="自定义字段"><a href="#自定义字段" class="headerlink" title="自定义字段"></a>自定义字段</h2><p>我们可以声明一些字段来覆盖默认字段，来进行自定制~</p>
+<p>比如我们的选择字段，默认显示的是选择的key，我们要给用户展示的是value。</p>
+<p>自定义字段</p>
+<pre><code>class BookSerializer(serializers.ModelSerializer):
+    chapter = serializers.CharField(source=&quot;get_chapter_display&quot;, read_only=True)
+
+    class Meta:
+        model = Book
+        fields = &quot;__all__&quot;
+        # fields = [&quot;id&quot;, &quot;title&quot;, &quot;pub_time&quot;]
+        # exclude = [&quot;user&quot;]
+        # 分别是所有字段 包含某些字段 排除某些字段
+        depth = 1
+</code></pre><h2 id="Meta中其它关键字参数"><a href="#Meta中其它关键字参数" class="headerlink" title="Meta中其它关键字参数"></a>Meta中其它关键字参数</h2><p>Meta中参数</p>
+<pre><code>class BookSerializer(serializers.ModelSerializer):
+    chapter = serializers.CharField(source=&quot;get_chapter_display&quot;, read_only=True)
+
+    class Meta:
+        model = Book
+        fields = &quot;__all__&quot;
+        # fields = [&quot;id&quot;, &quot;title&quot;, &quot;pub_time&quot;]
+        # exclude = [&quot;user&quot;]
+        # 分别是所有字段 包含某些字段 排除某些字段
+        depth = 1
+        read_only_fields = [&quot;id&quot;]
+        extra_kwargs = {&quot;title&quot;: {&quot;validators&quot;: [my_validate,]}}
+</code></pre><h2 id="post以及patch请求"><a href="#post以及patch请求" class="headerlink" title="post以及patch请求"></a>post以及patch请求</h2><p>由于depth会让我们外键变成只读，所以我们再定义一个序列化的类，其实只要去掉depth就可以了~~</p>
+<p>post/patch请求序列化类</p>
+<pre><code>class BookSerializer(serializers.ModelSerializer):
+    chapter = serializers.CharField(source=&quot;get_chapter_display&quot;, read_only=True)
+
+    class Meta:
+        model = Book
+        fields = &quot;__all__&quot;
+        # fields = [&quot;id&quot;, &quot;title&quot;, &quot;pub_time&quot;]
+        # exclude = [&quot;user&quot;]
+        # 分别是所有字段 包含某些字段 排除某些字段
+        read_only_fields = [&quot;id&quot;]
+        extra_kwargs = {&quot;title&quot;: {&quot;validators&quot;: [my_validate,]}}
+</code></pre><h2 id="SerializerMethodField"><a href="#SerializerMethodField" class="headerlink" title="SerializerMethodField"></a>SerializerMethodField</h2><p>外键关联的对象有很多字段我们是用不到的~都传给前端会有数据冗余~就需要我们自己去定制序列化外键对象的哪些字段~~</p>
+<p>SerializerMethodField</p>
+<pre><code>class BookSerializer(serializers.ModelSerializer):
+    chapter = serializers.CharField(source=&quot;get_chapter_display&quot;, read_only=True)
+    user = serializers.SerializerMethodField()
+    publisher = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        # obj是当前序列化的book对象
+        users_query_set = obj.user.all()
+        return [{&quot;id&quot;: user_obj.pk, &quot;name&quot;: user_obj.name} for user_obj in users_query_set]
+
+    def get_publisher(self, obj):
+        publisher_obj = obj.publisher
+        return {&quot;id&quot;: publisher_obj.pk, &quot;title&quot;: publisher_obj.title}
+
+    class Meta:
+        model = Book
+        fields = &quot;__all__&quot;
+        # fields = [&quot;id&quot;, &quot;title&quot;, &quot;pub_time&quot;]
+        # exclude = [&quot;user&quot;]
+        # 分别是所有字段 包含某些字段 排除某些字段
+        read_only_fields = [&quot;id&quot;]
+        extra_kwargs = {&quot;title&quot;: {&quot;validators&quot;: [my_validate,]}}
+</code></pre><h2 id="用ModelSerializer改进上面Serializer的完整版"><a href="#用ModelSerializer改进上面Serializer的完整版" class="headerlink" title="用ModelSerializer改进上面Serializer的完整版"></a>用ModelSerializer改进上面Serializer的完整版</h2><p>ModelSerializer</p>
+<pre><code>class BookSerializer(serializers.ModelSerializer):
+    dis_chapter = serializers.SerializerMethodField(read_only=True)
+    users = serializers.SerializerMethodField(read_only=True)
+    publishers = serializers.SerializerMethodField(read_only=True)
+
+    def get_users(self, obj):
+        # obj是当前序列化的book对象
+        users_query_set = obj.user.all()
+        return [{&quot;id&quot;: user_obj.pk, &quot;name&quot;: user_obj.name} for user_obj in users_query_set]
+
+    def get_publishers(self, obj):
+        publisher_obj = obj.publisher
+        return {&quot;id&quot;: publisher_obj.pk, &quot;title&quot;: publisher_obj.title}
+
+    def get_dis_chapter(self, obj):
+        return obj.get_chapter_display()
+
+    class Meta:
+        model = Book
+        # fields = &quot;__all__&quot;
+        # 字段是有序的
+        fields = [&quot;id&quot;, &quot;title&quot;,&quot;dis_chapter&quot;, &quot;pub_time&quot;, &quot;publishers&quot;, &quot;users&quot;,&quot;chapter&quot;, &quot;user&quot;, &quot;publisher&quot;]
+        # exclude = [&quot;user&quot;]
+        # 分别是所有字段 包含某些字段 排除某些字段
+        read_only_fields = [&quot;id&quot;, &quot;dis_chapter&quot;, &quot;users&quot;, &quot;publishers&quot;]
+        extra_kwargs = {&quot;title&quot;: {&quot;validators&quot;: [my_validate,]}, &quot;user&quot;: {&quot;write_only&quot;: True}, &quot;publisher&quot;: {&quot;write_only&quot;: True},
+                        &quot;chapter&quot;: {&quot;write_only&quot;: True}}
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/14/conda常用命令/" rel="next" title="conda常用命令">
+                <i class="fa fa-chevron-left"></i> conda常用命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">海燕</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="https://www.cnblogs.com/xiao-xue-di/p/9931414.html" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Django-Rest-Framework的序列化之serializers 序列化组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正常的序列化"><span class="nav-number">2.</span> <span class="nav-text">正常的序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要用序列化组件"><span class="nav-number">3.</span> <span class="nav-text">为什么要用序列化组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Django的序列化方法"><span class="nav-number">4.</span> <span class="nav-text">Django的序列化方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DRF序列化的方法"><span class="nav-number">5.</span> <span class="nav-text">DRF序列化的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化"><span class="nav-number">5.1.</span> <span class="nav-text">序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步-声明序列化类"><span class="nav-number">5.1.1.</span> <span class="nav-text">第一步 声明序列化类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步-序列化对象"><span class="nav-number">5.1.2.</span> <span class="nav-text">第二步 序列化对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外键关系的序列化"><span class="nav-number">5.2.</span> <span class="nav-text">外键关系的序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反序列化"><span class="nav-number">5.3.</span> <span class="nav-text">反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#save"><span class="nav-number">5.3.1.</span> <span class="nav-text">.save()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#is-valid"><span class="nav-number">5.3.2.</span> <span class="nav-text">.is_valid()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证"><span class="nav-number">5.4.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单个字段的验证"><span class="nav-number">5.4.1.</span> <span class="nav-text">单个字段的验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个字段的验证"><span class="nav-number">5.4.2.</span> <span class="nav-text">多个字段的验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证器-validators"><span class="nav-number">5.5.</span> <span class="nav-text">验证器 validators</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ModelSerializer"><span class="nav-number">6.</span> <span class="nav-text">ModelSerializer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义一个ModelSerializer序列化器"><span class="nav-number">6.1.</span> <span class="nav-text">定义一个ModelSerializer序列化器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外键关系的序列化-1"><span class="nav-number">6.2.</span> <span class="nav-text">外键关系的序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义字段"><span class="nav-number">6.3.</span> <span class="nav-text">自定义字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Meta中其它关键字参数"><span class="nav-number">6.4.</span> <span class="nav-text">Meta中其它关键字参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#post以及patch请求"><span class="nav-number">6.5.</span> <span class="nav-text">post以及patch请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SerializerMethodField"><span class="nav-number">6.6.</span> <span class="nav-text">SerializerMethodField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用ModelSerializer改进上面Serializer的完整版"><span class="nav-number">6.7.</span> <span class="nav-text">用ModelSerializer改进上面Serializer的完整版</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">海燕</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
