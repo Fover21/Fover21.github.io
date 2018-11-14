@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="海燕">
 <meta property="og:description" content="RESTful规范">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-14T04:03:41.150Z">
+<meta property="og:updated_time" content="2018-11-14T04:46:41.132Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RESTful规范">
 <meta name="twitter:description" content="RESTful规范">
@@ -376,7 +376,38 @@
 
       
         <p><center><h1>RESTful规范</h1></center><br><a id="more"></a></p>
-<h1 id="REST风格"><a href="#REST风格" class="headerlink" title="REST风格"></a>REST风格</h1><pre><code>资源 网页中能看到的都是资源
+<h1 id="web服务交互"><a href="#web服务交互" class="headerlink" title="web服务交互"></a>web服务交互</h1><pre><code>　　我们在浏览器中能看到的每个网站，都是一个web服务。那么我们在提供每个web服务的时候，
+
+　　都需要前后端交互，前后端交互就一定有一些实现方案，我们通常叫web服务交互方案。
+
+　　目前主流的三种web服务交互方案：
+
+　　　　-- REST （ Representational State Transfer）表述性状态转移
+
+　　　　-- SOAP （Simple Object Access Protocol）  简单的对象访问协议
+
+　　　　-- XML-RPC （XML Remote Procedure Call）基于XML的远程过程调用
+
+　　XML-RPC是通过XML将调用函数封装，并使用HTTP协议作为传送机制。
+
+　　后来在新的功能不断被引入下，这个标准慢慢演变成为今日的SOAP协定。
+
+　　SOAP服务则是以本身所定义的操作集，来访问网络上的资源。
+
+　　SOAP也是基于XML的，但是它不只限于HTTP协议的传输，包括TCP协议，UDP协议都可以传输。
+
+　　REST是Roy Thomas Fielding博士于2000年在他的博士论文里提出来的。
+
+　　REST相比SOAP更加简洁，性能和开发效率也有突出的优势。
+
+　　我们今天主要说一下这个REST，现在越来越多的web服务开始采用REST风格设计和实现。
+
+　　例如，amazon.com提供接近REST风格的Web服务进行图书查找；雅虎提供的Web服务也是REST风格的。
+
+　　我们接下来要学的框架也是遵循REST风格的，那么我们来看下它到底是个什么样的风格，
+
+　　了解了它是什么后，我们看下它的优点是什么，我们为什么用它。
+</code></pre><h1 id="REST风格"><a href="#REST风格" class="headerlink" title="REST风格"></a>REST风格</h1><pre><code>资源 网页中能看到的都是资源
     URL 统一资源定位符
     URI 统一资源标识符
 
@@ -586,7 +617,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">RESTful规范</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#REST风格"><span class="nav-number">2.</span> <span class="nav-text">REST风格</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#凡是遵循TEST风格实现的前后端交互都叫RESTful架构"><span class="nav-number">3.</span> <span class="nav-text">凡是遵循TEST风格实现的前后端交互都叫RESTful架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心思想"><span class="nav-number">3.1.</span> <span class="nav-text">核心思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在url中体现的"><span class="nav-number">3.2.</span> <span class="nav-text">在url中体现的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在返回值中"><span class="nav-number">3.3.</span> <span class="nav-text">在返回值中</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">RESTful规范</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#web服务交互"><span class="nav-number">2.</span> <span class="nav-text">web服务交互</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#REST风格"><span class="nav-number">3.</span> <span class="nav-text">REST风格</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#凡是遵循TEST风格实现的前后端交互都叫RESTful架构"><span class="nav-number">4.</span> <span class="nav-text">凡是遵循TEST风格实现的前后端交互都叫RESTful架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心思想"><span class="nav-number">4.1.</span> <span class="nav-text">核心思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在url中体现的"><span class="nav-number">4.2.</span> <span class="nav-text">在url中体现的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在返回值中"><span class="nav-number">4.3.</span> <span class="nav-text">在返回值中</span></a></li></ol></li></ol></div>
             
 
           </div>
