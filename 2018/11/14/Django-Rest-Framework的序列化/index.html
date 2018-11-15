@@ -81,17 +81,17 @@
 
 
 
-<meta name="description" content="正常的序列化from django.http import HttpResponse, JsonResponse from django.views import View from demo import models import json from django.core import serializers  class BookView(View): def get(self, req">
+<meta name="description" content="可以直接看总结 正常的序列化from django.http import HttpResponse, JsonResponse from django.views import View from demo import models import json from django.core import serializers  class BookView(View): def get(s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django-Rest-Framework的序列化">
 <meta property="og:url" content="http://yoursite.com/2018/11/14/Django-Rest-Framework的序列化/index.html">
 <meta property="og:site_name" content="海燕">
-<meta property="og:description" content="正常的序列化from django.http import HttpResponse, JsonResponse from django.views import View from demo import models import json from django.core import serializers  class BookView(View): def get(self, req">
+<meta property="og:description" content="可以直接看总结 正常的序列化from django.http import HttpResponse, JsonResponse from django.views import View from demo import models import json from django.core import serializers  class BookView(View): def get(s">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-15T06:33:27.124Z">
+<meta property="og:updated_time" content="2018-11-15T08:37:00.993Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django-Rest-Framework的序列化">
-<meta name="twitter:description" content="正常的序列化from django.http import HttpResponse, JsonResponse from django.views import View from demo import models import json from django.core import serializers  class BookView(View): def get(self, req">
+<meta name="twitter:description" content="可以直接看总结 正常的序列化from django.http import HttpResponse, JsonResponse from django.views import View from demo import models import json from django.core import serializers  class BookView(View): def get(s">
 
 
 
@@ -375,7 +375,8 @@
       
 
       
-        <h1 id="正常的序列化"><a href="#正常的序列化" class="headerlink" title="正常的序列化"></a>正常的序列化</h1><pre><code>from django.http import HttpResponse, JsonResponse
+        <p>可以直接看总结</p>
+<h1 id="正常的序列化"><a href="#正常的序列化" class="headerlink" title="正常的序列化"></a>正常的序列化</h1><pre><code>from django.http import HttpResponse, JsonResponse
 from django.views import View
 from demo import models
 import json
@@ -719,6 +720,204 @@ class BookSerializer(serializers.Serializer):
         read_only_fields = [&quot;id&quot;, &quot;dis_chapter&quot;, &quot;users&quot;, &quot;publishers&quot;]
         extra_kwargs = {&quot;title&quot;: {&quot;validators&quot;: [my_validate,]}, &quot;user&quot;: {&quot;write_only&quot;: True}, &quot;publisher&quot;: {&quot;write_only&quot;: True},
                         &quot;chapter&quot;: {&quot;write_only&quot;: True}}
+</code></pre><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="models-py"><a href="#models-py" class="headerlink" title="models.py"></a>models.py</h2><pre><code>class Book(models.Model):
+    title = models.CharField(max_length=32)
+    CHOICE = ((1, &quot;python&quot;), (2, &quot;Linux&quot;), (3, &apos;Go&apos;))
+    category = models.IntegerField(choices=CHOICE)
+    pub_time = models.DateField()
+    publisher = models.ForeignKey(to=&apos;Publisher&apos;)
+    authors = models.ManyToManyField(to=&quot;Author&quot;)
+
+
+class Publisher(models.Model):
+    title = models.CharField(max_length=32)
+
+
+class Author(models.Model):
+    name = models.CharField(max_length=32)
+</code></pre><h2 id="同一个views-py"><a href="#同一个views-py" class="headerlink" title="同一个views.py"></a>同一个views.py</h2><pre><code>from demo import models
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from serdemo import serializers
+
+# 展示增加全部数据
+class BookView(APIView):
+
+    def get(self, request):
+        book_queryset = models.Book.objects.all()
+        # many=True代表可以序列化多个数据
+        ser_obj = serializers.BookSerializer(book_queryset, many=True)
+        return Response(ser_obj.data)
+
+    def post(self, request):
+        # 确定数据类型已经数据结构
+        # 对妹子传来的数据进行校验
+        book_obj = request.data
+        ser_obj = serializers.BookSerializer(data=book_obj)
+        if ser_obj.is_valid():
+            ser_obj.save()
+            # 校验通过的数据
+            return Response(ser_obj.validated_data)
+        return Response(ser_obj.errors)
+
+
+# 展示和编辑某条数据
+class BookEditView(APIView):
+    def get(self, request, id):
+        book_obj = models.Book.objects.filter(id=id).first()
+        ser_obj = serializers.BookSerializer(book_obj)
+        return Response(ser_obj.data)
+
+    def put(self, request, id):
+        book_obj = models.Book.objects.filter(id=id).first()
+        # partial=True 代表的是可以改部分数据
+        ser_obj = serializers.BookSerializer(instance=book_obj, data=request.data, partial=True)
+        if ser_obj.is_valid():
+            ser_obj.save()
+            return Response(ser_obj.validated_data)
+        return Response(ser_obj.errors)
+</code></pre><h2 id="普通版Serializer"><a href="#普通版Serializer" class="headerlink" title="普通版Serializer"></a>普通版Serializer</h2><pre><code>from rest_framework import serializers
+from demo import models
+
+
+class PublisherSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    title = serializers.CharField(max_length=32)
+
+
+class AuthorSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField(max_length=32)
+
+
+# 自定义校验
+def my_validate(value):
+    if &quot;敏感词汇&quot; in value.lower():
+        raise serializers.ValidationError(&quot;包含敏感词汇，请重新提交&quot;)
+    return value
+
+
+class BookSerializer(serializers.Serializer):
+    # required=False 反序列化的时候可以没有,只序列化用不走校验
+    id = serializers.IntegerField(required=False)
+    title = serializers.CharField(max_length=32, validators=[my_validate])
+    pub_time = serializers.DateField()
+    # read_only=True 序列化用，反序列化的时候不要了
+    category = serializers.CharField(source=&quot;get_category_display&quot;, read_only=True)
+    # write_only=True 反序列化 的时候用
+    post_category = serializers.IntegerField(write_only=True)
+
+    publisher = PublisherSerializer(read_only=True)
+    authors = AuthorSerializer(many=True, read_only=True)
+
+    publisher_id = serializers.IntegerField(write_only=True)
+    author_list = serializers.ListField(write_only=True)
+
+    # 重写create方法  创建新数据的时候  validated_data就是传来的数据
+    def create(self, validated_data):
+        # validated_data 校验通过的数据 就是book_obj
+        # 同ORM操作给Book表新增数据
+        book_obj = models.Book.objects.create(
+            title=validated_data[&apos;title&apos;],
+            pub_time=validated_data[&apos;pub_time&apos;],
+            category=validated_data[&apos;post_category&apos;],
+            publisher_id=validated_data[&apos;publisher_id&apos;]
+        )
+        book_obj.authors.add(*validated_data[&apos;author_list&apos;])
+        return book_obj
+
+    # 重写update方法  更新数据的时候
+    def update(self, instance, validated_data):
+        # instance 更新的book_obj对象
+        # validated_data 校验通过的数据
+        # ORM做更新操作
+        instance.title = validated_data.get(&apos;title&apos;, instance.title)
+        instance.pub_time = validated_data.get(&apos;pub_time&apos;, instance.pub_time)
+        instance.category = validated_data.get(&apos;post_category&apos;, instance.category)
+        instance.publisher_id = validated_data.get(&apos;publisher_id&apos;, instance.publisher_id)
+        if validated_data.get(&apos;author_list&apos;):
+            instance.authors.set(validated_data[&apos;author_list&apos;])
+        instance.save()
+        return instance
+
+    # 局部钩子校验    单个字段   数据校验
+    def validate_title(self, value):
+        # value 就是title 的值 对value处理
+        if &quot;python&quot; not in value.lower():
+            raise serializers.ValidationError(&apos;标题必须包含python&apos;)
+        return value
+
+    # 全局钩子校验    全部字段   数据校验
+    def validate(self, attrs):
+        # attr 字典有你传过来的所有的字段
+        if &quot;python&quot; in attrs[&quot;title&quot;].lower():
+            return attrs
+        else:
+            raise serializers.ValidationError(&quot;分类或标题不合符要求&quot;)
+</code></pre><h2 id="升级版ModelSerializer"><a href="#升级版ModelSerializer" class="headerlink" title="升级版ModelSerializer"></a>升级版ModelSerializer</h2><pre><code>from rest_framework import serializers
+from demo import models
+
+
+class PublisherSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    title = serializers.CharField(max_length=32)
+
+
+class AuthorSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField(max_length=32)
+
+
+# 自定义校验
+def my_validate(value):
+    if &quot;敏感词汇&quot; in value.lower():
+        raise serializers.ValidationError(&quot;包含敏感词汇，请重新提交&quot;)
+    return value
+
+class BookSerializer(serializers.ModelSerializer):
+    # 重写正序
+    category_info = serializers.SerializerMethodField(read_only=True)
+    publisher_info = serializers.SerializerMethodField(read_only=True)
+    authors_info = serializers.SerializerMethodField(read_only=True)
+
+    def get_category_info(self, obj):
+        # obj 就是序列化的每一个Book对象
+        return obj.get_category_display()
+
+    def get_publisher_info(self, obj):
+        # obj 就是序列化的每一个Book对象
+        publisher_obj = obj.publisher
+        return {&quot;id&quot;: publisher_obj.pk, &quot;title&quot;: publisher_obj.title}
+
+    def get_authors_info(self, obj):
+        # obj 就是序列化的每一个Book对象
+        author_qureryset = obj.authors.all()
+        return [{&quot;id&quot;: author_obj.pk, &quot;name&quot;: author_obj.name} for author_obj in author_qureryset]
+
+    class Meta:
+        model = models.Book
+        fields = &quot;__all__&quot;
+        # exclude=[&quot;id&quot;]
+        # 会让所有的外键关系变成只读read_only=True
+        # depth = 1　　 # 向下找几层
+        # 反序列化的时候不用自己定义的，而是还是用原来的字段
+        extra_kwargs = {&quot;title&quot;: {&quot;validators&quot;: [my_validate]}, &quot;publisher&quot;: {&quot;write_only&quot;: True}, &quot;authors&quot;: {&quot;write_only&quot;: True},
+                        &quot;category&quot;: {&quot;write_only&quot;: True}}
+    # 验证
+    # 局部钩子校验    单个字段
+    def validate_title(self, value):
+        # value 就是title 的值 对value处理
+        if &quot;python&quot; not in value.lower():
+            raise serializers.ValidationError(&apos;标题必须包含python&apos;)
+        return value
+
+    # 全局钩子校验    全部字段
+    def validate(self, attrs):
+        # attr 字典有你传过来的所有的字段
+        if &quot;python&quot; in attrs[&quot;title&quot;].lower():
+            return attrs
+        else:
+            raise serializers.ValidationError(&quot;分类或标题不合符要求&quot;)
 </code></pre>
       
     </div>
@@ -856,7 +1055,7 @@ class BookSerializer(serializers.Serializer):
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -943,7 +1142,7 @@ class BookSerializer(serializers.Serializer):
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正常的序列化"><span class="nav-number">1.</span> <span class="nav-text">正常的序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要用序列化组件"><span class="nav-number">2.</span> <span class="nav-text">为什么要用序列化组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Django的序列化方法"><span class="nav-number">3.</span> <span class="nav-text">Django的序列化方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DRF序列化的方法"><span class="nav-number">4.</span> <span class="nav-text">DRF序列化的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化"><span class="nav-number">4.1.</span> <span class="nav-text">序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步-声明序列化类"><span class="nav-number">4.1.1.</span> <span class="nav-text">第一步 声明序列化类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步-序列化对象"><span class="nav-number">4.1.2.</span> <span class="nav-text">第二步 序列化对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外键关系的序列化"><span class="nav-number">4.2.</span> <span class="nav-text">外键关系的序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反序列化"><span class="nav-number">4.3.</span> <span class="nav-text">反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#save"><span class="nav-number">4.3.1.</span> <span class="nav-text">.save()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#is-valid"><span class="nav-number">4.3.2.</span> <span class="nav-text">.is_valid()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证"><span class="nav-number">4.4.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单个字段的验证-局部钩子"><span class="nav-number">4.4.1.</span> <span class="nav-text">单个字段的验证 局部钩子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个字段的验证-全局钩子"><span class="nav-number">4.4.2.</span> <span class="nav-text">多个字段的验证  全局钩子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证器-validators"><span class="nav-number">4.4.3.</span> <span class="nav-text">验证器 validators</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ModelSerializer"><span class="nav-number">5.</span> <span class="nav-text">ModelSerializer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义一个ModelSerializer序列化器"><span class="nav-number">5.1.</span> <span class="nav-text">定义一个ModelSerializer序列化器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外键关系的序列化-1"><span class="nav-number">5.2.</span> <span class="nav-text">外键关系的序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义字段"><span class="nav-number">5.3.</span> <span class="nav-text">自定义字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Meta中其它关键字参数"><span class="nav-number">5.4.</span> <span class="nav-text">Meta中其它关键字参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#post以及patch请求"><span class="nav-number">5.5.</span> <span class="nav-text">post以及patch请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SerializerMethodField"><span class="nav-number">5.6.</span> <span class="nav-text">SerializerMethodField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用ModelSerializer改进上面Serializer的完整版"><span class="nav-number">5.7.</span> <span class="nav-text">用ModelSerializer改进上面Serializer的完整版</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正常的序列化"><span class="nav-number">1.</span> <span class="nav-text">正常的序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要用序列化组件"><span class="nav-number">2.</span> <span class="nav-text">为什么要用序列化组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Django的序列化方法"><span class="nav-number">3.</span> <span class="nav-text">Django的序列化方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DRF序列化的方法"><span class="nav-number">4.</span> <span class="nav-text">DRF序列化的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化"><span class="nav-number">4.1.</span> <span class="nav-text">序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步-声明序列化类"><span class="nav-number">4.1.1.</span> <span class="nav-text">第一步 声明序列化类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步-序列化对象"><span class="nav-number">4.1.2.</span> <span class="nav-text">第二步 序列化对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外键关系的序列化"><span class="nav-number">4.2.</span> <span class="nav-text">外键关系的序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反序列化"><span class="nav-number">4.3.</span> <span class="nav-text">反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#save"><span class="nav-number">4.3.1.</span> <span class="nav-text">.save()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#is-valid"><span class="nav-number">4.3.2.</span> <span class="nav-text">.is_valid()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证"><span class="nav-number">4.4.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单个字段的验证-局部钩子"><span class="nav-number">4.4.1.</span> <span class="nav-text">单个字段的验证 局部钩子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个字段的验证-全局钩子"><span class="nav-number">4.4.2.</span> <span class="nav-text">多个字段的验证  全局钩子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证器-validators"><span class="nav-number">4.4.3.</span> <span class="nav-text">验证器 validators</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ModelSerializer"><span class="nav-number">5.</span> <span class="nav-text">ModelSerializer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义一个ModelSerializer序列化器"><span class="nav-number">5.1.</span> <span class="nav-text">定义一个ModelSerializer序列化器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外键关系的序列化-1"><span class="nav-number">5.2.</span> <span class="nav-text">外键关系的序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义字段"><span class="nav-number">5.3.</span> <span class="nav-text">自定义字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Meta中其它关键字参数"><span class="nav-number">5.4.</span> <span class="nav-text">Meta中其它关键字参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#post以及patch请求"><span class="nav-number">5.5.</span> <span class="nav-text">post以及patch请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SerializerMethodField"><span class="nav-number">5.6.</span> <span class="nav-text">SerializerMethodField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用ModelSerializer改进上面Serializer的完整版"><span class="nav-number">5.7.</span> <span class="nav-text">用ModelSerializer改进上面Serializer的完整版</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#models-py"><span class="nav-number">6.1.</span> <span class="nav-text">models.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同一个views-py"><span class="nav-number">6.2.</span> <span class="nav-text">同一个views.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#普通版Serializer"><span class="nav-number">6.3.</span> <span class="nav-text">普通版Serializer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#升级版ModelSerializer"><span class="nav-number">6.4.</span> <span class="nav-text">升级版ModelSerializer</span></a></li></ol></li></ol></div>
             
 
           </div>
