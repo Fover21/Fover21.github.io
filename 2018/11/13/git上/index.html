@@ -81,17 +81,17 @@
 
 
 
-<meta name="description" content="git上">
+<meta name="description" content="目录：    建立本地版本库    本地版本库与远程关联    修改文件并提交    创建分支,修改文件合并至master git的由来linux系统是很多开发者贡献代码不断完善的,linux的创始人linus起初管理贡献者的代码,是通过手工的方式,但随着代码的增多,很难通过手工方式去管理,于是找了一个商业的版本控制系统BitKeeper管理代码. 开发Samba的Andrew试图破解BitKee">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git上">
 <meta property="og:url" content="http://yoursite.com/2018/11/13/git上/index.html">
 <meta property="og:site_name" content="海燕">
-<meta property="og:description" content="git上">
+<meta property="og:description" content="目录：    建立本地版本库    本地版本库与远程关联    修改文件并提交    创建分支,修改文件合并至master git的由来linux系统是很多开发者贡献代码不断完善的,linux的创始人linus起初管理贡献者的代码,是通过手工的方式,但随着代码的增多,很难通过手工方式去管理,于是找了一个商业的版本控制系统BitKeeper管理代码. 开发Samba的Andrew试图破解BitKee">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-14T11:14:40.318Z">
+<meta property="og:updated_time" content="2018-11-15T06:33:54.674Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git上">
-<meta name="twitter:description" content="git上">
+<meta name="twitter:description" content="目录：    建立本地版本库    本地版本库与远程关联    修改文件并提交    创建分支,修改文件合并至master git的由来linux系统是很多开发者贡献代码不断完善的,linux的创始人linus起初管理贡献者的代码,是通过手工的方式,但随着代码的增多,很难通过手工方式去管理,于是找了一个商业的版本控制系统BitKeeper管理代码. 开发Samba的Andrew试图破解BitKee">
 
 
 
@@ -375,7 +375,7 @@
       
 
       
-        <p><center><h1>git上</h1></center><br><a id="more"></a><br>目录：<br>    建立本地版本库<br>    本地版本库与远程关联<br>    修改文件并提交<br>    创建分支,修改文件合并至master</p>
+        <p>目录：<br>    建立本地版本库<br>    本地版本库与远程关联<br>    修改文件并提交<br>    创建分支,修改文件合并至master</p>
 <h1 id="git的由来"><a href="#git的由来" class="headerlink" title="git的由来"></a>git的由来</h1><pre><code>linux系统是很多开发者贡献代码不断完善的,linux的创始人linus起初管理贡献者的代码,是通过手工的方式,但随着代码的增多,很难通过手工方式去管理,于是找了一个商业的版本控制系统BitKeeper管理代码.
 开发Samba的Andrew试图破解BitKeeper的协议（这么干的其实也不只他一个），被BitMover公司发现了（监控工作做得不错！），于是BitMover公司怒了，要收回Linux社区的免费使用权。
 Linus可以向BitMover公司道个歉，保证以后严格管教弟兄们，嗯，这是不可能的。实际情况是这样的：
@@ -684,7 +684,7 @@ git clone &lt;远程仓库地址&gt;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">git上</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git的由来"><span class="nav-number">2.</span> <span class="nav-text">git的由来</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集中式与分布式区别"><span class="nav-number">3.</span> <span class="nav-text">集中式与分布式区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建版本库-添加文件"><span class="nav-number">4.</span> <span class="nav-text">创建版本库,添加文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改文件并提交"><span class="nav-number">5.</span> <span class="nav-text">修改文件并提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本回退"><span class="nav-number">6.</span> <span class="nav-text">版本回退</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工作区和暂存区"><span class="nav-number">7.</span> <span class="nav-text">工作区和暂存区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#管理修改"><span class="nav-number">8.</span> <span class="nav-text">管理修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#撤销修改"><span class="nav-number">9.</span> <span class="nav-text">撤销修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除文件"><span class="nav-number">10.</span> <span class="nav-text">删除文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#远程仓库关联"><span class="nav-number">11.</span> <span class="nav-text">远程仓库关联</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#克隆远程仓库"><span class="nav-number">12.</span> <span class="nav-text">克隆远程仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建与合并分支"><span class="nav-number">13.</span> <span class="nav-text">创建与合并分支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决冲突"><span class="nav-number">14.</span> <span class="nav-text">解决冲突</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#git的由来"><span class="nav-number">1.</span> <span class="nav-text">git的由来</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集中式与分布式区别"><span class="nav-number">2.</span> <span class="nav-text">集中式与分布式区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建版本库-添加文件"><span class="nav-number">3.</span> <span class="nav-text">创建版本库,添加文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改文件并提交"><span class="nav-number">4.</span> <span class="nav-text">修改文件并提交</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本回退"><span class="nav-number">5.</span> <span class="nav-text">版本回退</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工作区和暂存区"><span class="nav-number">6.</span> <span class="nav-text">工作区和暂存区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#管理修改"><span class="nav-number">7.</span> <span class="nav-text">管理修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#撤销修改"><span class="nav-number">8.</span> <span class="nav-text">撤销修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除文件"><span class="nav-number">9.</span> <span class="nav-text">删除文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#远程仓库关联"><span class="nav-number">10.</span> <span class="nav-text">远程仓库关联</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#克隆远程仓库"><span class="nav-number">11.</span> <span class="nav-text">克隆远程仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建与合并分支"><span class="nav-number">12.</span> <span class="nav-text">创建与合并分支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决冲突"><span class="nav-number">13.</span> <span class="nav-text">解决冲突</span></a></li></ol></div>
             
 
           </div>

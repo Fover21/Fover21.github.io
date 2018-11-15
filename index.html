@@ -375,7 +375,10 @@
 
       
         
-          <p><center><h1>vue-cli目录结构总结的步骤</h1></center><br>
+          
+          main.js这是js的入口文件// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an a
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/14/vue-cli自己总结的步骤/#more" rel="contents">
@@ -385,7 +388,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -521,7 +524,16 @@
 
       
         
-          <p><center><h1>git下</h1></center><br>
+          
+          
+分支管理策略1）master分支
+非常稳定的，只用来发布新版本，平时不在上面干活
+2）dev分支
+不稳定的，主要在上面干活，每个人都有自己的分支，时不时的往dev分支上合并
+
+通常，合并分支时，如果可能，Git会用`Fast forward`模式，但这种模式下，删除分支后，会丢掉分支信息。
+如果要
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/14/git下/#more" rel="contents">
@@ -531,7 +543,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -667,7 +679,13 @@
 
       
         
-          <p><center><h1>Django-Rest-Framework的序列化之serializers 序列化组件</h1></center><br>
+          
+          正常的序列化from django.http import HttpResponse, JsonResponse
+from django.views import View
+from demo import models
+import json
+from django.core import se
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/14/Django-Rest-Framework的序列化/#more" rel="contents">
@@ -677,7 +695,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -813,7 +831,14 @@
 
       
         
-          <p><center><h1>conda常用命令</h1></center><br>
+          
+          查看 conda 版本号conda -Vconda –version
+环境管理
+查看当前有哪些环境
+conda env list 或conda info -e
+实际执行命令示例:➜  ~ conda env list
+conda environments:#base                 
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/14/conda常用命令/#more" rel="contents">
@@ -823,7 +848,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -959,7 +984,15 @@
 
       
         
-          <p><center><h1>RESTful规范</h1></center><br>
+          
+          web服务交互　　我们在浏览器中能看到的每个网站，都是一个web服务。那么我们在提供每个web服务的时候，
+
+　　都需要前后端交互，前后端交互就一定有一些实现方案，我们通常叫web服务交互方案。
+
+　　目前主流的三种web服务交互方案：
+
+　　　　-- REST （ Representational
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/14/RESTful规范/#more" rel="contents">
@@ -969,7 +1002,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -1105,7 +1138,15 @@
 
       
         
-          <p><center><h1>Vuex+axios</h1></center><br>
+          
+          Vuex 简介vuex是一个专门为Vue.js设计的集中式状态管理架构。
+状态？ 我们把它理解为在data中需要共享给其他组件使用的部分。
+
+Vuex和单纯的全局对象有以下不同：
+
+1、Vuex 的状态存储是响应式的。当vue组件从store中读取状态的时候，
+若store中的状态发生变化，那么相
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/13/Vuex-axios/#more" rel="contents">
@@ -1115,7 +1156,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -1251,7 +1292,12 @@
 
       
         
-          <center><h1>npm+webpack+vue-cli快速上手</h1></center>
+          
+          Node.js   npm什么是Node.js  以及npm简单的来说 Node.js 就是运行在服务端的JavaScript，基于Chrome V8 引擎的。
+
+npm 是Node.js 的包管理工具。
+npm的安装和更新Node.js下载安装   Node.js 官网下载安装。npm自带的包管理
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/13/npm-webpack-vue-cli快速上手/#more" rel="contents">
@@ -1397,7 +1443,10 @@
 
       
         
-          <p><center><h1>git上</h1></center><br>
+          
+          目录：    建立本地版本库    本地版本库与远程关联    修改文件并提交    创建分支,修改文件合并至master
+git的由来linux系统是很多开发者贡献代码不断完善的,linux的创始人linus起初管理贡献者的代码,是通过手工的方式,但随着代码的增多,很难通过手工方式去管理,于是找了
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/13/git上/#more" rel="contents">
@@ -1407,7 +1456,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -1543,7 +1592,23 @@
 
       
         
-          <p><center><h1>vue总结</h1></center><br>
+          
+          vue总结
+MVC  Model View Controller
+
+
+MVVM Model View ViweMode
+
+ES6常用语法1.1 变量的提升
+
+1.2 模板字符串 ``${}
+
+1.3 数据的解构
+
+1.4 类 class extends constructor  super
+
+1
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/11/13/Vue总结/#more" rel="contents">
@@ -1553,7 +1618,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -1689,7 +1754,10 @@
 
       
         
-          <p><center><h1>Vue组件系统</h1></center><br>
+          
+          Vue组件系统之全局组件的注册
+123456789101112131415161718192021222324252627&gt;&lt;div id='app'&gt;&gt;	&lt;global-component&gt;&lt;/global-component&gt;&gt;&lt;/di
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/14/vue组件系统/#more" rel="contents">
@@ -1699,7 +1767,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
