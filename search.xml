@@ -121,9 +121,9 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[guestbook]]></title>
+    <title><![CDATA[留言板]]></title>
     <url>%2Fguestbook%2Findex.html</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[]]></content>
   </entry>
   <entry>
     <title><![CDATA[关于]]></title>
