@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-11-16T10:05:56.891Z</updated>
+  <updated>2018-11-17T01:22:17.341Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Django-Rest-Framework的权限和频率</title>
+    <link href="http://yoursite.com/2018/11/17/Django-Rest-Framework%E7%9A%84%E6%9D%83%E9%99%90%E5%92%8C%E9%A2%91%E7%8E%87/"/>
+    <id>http://yoursite.com/2018/11/17/Django-Rest-Framework的权限和频率/</id>
+    <published>2018-11-17T01:22:17.000Z</published>
+    <updated>2018-11-17T01:22:17.341Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Django之</title>
@@ -35,11 +49,13 @@
     <link href="http://yoursite.com/2018/11/16/Django-Rest-Framework%E7%9A%84%E7%89%88%E6%9C%AC%E5%92%8C%E8%AE%A4%E8%AF%81/"/>
     <id>http://yoursite.com/2018/11/16/Django-Rest-Framework的版本和认证/</id>
     <published>2018-11-16T08:49:55.000Z</published>
-    <updated>2018-11-16T08:49:55.351Z</updated>
+    <updated>2018-11-17T01:38:25.509Z</updated>
     
     <summary type="html">
     
     </summary>
+    
+      <category term="restful framework" scheme="http://yoursite.com/categories/restful-framework/"/>
     
     
   </entry>
