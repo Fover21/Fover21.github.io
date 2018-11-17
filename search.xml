@@ -3,7 +3,10 @@
   <entry>
     <title><![CDATA[Django-Rest-Framework的权限和频率]]></title>
     <url>%2F2018%2F11%2F17%2FDjango-Rest-Framework%E7%9A%84%E6%9D%83%E9%99%90%E5%92%8C%E9%A2%91%E7%8E%87%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[DRF的权限权限是什么权限组件源码DEF的频率]]></content>
+      <categories>
+        <category>restful framework</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[Django之]]></title>

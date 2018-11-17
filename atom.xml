@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-11-17T01:22:17.341Z</updated>
+  <updated>2018-11-17T07:23:44.993Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,11 +21,20 @@
     <link href="http://yoursite.com/2018/11/17/Django-Rest-Framework%E7%9A%84%E6%9D%83%E9%99%90%E5%92%8C%E9%A2%91%E7%8E%87/"/>
     <id>http://yoursite.com/2018/11/17/Django-Rest-Framework的权限和频率/</id>
     <published>2018-11-17T01:22:17.000Z</published>
-    <updated>2018-11-17T01:22:17.341Z</updated>
+    <updated>2018-11-17T07:23:44.993Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="DRF的权限"><a href="#DRF的权限" class="headerlink" title="DRF的权限"></a>DRF的权限</h1><h2 id="权限是什么"><a href="#权限是什么" class="headerlink" title="权限是什么"></a>权限是什么</h2><h2 id="权限组件源码"><a href="#权限组件源码" class="headerlink" title="权限组件源码"></a>权限组件源码</h2><h1 id="DEF的频率"><a href="#DEF的频率" class="headerlink" title="DEF的频率"></a>DEF的频率</h1>]]></content>
     
     <summary type="html">
     
+      
+      
+        &lt;h1 id=&quot;DRF的权限&quot;&gt;&lt;a href=&quot;#DRF的权限&quot; class=&quot;headerlink&quot; title=&quot;DRF的权限&quot;&gt;&lt;/a&gt;DRF的权限&lt;/h1&gt;&lt;h2 id=&quot;权限是什么&quot;&gt;&lt;a href=&quot;#权限是什么&quot; class=&quot;headerlink&quot; title=
+      
+    
     </summary>
+    
+      <category term="restful framework" scheme="http://yoursite.com/categories/restful-framework/"/>
     
     
   </entry>
