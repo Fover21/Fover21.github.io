@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Django-Rest-Framework的分页]]></title>
+    <url>%2F2018%2F11%2F18%2FDjango-Rest-Framework%E7%9A%84%E5%88%86%E9%A1%B5%2F</url>
+    <content type="text"><![CDATA[DRF的分页为什么要使用分页其实这个不说大家都知道，大家写项目的时候也是一定会用的， 我们数据库有几千万条数据，这些数据需要展示，我们不可能直接从数据库把数据全部读取出来， 这样会给内存造成特别大的压力，有可能还会内存溢出，所以我们希望一点一点的取， 那展示的时候也是一样的，总是要进行分页显示，我们之前自己都写过分页。 那么大家想一个问题，在数据量特别大的时候，我们的分页会越往后读取速度越慢， 当有一千万条数据，我要看最后一页的内容的时候，怎么能让我的查询速度变快。 DRF给我们提供了三种分页方式，我们看下他们都是什么样的 DRF提供的三种分页1from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination, CursorPagination 全局配置 123REST_FRAMEWORK = &#123; 'PAGE_SIZE': 2&#125; 第一种PageNumberPagination 看第n页，每页显示n条数据http://127.0.0.1:8000/book?page=2&amp;size=1 自定义分页类12345class MyPageNumber(PageNumberPagination): page_size = 2 # 每页显示多少条 page_size_query_param = 'size' # URL中每页显示条数的参数 page_query_param = 'page' # URL中页码的参数 max_page_size = None # 最大页码数限制 视图123456789class BookView(APIView): def get(self, request): book_list = Book.objects.all() # 分页 page_obj = MyPageNumber() page_article = page_obj.paginate_queryset(queryset=book_list, request=request, view=self) ret = BookSerializer(page_article, many=True) return Response(ret.data) 返回带页码链接的响应1234567891011class BookView(APIView): def get(self, request): book_list = Book.objects.all() # 分页 page_obj = MyPageNumber() page_article = page_obj.paginate_queryset(queryset=book_list, request=request, view=self) ret = BookSerializer(page_article, many=True) # return Response(ret.data) # 返回带超链接 需返回的时候用内置的响应方法 return page_obj.get_paginated_response(ret.data) 第二中LimitOffsetPagination 在第n个位置 向后查看n条数据http://127.0.0.1:8000/book?offset=2&amp;limit=1 自定义的分页类12345class MyLimitOffset(LimitOffsetPagination): default_limit = 1 limit_query_param = 'limit' offset_query_param = 'offset' max_limit = 999 视图123456789101112# 只有用的分页类不同，其他都相同class BookView(APIView): def get(self, request): book_list = Book.objects.all() # 分页 page_obj = MyLimitOffset() page_article = page_obj.paginate_queryset(queryset=book_list, request=request, view=self) ret = BookSerializer(page_article, many=True) # return Response(ret.data) # 返回带超链接 需返回的时候用内置的响应方法 return page_obj.get_paginated_response(ret.data) 第三种CursorPagination 加密游标的分页 把上一页和下一页的id记住 自定义分页类1234class MyCursorPagination(CursorPagination): cursor_query_param = 'cursor' page_size = 1 ordering = '-id' 视图1234567891011class BookView(APIView): def get(self, request): book_list = Book.objects.all() # 分页 page_obj = MyCursorPagination() page_article = page_obj.paginate_queryset(queryset=book_list, request=request, view=self) ret = BookSerializer(page_article, many=True) # return Response(ret.data) # 返回带超链接 需返回的时候用内置的响应方法 return page_obj.get_paginated_response(ret.data)]]></content>
+      <categories>
+        <category>restful framework</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[Django-Rest-Framework的解析器和渲染器]]></title>
     <url>%2F2018%2F11%2F18%2FDjango-Rest-Framework%E7%9A%84%E8%A7%A3%E6%9E%90%E5%99%A8%E5%92%8C%E6%B8%B2%E6%9F%93%E5%99%A8%2F</url>
     <content type="text"><![CDATA[解析器解析器的作用就是服务端接收客户端传来的数据，把数据解析成自己想要的数据类型的过程 本质就是对请求体中的数据进行解析 Django的解析器我们请求进来的请求体中的数据在request.body中，那也证明，解析器会把解析好的数据放入request.body 我们在视图中可以打印request的类型，能够知道request是WSGIRequest这个类 看源码，我么怎么拿到request.POST数据的 application/x-www-form-urlencoded不是不能上传文件，是只能上传文本格式的文件， multipart/form-data是将文件以二进制的形式上传，这样可以实现多种类型的文件上传 一个解析到request.POST, request.FILES中。 也就是说我们之前能在request中能到的各种数据是因为用了不同格式的数据解析器~ 那么我们的DRF能够解析什么样的数据类型呢  DRF的解析器什么时候我们的解析器会被调用，是不是在request.data拿数据的时候 我们说请求数据都在request.data中，那我们看Request类中的data 得到解析器后，调用解析器的parse方法 到这里，DRF配置的默认的解析器的类都有哪些 也就是说，我们的DRF支持Json，Form表单的请求，包括多种文件类型的数据 可以在视图中配置视图级别的解析器 这就是DRF的解析器 渲染器渲染器就是友好的展示数据 DRF提供的渲染器有 在浏览器中展示的DRF测试的那个页面，就是通过浏览器的渲染来做到的 当然我们可以展示Json数据类型]]></content>
@@ -150,6 +158,11 @@
       </categories>
   </entry>
   <entry>
+    <title><![CDATA[留言板]]></title>
+    <url>%2Fguestbook%2Findex.html</url>
+    <content type="text"><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[个人简介]]></title>
     <url>%2Fabout%2Findex.html</url>
     <content type="text"><![CDATA[危机感 | 对失败的容忍度 海燕 在苍茫的大海上，狂风卷集着乌云。在乌云和大海之间，海燕像黑色的闪电，在高傲地飞翔。 一会儿翅膀碰着波浪，一会儿箭一般地直冲向乌云，它叫喊着，──就在这鸟儿勇敢的叫喊声里，乌云听出了欢乐。 在这叫喊声里──充满着对暴风雨的渴望！在这叫喊声里，乌云听出了愤怒的力量、热情的火焰和胜利的信心。 海鸥在暴风雨来临之前呻吟着，──呻吟着，它们在大海上飞窜，想把自己对暴风雨的恐惧，掩藏到大海深处。 海鸭也在呻吟着，──它们这些海鸭啊，享受不了生活的战斗的欢乐：轰隆隆的雷声就把它们吓坏了。 蠢笨的企鹅，胆怯地把肥胖的身体躲藏到悬崖底下……只有那高傲的海燕，勇敢地，自由自在地，在泛起白沫的大海上飞翔！ 乌云越来越暗，越来越低，向海面直压下来，而波浪一边歌唱，一边冲向高空，去迎接那雷声。 雷声轰响。波浪在愤怒的飞沫中呼叫，跟狂风争鸣。看吧，狂风紧紧抱起一层层巨浪，恶狠狠地把它们甩到悬崖上，把这些大块的翡翠摔成尘雾和碎末。 海燕叫喊着，飞翔着，像黑色的闪电，箭一般地穿过乌云，翅膀掠起波浪的飞沫。 看吧，它飞舞着，像个精灵，──高傲的、黑色的暴风雨的精灵，——它在大笑，它又在号叫……它笑那些乌云，它因为欢乐而号叫！ 这个敏感的精灵，——它从雷声的震怒里，早就听出了困乏，它深信，乌云遮不住太阳，──是的，遮不住的！ 狂风吼叫……雷声轰响…… 一堆堆乌云，像青色的火焰，在无底的大海上燃烧。大海抓住闪电的箭光，把它们熄灭在自己的深渊里。这些闪电的影子，活像一条条火蛇，在大海里蜿蜒游动，一晃就消失了。 ——暴风雨！暴风雨就要来啦！ 这是勇敢的海燕，在怒吼的大海上，在闪电中间，高傲地飞翔；这是胜利的预言家在叫喊： ——让暴风雨来得更猛烈些吧！]]></content>
@@ -158,11 +171,6 @@
     <title><![CDATA[分类]]></title>
     <url>%2Fcategories%2Findex.html</url>
     <content type="text"></content>
-  </entry>
-  <entry>
-    <title><![CDATA[留言板]]></title>
-    <url>%2Fguestbook%2Findex.html</url>
-    <content type="text"><![CDATA[]]></content>
   </entry>
   <entry>
     <title><![CDATA[tags]]></title>
