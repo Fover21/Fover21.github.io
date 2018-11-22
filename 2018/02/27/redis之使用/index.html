@@ -81,17 +81,25 @@
 
 
 
-<meta name="description" content="学如逆水行舟，不进则退。">
+<meta name="description" content="================================= 1、自动分配、你在什么时候用到了自动分配？ 答：市场部或运营部招来的新的客户，单条（批量）录入数据的时候，进行自动分配。 2、那是怎么自动分配的呢？ 答：基于redis的列表实现的。相当于队列用了。 ==================================== 自动分配(redis)数据放缓存，为的就是速度快redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis之使用">
 <meta property="og:url" content="http://yoursite.com/2018/02/27/redis之使用/index.html">
 <meta property="og:site_name" content="海燕">
-<meta property="og:description" content="学如逆水行舟，不进则退。">
+<meta property="og:description" content="================================= 1、自动分配、你在什么时候用到了自动分配？ 答：市场部或运营部招来的新的客户，单条（批量）录入数据的时候，进行自动分配。 2、那是怎么自动分配的呢？ 答：基于redis的列表实现的。相当于队列用了。 ==================================== 自动分配(redis)数据放缓存，为的就是速度快redis">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-22T10:23:02.533Z">
+<meta property="og:image" content="http://yoursite.com/2018/02/27/redis之使用/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/02/27/redis之使用/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/02/27/redis之使用/3.png">
+<meta property="og:image" content="http://yoursite.com/2018/02/27/redis之使用/4.png">
+<meta property="og:image" content="http://yoursite.com/2018/02/27/redis之使用/5.png">
+<meta property="og:image" content="http://yoursite.com/2018/02/27/redis之使用/6.png">
+<meta property="og:image" content="http://yoursite.com/2018/02/27/redis之使用/7.png">
+<meta property="og:updated_time" content="2018-11-22T13:16:27.102Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis之使用">
-<meta name="twitter:description" content="学如逆水行舟，不进则退。">
+<meta name="twitter:description" content="================================= 1、自动分配、你在什么时候用到了自动分配？ 答：市场部或运营部招来的新的客户，单条（批量）录入数据的时候，进行自动分配。 2、那是怎么自动分配的呢？ 答：基于redis的列表实现的。相当于队列用了。 ==================================== 自动分配(redis)数据放缓存，为的就是速度快redis">
+<meta name="twitter:image" content="http://yoursite.com/2018/02/27/redis之使用/1.png">
 
 
 
@@ -403,7 +411,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0
+                  1.3k
                 </span>
               
 
@@ -419,7 +427,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  5
                 </span>
               
             </div>
@@ -440,7 +448,112 @@
       
 
       
-        
+        <p>=================================</p>
+<p>1、自动分配、你在什么时候用到了自动分配？</p>
+<p>答：市场部或运营部招来的新的客户，单条（批量）录入数据的时候，进行自动分配。</p>
+<p>2、那是怎么自动分配的呢？</p>
+<p>答：基于redis的列表实现的。相当于队列用了。</p>
+<p>====================================</p>
+<h1 id="自动分配-redis"><a href="#自动分配-redis" class="headerlink" title="自动分配(redis)"></a>自动分配(redis)</h1><p>数据放缓存，为的就是速度快<br>redis是支持持久化的，如果关机以后，数据已经会放在文件里了</p>
+<img src="/2018/02/27/redis之使用/1.png">
+<pre><code>先买上一台电脑：装上redis服务器软件
+
+　　- 这个服务器有个工网IP：47.93.4.198
+
+　　- 端口：6379
+
+我们的电脑：装上链接redis的模块
+
+　　- pip instaill redis
+</code></pre><img src="/2018/02/27/redis之使用/2.png">
+<pre><code>redis:说白了就是一个服务器的一个软件，帮助我们在内存里面存数据
+
+conn.lpush(&quot;names&quot;:&quot;sss&quot;)   #往里边放入值
+
+conn.lpush(&quot;names&quot;:*[地方法规&quot;，&quot;dfgdf&quot;])  #放多个值  ，从左边添加，相当于insert
+
+conn.rpush(&quot;names&quot;:*[地方法规&quot;，&quot;dfgdf&quot;])  #放多个值  ,从后面添加，相当于append
+
+conn.lpop(&quot;names&quot;)   #一个一个从里面取值 ，bytes类型
+
+conn.rpop(&quot;names&quot;)   #从里面取值 ，bytes类型
+
+conn.llen(&quot;names&quot;)   #查看长度
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line">conn = redis.Redis(host=<span class="string">"192.168.20.150"</span>,port=<span class="number">6379</span>)</span><br><span class="line"><span class="comment">#===========对于字符串用set,get设置，得到值===========</span></span><br><span class="line">conn.set(<span class="string">"k13"</span>,<span class="string">"v2"</span>)    <span class="comment">#向远程redis中写入了一个键值对</span></span><br><span class="line">val = conn.get(<span class="string">"k13"</span>)   <span class="comment">#获取键值对</span></span><br><span class="line">print(val)</span><br><span class="line">conn.set(<span class="string">"names"</span>,<span class="string">"ss"</span>)</span><br><span class="line">val2 = conn.get(<span class="string">"names"</span>)</span><br><span class="line">print(val2)</span><br><span class="line"></span><br><span class="line"><span class="comment">#===========对于列表的操作:  lpush操作和lpop操作，（从左边放值，从左边取值）=============</span></span><br><span class="line">val4 = conn.lpush(<span class="string">"names_s"</span>,*[<span class="string">"海燕"</span>,<span class="string">"刘伟"</span>])</span><br><span class="line">conn.lpush(<span class="string">'names_s'</span>,*[<span class="string">'把几个'</span>,<span class="string">'鲁宁'</span>])  <span class="comment">#'鲁宁','把几个',"刘伟","海燕",</span></span><br><span class="line">conn.delete(<span class="string">"names_s"</span>)</span><br><span class="line">v = conn.llen(<span class="string">"names_s"</span>)</span><br><span class="line">print(conn.llen(<span class="string">"names_s"</span>))  <span class="comment">#4</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(v):</span><br><span class="line">    print(conn.lpop(<span class="string">"names_s"</span>).decode(<span class="string">"utf-8"</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==========对于列表的操作:  rpush操作和rpop操作，（从右边放值，从右边取值）======</span></span><br><span class="line">conn.rpush(<span class="string">"abcd"</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">conn.rpush(<span class="string">"abcd"</span>,*[<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>])   <span class="comment">#[1,2,3],a,b,c   #*代表是解包，如果不加*,放进去的就是一个列表</span></span><br><span class="line"><span class="comment"># conn.delete("abcd")</span></span><br><span class="line">v = conn.llen(<span class="string">"abcd"</span>)</span><br><span class="line"><span class="comment"># print(v)    #</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(v):</span><br><span class="line">    print(conn.rpop(<span class="string">"abcd"</span>).decode(<span class="string">"utf-8"</span>))  <span class="comment">#c,b,a,[1,2,3]</span></span><br></pre></td></tr></table></figure>
+<h2 id="在项目中应用"><a href="#在项目中应用" class="headerlink" title="在项目中应用"></a>在项目中应用</h2><pre><code>链接redis，吧所有的数据列表放在redis里，吧回滚的也放在redis里面
+</code></pre><img src="/2018/02/27/redis之使用/3.png">
+<pre><code>原来是迭代器一个一个取值，现在我们可以用链接redis，rpop一个一个取值
+
+当出问题回滚的时候（或者没有使用），我们可以用rpush吧它再添加进去，然后在取出来
+
+conn.lindex(&quot;said_id_list_origin&quot;,0)   #查看索引0对应的值
+</code></pre><img src="/2018/02/27/redis之使用/4.png">
+<pre><code>第一次运行，只有数据库有数据
+
+如果数据库中没有取到值，那么直接返回None
+
+接下来一个一个获取，如果取到了None，已经取完，再把备用的列表里面的数据在放回去
+
+分配表里面的数据如果更新的话就需要重置了
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">from</span> crm <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line">POOL = redis.ConnectionPool(host=<span class="string">'47.93.4.198'</span>, port=<span class="number">6379</span>, password=<span class="string">'123123'</span>)</span><br><span class="line">CONN = redis.Redis(connection_pool=POOL)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AutoSale</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fetch_users</span><span class="params">(cls)</span>:</span></span><br><span class="line">        <span class="comment"># [obj(销售顾问id,num),obj(销售顾问id,num),obj(销售顾问id,num),obj(销售顾问id,num),]</span></span><br><span class="line">        sales = models.SaleRank.objects.all().order_by(<span class="string">'-weight'</span>)</span><br><span class="line"></span><br><span class="line">        sale_id_list = []</span><br><span class="line">        count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">            flag = <span class="keyword">False</span></span><br><span class="line">            <span class="keyword">for</span> row <span class="keyword">in</span> sales:</span><br><span class="line">                <span class="keyword">if</span> count &lt; row.num:</span><br><span class="line">                    sale_id_list.append(row.user_id)</span><br><span class="line">                    flag = <span class="keyword">True</span></span><br><span class="line">            count += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> flag:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> sale_id_list:</span><br><span class="line">            CONN.rpush(<span class="string">'sale_id_list'</span>, *sale_id_list)  <span class="comment"># 自动pop数据</span></span><br><span class="line">            CONN.rpush(<span class="string">'sale_id_list_origin'</span>, *sale_id_list)  <span class="comment"># 原来的数据</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_sale_id</span><span class="params">(cls)</span>:</span></span><br><span class="line">        <span class="comment"># 查看原来数据是否存在</span></span><br><span class="line">        sale_id_origin_count = CONN.llen(<span class="string">'sale_id_list_origin'</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> sale_id_origin_count:</span><br><span class="line">            <span class="comment"># 去数据库中获取数据，并赋值给： 原数据，pop数据</span></span><br><span class="line">            status = cls.fetch_users()</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> status:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">        user_id = CONN.lpop(<span class="string">'sale_id_list'</span>)</span><br><span class="line">        <span class="keyword">if</span> user_id:</span><br><span class="line">            <span class="keyword">return</span> user_id</span><br><span class="line"></span><br><span class="line">        reset = CONN.get(<span class="string">'sale_id_reset'</span>)</span><br><span class="line">        <span class="comment"># 要重置</span></span><br><span class="line">        <span class="keyword">if</span> reset:</span><br><span class="line">            CONN.delete(<span class="string">'sale_id_list_origin'</span>)</span><br><span class="line">            status = cls.fetch_users()</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> status:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">            CONN.delete(<span class="string">'sale_id_reset'</span>)</span><br><span class="line">            <span class="keyword">return</span> CONN.lpop(<span class="string">'sale_id_list'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ct = CONN.llen(<span class="string">'sale_id_list_origin'</span>)</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(ct):</span><br><span class="line">                v = CONN.lindex(<span class="string">'sale_id_list_origin'</span>, i)</span><br><span class="line">                CONN.rpush(<span class="string">'sale_id_list'</span>, v)</span><br><span class="line">            <span class="keyword">return</span> CONN.lpop(<span class="string">'sale_id_list'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reset</span><span class="params">(cls)</span>:</span></span><br><span class="line">        CONN.set(<span class="string">'sale_id_reset'</span>,<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rollback</span><span class="params">(cls,nid)</span>:</span></span><br><span class="line">        CONN.lpush(<span class="string">'sale_id_list'</span>,nid)</span><br></pre></td></tr></table></figure>
+<pre><code>总结：
+
+　　1、什么是redis？
+
+　　2、set，get对字符串做操作的，
+
+　　3、lpush,rpush,lpop,rpop对于列表做操作的
+
+　　　 lindex：取索引
+
+　　　  llen() ：长度
+
+　　4、 delete :删除 ：公共的
+</code></pre><p>扩展：</p>
+<p>redis和我们的数据库一样，不能每次都链接，redis支持连接池</p>
+<p>不推荐</p>
+<img src="/2018/02/27/redis之使用/5.png">
+<p>推荐</p>
+<img src="/2018/02/27/redis之使用/6.png">
+<h1 id="批量导入"><a href="#批量导入" class="headerlink" title="批量导入"></a>批量导入</h1><p>上传excel文件,页面上显示</p>
+<img src="/2018/02/27/redis之使用/7.png">
+<p>上传文件</p>
+<pre><code>1、拿到文件名和文件大小
+
+file_obj.field_name:  文件名，
+
+file_obj.size :文件大小
+
+2、打开文件读取，以写的方式存起来
+
+3、安装xlrd-1.1.0的两种方式
+
+python setup.py  build
+
+pip instail xlrd
+
+4、打开excle文件做操作。拿到每一个单元格的数据，写入数据库
+
+吧第一行排除，可以吧列表转换成字典，录入到数据库
+
+5、作业
+
+　　自动获取ID
+
+　　录入客户表
+
+　    录入分配表
+
+　　不在创建临时xlsx文件，写在内存里面，
+
+　　写上一个模板文件，让用户去下载
+
+6、文件，用户下载文件的两种方式
+
+　　吧文件写在静态文件里面，用a标签去跳转。但是这种当是可能不行
+
+　　设置响应头（搜索django如何实现文件下载）
+</code></pre><h1 id="微信自动绑定"><a href="#微信自动绑定" class="headerlink" title="微信自动绑定"></a>微信自动绑定</h1>
       
     </div>
     
@@ -562,8 +675,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -657,6 +779,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#自动分配-redis"><span class="nav-number">1.</span> <span class="nav-text">自动分配(redis)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在项目中应用"><span class="nav-number">1.1.</span> <span class="nav-text">在项目中应用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#批量导入"><span class="nav-number">2.</span> <span class="nav-text">批量导入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#微信自动绑定"><span class="nav-number">3.</span> <span class="nav-text">微信自动绑定</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
 
