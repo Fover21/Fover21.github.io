@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="https://www.cnblogs.com/xiao-xue-di/p/9931414.html" title="海燕" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Redis for Python开发手册 redis基本命令 StringSetset(name, value, ex=None, px=None, nx=False, xx=False) 在Redis中设置值，默认，不存在则创建，存在则修改  参数说明： ex，过期时间（秒） px，过期时间（毫秒） nx，如果设置为True，则只有name不存在时，当前set操作才执行 xx，如果设置为True">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis之python使用手册">
+<meta property="og:url" content="http://yoursite.com/2018/11/23/redis之python使用手册/index.html">
+<meta property="og:site_name" content="海燕">
+<meta property="og:description" content="Redis for Python开发手册 redis基本命令 StringSetset(name, value, ex=None, px=None, nx=False, xx=False) 在Redis中设置值，默认，不存在则创建，存在则修改  参数说明： ex，过期时间（秒） px，过期时间（毫秒） nx，如果设置为True，则只有name不存在时，当前set操作才执行 xx，如果设置为True">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-23T11:09:58.541Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis之python使用手册">
+<meta name="twitter:description" content="Redis for Python开发手册 redis基本命令 StringSetset(name, value, ex=None, px=None, nx=False, xx=False) 在Redis中设置值，默认，不存在则创建，存在则修改  参数说明： ex，过期时间（秒） px，过期时间（毫秒） nx，如果设置为True，则只有name不存在时，当前set操作才执行 xx，如果设置为True">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/23/redis之python使用手册/">
+
+
+
+
+
+  <title>redis之python使用手册 | 海燕</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">海燕</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">热爱编程，爱算法，爱生活，爱钻研</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            个人
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-thumbs-up"></i> <br>
+            
+            留言板
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "c3816c66"
+    });
+  daovoice('update');
+  </script>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/23/redis之python使用手册/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="海燕">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="海燕">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">redis之python使用手册</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-23T18:43:30+08:00">
+                2018-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/23/redis之python使用手册/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/23/redis之python使用手册/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  8.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  36
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Redis for Python开发手册</p>
+<h1 id="redis基本命令-String"><a href="#redis基本命令-String" class="headerlink" title="redis基本命令 String"></a>redis基本命令 String</h1><h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><pre><code>set(name, value, ex=None, px=None, nx=False, xx=False)
+在Redis中设置值，默认，不存在则创建，存在则修改
+
+参数说明：
+ex，过期时间（秒）
+px，过期时间（毫秒）
+nx，如果设置为True，则只有name不存在时，当前set操作才执行
+xx，如果设置为True，则只有name存在时，当前set操作才执行
+1.ex，过期时间（秒） 这里过期时间是3秒，3秒后p，键food的值就变成None
+import redis
+
+pool = redis.ConnectionPool(host=&apos;127.0.0.1&apos;, port=6379, decode_responses=True)
+r = redis.Redis(connection_pool=pool)
+r.set(&apos;food&apos;, &apos;mutton&apos;, ex=3)    # key是&quot;food&quot; value是&quot;mutton&quot; 将键值对存入redis缓存
+print(r.get(&apos;food&apos;))  # mutton 取出键food对应的值
+2.px，过期时间（豪秒） 这里过期时间是3豪秒，3毫秒后，键foo的值就变成None
+import redis
+
+pool = redis.ConnectionPool(host=&apos;127.0.0.1&apos;, port=6379, decode_responses=True)
+r = redis.Redis(connection_pool=pool)
+r.set(&apos;food&apos;, &apos;beef&apos;, px=3)
+print(r.get(&apos;food&apos;))
+3.nx，如果设置为True，则只有name不存在时，当前set操作才执行 （新建）
+import redis
+
+pool = redis.ConnectionPool(host=&apos;127.0.0.1&apos;, port=6379, decode_responses=True)
+r = redis.Redis(connection_pool=pool)
+print(r.set(&apos;fruit&apos;, &apos;watermelon&apos;, nx=True))    # True--不存在
+# 如果键fruit不存在，那么输出是True；如果键fruit已经存在，输出是None
+4.xx，如果设置为True，则只有name存在时，当前set操作才执行 （修改）
+print((r.set(&apos;fruit&apos;, &apos;watermelon&apos;, xx=True)))   # True--已经存在
+# 如果键fruit已经存在，那么输出是True；如果键fruit不存在，输出是None
+5.setnx(name, value)
+设置值，只有name不存在时，执行设置操作（添加）
+print(r.setnx(&apos;fruit1&apos;, &apos;banana&apos;))  # fruit1不存在，输出为True
+</code></pre><h2 id="setex"><a href="#setex" class="headerlink" title="setex"></a>setex</h2><pre><code>setex(name, value, time)
+设置值
+参数：
+time，过期时间（数字秒 或 timedelta对象）
+import redis
+import time
+
+pool = redis.ConnectionPool(host=&apos;127.0.0.1&apos;, port=6379, decode_responses=True)
+r = redis.Redis(connection_pool=pool)
+r.setex(&quot;fruit2&quot;, &quot;orange&quot;, 5)
+time.sleep(5)
+print(r.get(&apos;fruit2&apos;))  # 5秒后，取值就从orange变成None
+</code></pre><h2 id="psetex"><a href="#psetex" class="headerlink" title="psetex"></a>psetex</h2><pre><code>psetex(name, time_ms, value)
+设置值
+参数：
+time_ms，过期时间（数字毫秒 或 timedelta对象）
+r.psetex(&quot;fruit3&quot;, 5000, &quot;apple&quot;)
+time.sleep(5)
+print(r.get(&apos;fruit3&apos;))  # 5000毫秒后，取值就从apple变成None
+</code></pre><h2 id="mset"><a href="#mset" class="headerlink" title="mset"></a>mset</h2><pre><code>mset(args, *kwargs)
+批量设置值
+如：
+r.mget({&apos;k1&apos;: &apos;v1&apos;, &apos;k2&apos;: &apos;v2&apos;})
+r.mset(k1=&quot;v1&quot;, k2=&quot;v2&quot;) # 这里k1 和k2 不能带引号 一次设置对个键值对
+print(r.mget(&quot;k1&quot;, &quot;k2&quot;))   # 一次取出多个键对应的值
+print(r.mget(&quot;k1&quot;))
+</code></pre><h2 id="mget"><a href="#mget" class="headerlink" title="mget"></a>mget</h2><pre><code>mget(keys, *args)
+批量获取
+如：
+print(r.mget(&apos;k1&apos;, &apos;k2&apos;))
+print(r.mget([&apos;k1&apos;, &apos;k2&apos;]))
+print(r.mget(&quot;fruit&quot;, &quot;fruit1&quot;, &quot;fruit2&quot;, &quot;k1&quot;, &quot;k2&quot;))  # 将目前redis缓存中的键对应的值批量取出来
+</code></pre><h2 id="getset"><a href="#getset" class="headerlink" title="getset"></a>getset</h2><pre><code>getset(name, value)
+设置新值并获取原来的值
+print(r.getset(&quot;food&quot;, &quot;barbecue&quot;))  # 设置的新值是barbecue 设置前的值是beef1
+getrange
+getrange(key, start, end)
+获取子序列（根据字节获取，非字符）
+参数：
+name，Redis 的 name
+start，起始位置（字节）
+end，结束位置（字节）
+如： “君惜大大” ，0-3表示 “君”
+r.set(&quot;cn_name&quot;, &quot;君惜大大&quot;) # 汉字
+print(r.getrange(&quot;cn_name&quot;, 0, 2))   # 取索引号是0-2 前3位的字节 君 切片操作 （一个汉字3个字节 1个字母一个字节 每个字节8bit）
+print(r.getrange(&quot;cn_name&quot;, 0, -1))  # 取所有的字节 君惜大大 切片操作
+r.set(&quot;en_name&quot;,&quot;junxi&quot;) # 字母
+print(r.getrange(&quot;en_name&quot;, 0, 2))  # 取索引号是0-2 前3位的字节 jun 切片操作 （一个汉字3个字节 1个字母一个字节 每个字节8bit）
+print(r.getrange(&quot;en_name&quot;, 0, -1)) # 取所有的字节 junxi 切片操作
+</code></pre><h2 id="setrange"><a href="#setrange" class="headerlink" title="setrange"></a>setrange</h2><pre><code>setrange(name, offset, value)
+修改字符串内容，从指定字符串索引开始向后替换（新值太长时，则向后添加）
+参数：
+offset，字符串的索引，字节（一个汉字三个字节）
+value，要设置的值
+r.setrange(&quot;en_name&quot;, 1, &quot;ccc&quot;)
+print(r.get(&quot;en_name&quot;))    # jccci 原始值是junxi 从索引号是1开始替换成ccc 变成 jccci2
+</code></pre><h2 id="setbit"><a href="#setbit" class="headerlink" title="setbit"></a>setbit</h2><pre><code>setbit(name, offset, value)
+对name对应值的二进制表示的位进行操作
+参数：
+name，redis的name
+offset，位的索引（将值变换成二进制后再进行索引）
+value，值只能是 1 或 0
+注：如果在Redis中有一个对应： n1 = &quot;foo&quot;，
+那么字符串foo的二进制表示为：01100110 01101111 01101111
+所以，如果执行 setbit(&apos;n1&apos;, 7, 1)，则就会将第7位设置为1，
+那么最终二进制则变成 01100111 01101111 01101111，即：&quot;goo&quot;
+扩展，转换二进制表示：
+source = &quot;郭加磊&quot;
+source = &quot;foo&quot;
+for i in source:
+num = ord(i)
+print bin(num).replace(&apos;b&apos;,&apos;&apos;)
+特别的，如果source是汉字 &quot;郭加磊&quot;怎么办？
+答：对于utf-8，每一个汉字占 3 个字节，那么 &quot;郭加磊&quot; 则有 9个字节
+对于汉字，for循环时候会按照 字节 迭代，那么在迭代时，将每一个字节转换 十进制数，然后再将十进制数转换成二进制
+11100110 10101101 10100110 11100110 10110010 10011011 11101001 10111101 10010000
+</code></pre><h2 id="getbit"><a href="#getbit" class="headerlink" title="getbit"></a>getbit</h2><pre><code>getbit(name, offset)
+获取name对应的值的二进制表示中的某位的值 （0或1）
+print(r.getbit(&quot;foo1&quot;, 0)) # 0 foo1 对应的二进制 4个字节 32位 第0位是0还是1
+bitcount
+bitcount(key, start=None, end=None)
+获取name对应的值的二进制表示中 1 的个数
+参数：
+key，Redis的name
+start 字节起始位置
+end，字节结束位置
+print(r.get(&quot;foo&quot;))  # goo1 01100111
+print(r.bitcount(&quot;foo&quot;,0,1))  # 11 表示前2个字节中，1出现的个数
+</code></pre><h2 id="bittop"><a href="#bittop" class="headerlink" title="bittop"></a>bittop</h2><pre><code>bitop(operation, dest, *keys)
+获取多个值，并将值做位运算，将最后的结果保存至新的name对应的值
+参数：
+operation,AND（并） 、 OR（或） 、 NOT（非） 、 XOR（异或）
+dest, 新的Redis的name
+*keys,要查找的Redis的name
+如：
+bitop(&quot;AND&quot;, &apos;new_name&apos;, &apos;n1&apos;, &apos;n2&apos;, &apos;n3&apos;)
+获取Redis中n1,n2,n3对应的值，然后讲所有的值做位运算（求并集），然后将结果保存 new_name 对应的值中
+r.set(&quot;foo&quot;,&quot;1&quot;)  # 0110001
+r.set(&quot;foo1&quot;,&quot;2&quot;)  # 0110010
+print(r.mget(&quot;foo&quot;,&quot;foo1&quot;))  # [&apos;goo1&apos;, &apos;baaanew&apos;]
+print(r.bitop(&quot;AND&quot;,&quot;new&quot;,&quot;foo&quot;,&quot;foo1&quot;))  # &quot;new&quot; 0 0110000
+print(r.mget(&quot;foo&quot;,&quot;foo1&quot;,&quot;new&quot;))
+
+source = &quot;12&quot;
+for i in source:
+num = ord(i)
+print(num)  # 打印每个字母字符或者汉字字符对应的ascii码值 f-102-0b100111-01100111
+print(bin(num))  # 打印每个10进制ascii码值转换成二进制的值 0b1100110（0b表示二进制）
+print bin(num).replace(&apos;b&apos;,&apos;&apos;)  # 将二进制0b1100110替换成01100110
+</code></pre><h2 id="strlen"><a href="#strlen" class="headerlink" title="strlen"></a>strlen</h2><pre><code>strlen(name)
+返回name对应值的字节长度（一个汉字3个字节）
+print(r.strlen(&quot;foo&quot;))  # 4 &apos;goo1&apos;的长度是4
+incr
+incr(self, name, amount=1)
+自增 name对应的值，当name不存在时，则创建name＝amount，否则，则自增。
+参数：
+name,Redis的name
+amount,自增数（必须是整数）
+注：同incrby
+r.set(&quot;foo&quot;, 123)
+print(r.mget(&quot;foo&quot;, &quot;foo1&quot;, &quot;foo2&quot;, &quot;k1&quot;, &quot;k2&quot;))
+r.incr(&quot;foo&quot;, amount=1)
+print(r.mget(&quot;foo&quot;, &quot;foo1&quot;, &quot;foo2&quot;, &quot;k1&quot;, &quot;k2&quot;))
+应用场景 – 页面点击数
+假定我们对一系列页面需要记录点击次数。例如论坛的每个帖子都要记录点击次数，而点击次数比回帖的次数的多得多。如果使用关系数据库来存储点击，可能存在大量的行级锁争用。所以，点击数的增加使用redis的INCR命令最好不过了。
+当redis服务器启动时，可以从关系数据库读入点击数的初始值（12306这个页面被访问了34634次）
+r.set(&quot;visit:12306:totals&quot;, 34634)
+print(r.get(&quot;visit:12306:totals&quot;))
+每当有一个页面点击，则使用INCR增加点击数即可。
+r.incr(&quot;visit:12306:totals&quot;)
+r.incr(&quot;visit:12306:totals&quot;)
+页面载入的时候则可直接获取这个值
+print(r.get(&quot;visit:12306:totals&quot;))
+</code></pre><h2 id="incrfloat"><a href="#incrfloat" class="headerlink" title="incrfloat"></a>incrfloat</h2><pre><code>incrbyfloat(self, name, amount=1.0)
+自增 name对应的值，当name不存在时，则创建name＝amount，否则，则自增。
+参数：
+name,Redis的name
+amount,自增数（浮点型）
+r.set(&quot;foo1&quot;, &quot;123.0&quot;)
+r.set(&quot;foo2&quot;, &quot;221.0&quot;)
+print(r.mget(&quot;foo1&quot;, &quot;foo2&quot;))
+r.incrbyfloat(&quot;foo1&quot;, amount=2.0)
+r.incrbyfloat(&quot;foo2&quot;, amount=3.0)
+print(r.mget(&quot;foo1&quot;, &quot;foo2&quot;))
+</code></pre><h2 id="decr"><a href="#decr" class="headerlink" title="decr"></a>decr</h2><pre><code>decr(self, name, amount=1)
+自减 name对应的值，当name不存在时，则创建name＝amount，否则，则自减。
+参数：
+name,Redis的name
+amount,自减数（整数)
+r.decr(&quot;foo4&quot;, amount=3) # 递减3
+r.decr(&quot;foo1&quot;, amount=1) # 递减1
+print(r.mget(&quot;foo1&quot;, &quot;foo4&quot;))
+</code></pre><h2 id="append"><a href="#append" class="headerlink" title="append"></a>append</h2><pre><code>append(key, value)
+在redis name对应的值后面追加内容
+参数：
+key, redis的name
+value, 要追加的字符串
+r.append(&quot;name&quot;, &quot;haha&quot;)    # 在name对应的值junxi后面追加字符串haha
+print(r.mget(&quot;name&quot;))
+</code></pre><h1 id="hash操作"><a href="#hash操作" class="headerlink" title="hash操作"></a>hash操作</h1><h2 id="hset"><a href="#hset" class="headerlink" title="hset"></a>hset</h2><p>1.单个增加–修改(单个取出)–没有就新增，有的话就修改<br>hset(name, key, value)<br>    name对应的hash中设置一个键值对（不存在，则创建；否则，修改）<br>    参数：<br>    name，redis的name<br>    key，name对应的hash中的key<br>    value，name对应的hash中的value<br>    注：<br>    hsetnx(name, key, value),当name对应的hash中不存在当前key时则创建（相当于添加）<br>    import redis<br>    import time</p>
+<pre><code>pool = redis.ConnectionPool(host=&apos;127.0.0.1&apos;, port=6379, decode_responses=True)
+r = redis.Redis(connection_pool=pool)
+
+r.hset(&quot;hash1&quot;, &quot;k1&quot;, &quot;v1&quot;)
+r.hset(&quot;hash1&quot;, &quot;k2&quot;, &quot;v2&quot;)
+print(r.hkeys(&quot;hash1&quot;)) # 取hash中所有的key
+print(r.hget(&quot;hash1&quot;, &quot;k1&quot;))    # 单个取hash的key对应的值
+print(r.hmget(&quot;hash1&quot;, &quot;k1&quot;, &quot;k2&quot;)) # 多个取hash的key对应的值
+r.hsetnx(&quot;hash1&quot;, &quot;k2&quot;, &quot;v3&quot;) # 只能新建
+print(r.hget(&quot;hash1&quot;, &quot;k2&quot;))
+</code></pre><h2 id="hmset"><a href="#hmset" class="headerlink" title="hmset"></a>hmset</h2><pre><code>批量增加（取出）
+
+hmset(name, mapping)
+在name对应的hash中批量设置键值对
+参数：
+name，redis的name
+mapping，字典，如：{‘k1’:’v1’, ‘k2’: ‘v2’}
+如：
+r.hmset(&quot;hash2&quot;, {&quot;k2&quot;: &quot;v2&quot;, &quot;k3&quot;: &quot;v3&quot;})
+hget(name,key)
+在name对应的hash中获取根据key获取value
+hmget
+hmget(name, keys, *args)
+在name对应的hash中获取多个key的值
+参数：
+name，reids对应的name
+keys，要获取key集合，如：[‘k1’, ‘k2’, ‘k3’]
+*args，要获取的key，如：k1,k2,k3
+如：
+print(r.hget(&quot;hash2&quot;, &quot;k2&quot;))  # 单个取出&quot;hash2&quot;的key-k2对应的value
+print(r.hmget(&quot;hash2&quot;, &quot;k2&quot;, &quot;k3&quot;))  # 批量取出&quot;hash2&quot;的key-k2 k3对应的value --方式1
+print(r.hmget(&quot;hash2&quot;, [&quot;k2&quot;, &quot;k3&quot;]))  # 批量取出&quot;hash2&quot;的key-k2 k3对应的value 
+</code></pre><h2 id="hgetall"><a href="#hgetall" class="headerlink" title="hgetall"></a>hgetall</h2><pre><code>取出所有的键值对
+hgetall(name)
+获取name对应hash的所有键值
+print(r.hgetall(&quot;hash1&quot;))
+</code></pre><h2 id="hlen"><a href="#hlen" class="headerlink" title="hlen"></a>hlen</h2><pre><code>得到所有键值对的格式 hash长度
+</code></pre><h2 id="hlen-name"><a href="#hlen-name" class="headerlink" title="hlen(name)"></a>hlen(name)</h2><pre><code>获取name对应的hash中键值对的个数
+print(r.hlen(&quot;hash1&quot;))
+</code></pre><h2 id="hkeys"><a href="#hkeys" class="headerlink" title="hkeys"></a>hkeys</h2><pre><code>得到所有的keys（类似字典的取所有keys）
+</code></pre><h2 id="hkeys-name"><a href="#hkeys-name" class="headerlink" title="hkeys(name)"></a>hkeys(name)</h2><pre><code>获取name对应的hash中所有的key的值
+print(r.hkeys(&quot;hash1&quot;))
+</code></pre><h2 id="hvals"><a href="#hvals" class="headerlink" title="hvals"></a>hvals</h2><pre><code>得到所有的value（类似字典的取所有value）
+</code></pre><h2 id="hvals-name"><a href="#hvals-name" class="headerlink" title="hvals(name)"></a>hvals(name)</h2><pre><code>获取name对应的hash中所有的value的值
+print(r.hvals(&quot;hash1&quot;))
+</code></pre><h2 id="hexists"><a href="#hexists" class="headerlink" title="hexists"></a>hexists</h2><pre><code>判断成员是否存在（类似字典的in）
+</code></pre><h2 id="hexists-name-key"><a href="#hexists-name-key" class="headerlink" title="hexists(name, key)"></a>hexists(name, key)</h2><pre><code>检查name对应的hash是否存在当前传入的key
+print(r.hexists(&quot;hash1&quot;, &quot;k4&quot;))  # False 不存在
+print(r.hexists(&quot;hash1&quot;, &quot;k1&quot;))  # True 存在
+</code></pre><h2 id="hdel"><a href="#hdel" class="headerlink" title="hdel"></a>hdel</h2><pre><code>删除键值对
+hdel(name,*keys)
+将name对应的hash中指定key的键值对删除
+print(r.hgetall(&quot;hash1&quot;))
+r.hset(&quot;hash1&quot;, &quot;k2&quot;, &quot;v222&quot;)   # 修改已有的key k2
+r.hset(&quot;hash1&quot;, &quot;k11&quot;, &quot;v1&quot;)   # 新增键值对 k11
+r.hdel(&quot;hash1&quot;, &quot;k1&quot;)    # 删除一个键值对
+print(r.hgetall(&quot;hash1&quot;))
+</code></pre><h2 id="hincrby"><a href="#hincrby" class="headerlink" title="hincrby"></a>hincrby</h2><pre><code>自增自减整数(将key对应的value–整数 自增1或者2，或者别的整数 负数就是自减)
+hincrby(name, key, amount=1)
+自增name对应的hash中的指定key的值，不存在则创建key=amount
+参数：
+name，redis中的name
+key， hash对应的key
+amount，自增数（整数）
+r.hset(&quot;hash1&quot;, &quot;k3&quot;, 123)
+r.hincrby(&quot;hash1&quot;, &quot;k3&quot;, amount=-1)
+print(r.hgetall(&quot;hash1&quot;))
+r.hincrby(&quot;hash1&quot;, &quot;k4&quot;, amount=1)  # 不存在的话，value默认就是1
+print(r.hgetall(&quot;hash1&quot;))
+</code></pre><h2 id="hincrbyfloat"><a href="#hincrbyfloat" class="headerlink" title="hincrbyfloat"></a>hincrbyfloat</h2><pre><code>自增自减浮点数(将key对应的value–浮点数 自增1.0或者2.0，或者别的浮点数 负数就是自减)
+hincrbyfloat(name, key, amount=1.0)
+自增name对应的hash中的指定key的值，不存在则创建key=amount
+参数：
+name，redis中的name
+key， hash对应的key
+amount，自增数（浮点数）
+自增name对应的hash中的指定key的值，不存在则创建key=amount
+r.hset(&quot;hash1&quot;, &quot;k5&quot;, &quot;1.0&quot;)
+r.hincrbyfloat(&quot;hash1&quot;, &quot;k5&quot;, amount=-1.0)    # 已经存在，递减-1.0
+print(r.hgetall(&quot;hash1&quot;))
+r.hincrbyfloat(&quot;hash1&quot;, &quot;k6&quot;, amount=-1.0)    # 不存在，value初始值是-1.0 每次递减1.0
+print(r.hgetall(&quot;hash1&quot;))
+</code></pre><h2 id="hscan"><a href="#hscan" class="headerlink" title="hscan"></a>hscan</h2><pre><code>取值查看–分片读取
+hscan(name, cursor=0, match=None, count=None)
+增量式迭代获取，对于数据大的数据非常有用，hscan可以实现分片的获取数据，并非一次性将数据全部获取完，从而放置内存被撑爆
+参数：
+name，redis的name
+cursor，游标（基于游标分批取获取数据）
+match，匹配指定key，默认None 表示所有的key
+count，每次分片最少获取个数，默认None表示采用Redis的默认分片个数
+如：
+第一次：cursor1, data1 = r.hscan(‘xx’, cursor=0, match=None, count=None)
+第二次：cursor2, data1 = r.hscan(‘xx’, cursor=cursor1, match=None, count=None)
+…
+直到返回值cursor的值为0时，表示数据已经通过分片获取完毕
+print(r.hscan(&quot;hash1&quot;))
+</code></pre><h2 id="hscan-iter"><a href="#hscan-iter" class="headerlink" title="hscan_iter"></a>hscan_iter</h2><pre><code>hscan_iter(name, match=None, count=None)
+利用yield封装hscan创建生成器，实现分批去redis中获取数据
+参数：
+match，匹配指定key，默认None 表示所有的key
+count，每次分片最少获取个数，默认None表示采用Redis的默认分片个数
+如：
+for item in r.hscan_iter(&apos;hash1&apos;):
+    print(item)
+print(r.hscan_iter(&quot;hash1&quot;))    # 生成器内存地址
+</code></pre><h1 id="list列表操作"><a href="#list列表操作" class="headerlink" title="list列表操作"></a>list列表操作</h1><h2 id="lpush"><a href="#lpush" class="headerlink" title="lpush"></a>lpush</h2><pre><code>增加（类似于list的append，只是这里是从左边新增加）–没有就新建
+lpush(name,values)
+在name对应的list中添加元素，每个新的元素都添加到列表的最左边
+如：
+import redis
+import time
+
+pool = redis.ConnectionPool(host=&apos;127.0.0.1&apos;, port=6379, decode_responses=True)
+r = redis.Redis(connection_pool=pool)
+
+r.lpush(&quot;list1&quot;, 11, 22, 33)
+print(r.lrange(&apos;list1&apos;, 0, -1))
+保存顺序为: 33,22,11
+扩展：
+r.rpush(&quot;list2&quot;, 11, 22, 33)  # 表示从右向左操作
+print(r.llen(&quot;list2&quot;))  # 列表长度
+print(r.lrange(&quot;list2&quot;, 0, 3))  # 切片取出值，范围是索引号0-3
+</code></pre><h2 id="rpush"><a href="#rpush" class="headerlink" title="rpush"></a>rpush</h2><pre><code>增加（从右边增加）–没有就新建
+r.rpush(&quot;list2&quot;, 44, 55, 66)    # 在列表的右边，依次添加44,55,66
+print(r.llen(&quot;list2&quot;))  # 列表长度
+print(r.lrange(&quot;list2&quot;, 0, -1)) # 切片取出值，范围是索引号0到-1(最后一个元素)
+lpushx
+往已经有的name的列表的左边添加元素，没有的话无法创建
+</code></pre><h2 id="lpushx-name-value"><a href="#lpushx-name-value" class="headerlink" title="lpushx(name,value)"></a>lpushx(name,value)</h2><pre><code>在name对应的list中添加元素，只有name已经存在时，值添加到列表的最左边
+更多：
+r.lpushx(&quot;list10&quot;, 10)   # 这里list10不存在
+print(r.llen(&quot;list10&quot;))  # 0
+print(r.lrange(&quot;list10&quot;, 0, -1))  # []
+r.lpushx(&quot;list2&quot;, 77)   # 这里&quot;list2&quot;之前已经存在，往列表最左边添加一个元素，一次只能添加一个
+print(r.llen(&quot;list2&quot;))  # 列表长度
+print(r.lrange(&quot;list2&quot;, 0, -1)) # 切片取出值，范围是索引号0到-1(最后一个元素
+</code></pre><h2 id="rpushx"><a href="#rpushx" class="headerlink" title="rpushx"></a>rpushx</h2><pre><code>往已经有的name的列表的右边添加元素，没有的话无法创建
+r.rpushx(&quot;list2&quot;, 99)   # 这里&quot;foo_list1&quot;之前已经存在，往列表最右边添加一个元素，一次只能添加一个
+print(r.llen(&quot;list2&quot;))  # 列表长度
+print(r.lrange(&quot;list2&quot;, 0, -1)) # 切片取出值，范围是索引号0到-1(最后一个元素)
+</code></pre><h2 id="linsert"><a href="#linsert" class="headerlink" title="linsert"></a>linsert</h2><pre><code>新增（固定索引号位置插入元素）
+linsert(name, where, refvalue, value))
+在name对应的列表的某一个值前或后插入一个新值
+参数：
+name，redis的name
+where，BEFORE或AFTER
+refvalue，标杆值，即：在它前后插入数据
+value，要插入的数据
+r.linsert(&quot;list2&quot;, &quot;before&quot;, &quot;11&quot;, &quot;00&quot;)   # 往列表中左边第一个出现的元素&quot;11&quot;前插入元素&quot;00&quot;
+print(r.lrange(&quot;list2&quot;, 0, -1))   # 切片取出值，范围是索引号0-最后一个元素
+</code></pre><h2 id="lset"><a href="#lset" class="headerlink" title="lset"></a>lset</h2><pre><code>修改（指定索引号进行修改）
+r.lset(name, index, value)
+对name对应的list中的某一个索引位置重新赋值
+参数：
+name，redis的name
+index，list的索引位置
+value，要设置的值
+r.lset(&quot;list2&quot;, 0, -11)    # 把索引号是0的元素修改成-11
+print(r.lrange(&quot;list2&quot;, 0, -1))
+</code></pre><h2 id="lrem"><a href="#lrem" class="headerlink" title="lrem"></a>lrem</h2><pre><code>删除（指定值进行删除）
+r.lrem(name, value, num)
+在name对应的list中删除指定的值
+参数：
+name，redis的name
+value，要删除的值
+num， num=0，删除列表中所有的指定值；
+num=2,从前到后，删除2个； num=1,从前到后，删除左边第1个
+num=-2,从后向前，删除2个
+r.lrem(&quot;list2&quot;, &quot;11&quot;, 1)    # 将列表中左边第一次出现的&quot;11&quot;删除
+print(r.lrange(&quot;list2&quot;, 0, -1))
+r.lrem(&quot;list2&quot;, &quot;99&quot;, -1)    # 将列表中右边第一次出现的&quot;99&quot;删除
+print(r.lrange(&quot;list2&quot;, 0, -1))
+r.lrem(&quot;list2&quot;, &quot;22&quot;, 0)    # 将列表中所有的&quot;22&quot;删除
+print(r.lrange(&quot;list2&quot;, 0, -1))
+</code></pre><h2 id="lpop"><a href="#lpop" class="headerlink" title="lpop"></a>lpop</h2><pre><code>删除并返回
+lpop(name)
+在name对应的列表的左侧获取第一个元素并在列表中移除，返回值则是第一个元素
+更多：
+rpop(name) 表示从右向左操作
+r.lpop(&quot;list2&quot;)    # 删除列表最左边的元素，并且返回删除的元素
+print(r.lrange(&quot;list2&quot;, 0, -1))
+r.rpop(&quot;list2&quot;)    # 删除列表最右边的元素，并且返回删除的元素
+print(r.lrange(&quot;list2&quot;, 0, -1))
+</code></pre><h2 id="ltrim"><a href="#ltrim" class="headerlink" title="ltrim"></a>ltrim</h2><pre><code>删除索引之外的值
+ltrim(name, start, end)
+在name对应的列表中移除没有在start-end索引之间的值
+参数：
+name，redis的name
+start，索引的起始位置
+end，索引结束位置
+r.ltrim(&quot;list2&quot;, 0, 2)    # 删除索引号是0-2之外的元素，值保留索引号是0-2的元素
+print(r.lrange(&quot;list2&quot;, 0, -1))
+</code></pre><h2 id="lindex"><a href="#lindex" class="headerlink" title="lindex"></a>lindex</h2><pre><code>取值（根据索引号取值）
+lindex(name, index)
+在name对应的列表中根据索引获取列表元素
+print(r.lindex(&quot;list2&quot;, 0))  # 取出索引号是0的值
+</code></pre><h2 id="rpoplpush"><a href="#rpoplpush" class="headerlink" title="rpoplpush"></a>rpoplpush</h2><pre><code>移动 元素从一个列表移动到另外一个列表
+rpoplpush(src, dst)
+从一个列表取出最右边的元素，同时将其添加至另一个列表的最左边
+参数：
+src，要取数据的列表的name
+dst，要添加数据的列表的name
+r.rpoplpush(&quot;list1&quot;, &quot;list2&quot;)
+print(r.lrange(&quot;list2&quot;, 0, -1))
+brpoplpush
+移动 元素从一个列表移动到另外一个列表 可以设置超时
+brpoplpush(src, dst, timeout=0)
+从一个列表的右侧移除一个元素并将其添加到另一个列表的左侧
+参数：
+src，取出并要移除元素的列表对应的name
+dst，要插入元素的列表对应的name
+timeout，当src对应的列表中没有数据时，阻塞等待其有数据的超时时间（秒），0 表示永远阻塞
+r.brpoplpush(&quot;list1&quot;, &quot;list2&quot;, timeout=2)
+print(r.lrange(&quot;list2&quot;, 0, -1))
+</code></pre><p>##blpop</p>
+<pre><code>一次移除多个列表
+blpop(keys, timeout)
+将多个列表排列，按照从左到右去pop对应列表的元素
+参数：
+keys，redis的name的集合
+timeout，超时时间，当元素所有列表的元素获取完之后，阻塞等待列表内有数据的时间（秒）, 0 表示永远阻塞
+</code></pre><h2 id="更多："><a href="#更多：" class="headerlink" title="更多："></a>更多：</h2><pre><code>r.brpop(keys, timeout) 同blpop，将多个列表排列,按照从右像左去移除各个列表内的元素
+r.lpush(&quot;list10&quot;, 3, 4, 5)
+r.lpush(&quot;list11&quot;, 3, 4, 5)
+while True:
+    r.blpop([&quot;list10&quot;, &quot;list11&quot;], timeout=2)
+    print(r.lrange(&quot;list10&quot;, 0, -1), r.lrange(&quot;list11&quot;, 0, -1))
+自定义增量迭代
+由于redis类库中没有提供对列表元素的增量迭代，如果想要循环name对应的列表的所有元素，那么就需要：
+获取name对应的所有列表
+循环列表
+但是，如果列表非常大，那么就有可能在第一步时就将程序的内容撑爆，所有有必要自定义一个增量迭代的功能：
+def list_iter(name):
+    &quot;&quot;&quot;
+    自定义redis列表增量迭代
+    :param name: redis中的name，即：迭代name对应的列表
+    :return: yield 返回 列表元素
+    &quot;&quot;&quot;
+    list_count = r.llen(name)
+    for index in range(list_count):
+        yield r.lindex(name, index)
+
+# 使用
+for item in list_iter(&apos;list2&apos;): # 遍历这个列表
+    print(item)
+</code></pre><h1 id="集合set操作"><a href="#集合set操作" class="headerlink" title="集合set操作"></a>集合set操作</h1><h2 id="sadd"><a href="#sadd" class="headerlink" title="sadd"></a>sadd</h2><pre><code>新增
+sadd(name,values)
+name对应的集合中添加元素
+r.sadd(&quot;set1&quot;, 33, 44, 55, 66)  # 往集合中添加元素
+print(r.scard(&quot;set1&quot;))  # 集合的长度是4
+print(r.smembers(&quot;set1&quot;))   # 获取集合中所有的成员
+</code></pre><h2 id="scard"><a href="#scard" class="headerlink" title="scard"></a>scard</h2><pre><code>获取元素个数 类似于len
+scard(name)
+获取name对应的集合中元素个数
+print(r.scard(&quot;set1&quot;))  # 集合的长度是4
+</code></pre><h2 id="smembers"><a href="#smembers" class="headerlink" title="smembers"></a>smembers</h2><pre><code>获取集合中所有的成员
+smembers(name)
+获取name对应的集合的所有成员
+print(r.smembers(&quot;set1&quot;))   # 获取集合中所有的成员
+获取集合中所有的成员–元组形式
+sscan(name, cursor=0, match=None, count=None)
+print(r.sscan(&quot;set1&quot;))
+1
+获取集合中所有的成员–迭代器的方式
+sscan_iter(name, match=None, count=None)
+同字符串的操作，用于增量迭代分批获取元素，避免内存消耗太大
+for i in r.sscan_iter(&quot;set1&quot;):
+    print(i)2
+</code></pre><h2 id="sdiff"><a href="#sdiff" class="headerlink" title="sdiff"></a>sdiff</h2><pre><code>差集
+sdiff(keys, *args)
+在第一个name对应的集合中且不在其他name对应的集合的元素集合
+r.sadd(&quot;set2&quot;, 11, 22, 33)
+print(r.smembers(&quot;set1&quot;))   # 获取集合中所有的成员
+print(r.smembers(&quot;set2&quot;))
+print(r.sdiff(&quot;set1&quot;, &quot;set2&quot;))   # 在集合set1但是不在集合set2中
+print(r.sdiff(&quot;set2&quot;, &quot;set1&quot;))   # 在集合set2但是不在集合set1中
+</code></pre><h2 id="sdiffstore"><a href="#sdiffstore" class="headerlink" title="sdiffstore"></a>sdiffstore</h2><pre><code>差集–差集存在一个新的集合中
+sdiffstore(dest, keys, *args)
+获取第一个name对应的集合中且不在其他name对应的集合，再将其新加入到dest对应的集合中
+r.sdiffstore(&quot;set3&quot;, &quot;set1&quot;, &quot;set2&quot;)    # 在集合set1但是不在集合set2中
+print(r.smembers(&quot;set3&quot;))   # 获取集合3中所有的成员
+</code></pre><h2 id="sinter"><a href="#sinter" class="headerlink" title="sinter"></a>sinter</h2><pre><code>交集
+sinter(keys, *args)
+获取多一个name对应集合的交集
+print(r.sinter(&quot;set1&quot;, &quot;set2&quot;)) # 取2个集合的交集
+</code></pre><h2 id="sinterstore"><a href="#sinterstore" class="headerlink" title="sinterstore"></a>sinterstore</h2><pre><code>交集–交集存在一个新的集合中
+sinterstore(dest, keys, *args)
+获取多一个name对应集合的并集，再将其加入到dest对应的集合中
+print(r.sinterstore(&quot;set3&quot;, &quot;set1&quot;, &quot;set2&quot;)) # 取2个集合的交集
+print(r.smembers(&quot;set3&quot;))
+</code></pre><p>##　sunion</p>
+<pre><code>并集
+sunion(keys, *args)
+获取多个name对应的集合的并集
+print(r.sunion(&quot;set1&quot;, &quot;set2&quot;)) # 取2个集合的并集1
+并集–并集存在一个新的集合
+sunionstore(dest,keys, *args)
+获取多一个name对应的集合的并集，并将结果保存到dest对应的集合中
+print(r.sunionstore(&quot;set3&quot;, &quot;set1&quot;, &quot;set2&quot;)) # 取2个集合的并集
+print(r.smembers(&quot;set3&quot;))
+</code></pre><h2 id="sismember"><a href="#sismember" class="headerlink" title="sismember"></a>sismember</h2><pre><code>判断是否是集合的成员 类似in
+sismember(name, value)
+检查value是否是name对应的集合的成员，结果为True和False
+print(r.sismember(&quot;set1&quot;, 33))  # 33是集合的成员
+print(r.sismember(&quot;set1&quot;, 23))  # 23不是集合的成员
+</code></pre><h2 id="smove"><a href="#smove" class="headerlink" title="smove"></a>smove</h2><pre><code>移动
+smove(src, dst, value)
+将某个成员从一个集合中移动到另外一个集合
+r.smove(&quot;set1&quot;, &quot;set2&quot;, 44)
+print(r.smembers(&quot;set1&quot;))
+print(r.smembers(&quot;set2&quot;))
+</code></pre><h2 id="spop"><a href="#spop" class="headerlink" title="spop"></a>spop</h2><pre><code>删除–随机删除并且返回被删除值
+spop(name)
+从集合移除一个成员，并将其返回,说明一下，集合是无序的，所有是随机删除的
+print(r.spop(&quot;set2&quot;))   # 这个删除的值是随机删除的，集合是无序的
+print(r.smembers(&quot;set2&quot;))
+</code></pre><h2 id="srem"><a href="#srem" class="headerlink" title="srem"></a>srem</h2><pre><code>11.删除–指定值删除
+srem(name, values)
+在name对应的集合中删除某些值
+print(r.srem(&quot;set2&quot;, 11))   # 从集合中删除指定值 11
+print(r.smembers(&quot;set2&quot;))
+</code></pre><h1 id="有序集合sort-set操作"><a href="#有序集合sort-set操作" class="headerlink" title="有序集合sort set操作"></a>有序集合sort set操作</h1><pre><code>redis基本命令 有序set
+Set操作，Set集合就是不允许重复的列表，本身是无序的
+有序集合，在集合的基础上，为每元素排序；元素的排序需要根据另外一个值来进行比较，
+所以，对于有序集合，每一个元素有两个值，即：值和分数，分数专门用来做排序。
+</code></pre><h2 id="zadd"><a href="#zadd" class="headerlink" title="zadd"></a>zadd</h2><pre><code>新增
+zadd(name, args, *kwargs)
+在name对应的有序集合中添加元素
+如：
+import redis
+import time
+
+pool = redis.ConnectionPool(host=&apos;127.0.0.1&apos;, port=6379, decode_responses=True)
+r = redis.Redis(connection_pool=pool)
+
+r.zadd(&quot;zset1&quot;, n1=11, n2=22)
+r.zadd(&quot;zset2&quot;, &apos;m1&apos;, 22, &apos;m2&apos;, 44)
+print(r.zcard(&quot;zset1&quot;)) # 集合长度
+print(r.zcard(&quot;zset2&quot;)) # 集合长度
+print(r.zrange(&quot;zset1&quot;, 0, -1))   # 获取有序集合中所有元素
+print(r.zrange(&quot;zset2&quot;, 0, -1, withscores=True))   # 获取有序集合中所有元素和分数2
+</code></pre><h2 id="zcard"><a href="#zcard" class="headerlink" title="zcard"></a>zcard</h2><pre><code>获取有序集合元素个数 类似于len
+zcard(name)
+获取name对应的有序集合元素的数量
+print(r.zcard(&quot;zset1&quot;)) # 集合长度1
+</code></pre><h2 id="zrange"><a href="#zrange" class="headerlink" title="zrange"></a>zrange</h2><pre><code>获取有序集合的所有元素
+r.zrange( name, start, end, desc=False, withscores=False, score_cast_func=float)
+按照索引范围获取name对应的有序集合的元素
+参数：
+name，redis的name
+start，有序集合索引起始位置（非分数）
+end，有序集合索引结束位置（非分数）
+desc，排序规则，默认按照分数从小到大排序
+withscores，是否获取元素的分数，默认只获取元素的值
+score_cast_func，对分数进行数据转换的函数
+</code></pre><h2 id="zrevrange"><a href="#zrevrange" class="headerlink" title="zrevrange"></a>zrevrange</h2><pre><code>3-1 从大到小排序(同zrange，集合是从大到小排序的)
+zrevrange(name, start, end, withscores=False, score_cast_func=float)
+print(r.zrevrange(&quot;zset1&quot;, 0, -1))    # 只获取元素，不显示分数
+print(r.zrevrange(&quot;zset1&quot;, 0, -1, withscores=True)) # 获取有序集合中所有元素和分数,分数倒序
+</code></pre><h2 id="zrangebyscore"><a href="#zrangebyscore" class="headerlink" title="zrangebyscore"></a>zrangebyscore</h2><pre><code>3-2 按照分数范围获取name对应的有序集合的元素
+zrangebyscore(name, min, max, start=None, num=None, withscores=False, score_cast_func=float)
+for i in range(1, 30):
+element = &apos;n&apos; + str(i)
+r.zadd(&quot;zset3&quot;, element, i)
+print(r.zrangebyscore(&quot;zset3&quot;, 15, 25)) # # 在分数是15-25之间，取出符合条件的元素
+print(r.zrangebyscore(&quot;zset3&quot;, 12, 22, withscores=True))    # 在分数是12-22之间，取出符合条件的元素（带分数）
+</code></pre><h2 id="zrevrangebyscore"><a href="#zrevrangebyscore" class="headerlink" title="zrevrangebyscore"></a>zrevrangebyscore</h2><pre><code>3-3 按照分数范围获取有序集合的元素并排序（默认从大到小排序）
+zrevrangebyscore(name, max, min, start=None, num=None, withscores=False, score_cast_func=float)
+print(r.zrevrangebyscore(&quot;zset3&quot;, 22, 11, withscores=True)) # 在分数是22-11之间，取出符合条件的元素 按照分数倒序1
+</code></pre><h2 id="zscan"><a href="#zscan" class="headerlink" title="zscan"></a>zscan</h2><pre><code>3-4 获取所有元素–默认按照分数顺序排序
+zscan(name, cursor=0, match=None, count=None, score_cast_func=float)
+print(r.zscan(&quot;zset3&quot;))1
+</code></pre><h2 id="zscan-iter"><a href="#zscan-iter" class="headerlink" title="zscan_iter"></a>zscan_iter</h2><pre><code>3-5 获取所有元素–迭代器
+zscan_iter(name, match=None, count=None,score_cast_func=float)
+for i in r.zscan_iter(&quot;zset3&quot;): # 遍历迭代器
+    print(i)
+</code></pre><p>##　zcount</p>
+<pre><code>zcount(name, min, max)
+获取name对应的有序集合中分数 在 [min,max] 之间的个数
+print(r.zrange(&quot;zset3&quot;, 0, -1, withscores=True))
+print(r.zcount(&quot;zset3&quot;, 11, 22))
+</code></pre><h2 id="zincrby"><a href="#zincrby" class="headerlink" title="zincrby"></a>zincrby</h2><pre><code>自增
+zincrby(name, value, amount)
+自增name对应的有序集合的 name 对应的分数
+r.zincrby(&quot;zset3&quot;, &quot;n2&quot;, amount=2)    # 每次将n2的分数自增2
+print(r.zrange(&quot;zset3&quot;, 0, -1, withscores=True))
+</code></pre><h2 id="zrank"><a href="#zrank" class="headerlink" title="zrank"></a>zrank</h2><pre><code>获取值的索引号
+zrank(name, value)
+获取某个值在 name对应的有序集合中的索引（从 0 开始）
+更多：
+zrevrank(name, value)，从大到小排序
+print(r.zrank(&quot;zset3&quot;, &quot;n1&quot;))   # n1的索引号是0 这里按照分数顺序（从小到大）
+print(r.zrank(&quot;zset3&quot;, &quot;n6&quot;))   # n6的索引号是1
+
+print(r.zrevrank(&quot;zset3&quot;, &quot;n1&quot;))    # n1的索引号是29 这里安照分数倒序（从大到小）
+</code></pre><h2 id="zrem"><a href="#zrem" class="headerlink" title="zrem"></a>zrem</h2><pre><code>删除–指定值删除
+zrem(name, values)
+删除name对应的有序集合中值是values的成员
+r.zrem(&quot;zset3&quot;, &quot;n3&quot;)   # 删除有序集合中的元素n3 删除单个
+print(r.zrange(&quot;zset3&quot;, 0, -1))
+</code></pre><h2 id="zremrangebyrank"><a href="#zremrangebyrank" class="headerlink" title="zremrangebyrank"></a>zremrangebyrank</h2><pre><code>删除–根据排行范围删除，按照索引号来删除
+zremrangebyrank(name, min, max)
+根据排行范围删除
+r.zremrangebyrank(&quot;zset3&quot;, 0, 1)  # 删除有序集合中的索引号是0, 1的元素
+print(r.zrange(&quot;zset3&quot;, 0, -1))
+zremrangebyscore(name, min, max)
+根据分数范围删除
+r.zremrangebyscore(&quot;zset3&quot;, 11, 22)   # 删除有序集合中的分数是11-22的元素
+print(r.zrange(&quot;zset3&quot;, 0, -1))
+</code></pre><h2 id="zscore"><a href="#zscore" class="headerlink" title="zscore"></a>zscore</h2><pre><code>获取值对应的分数
+zscore(name, value)
+获取name对应有序集合中 value 对应的分数
+print(r.zscore(&quot;zset3&quot;, &quot;n27&quot;))   # 获取元素n27对应的分数271
+</code></pre><h2 id="其他常用操作"><a href="#其他常用操作" class="headerlink" title="其他常用操作"></a>其他常用操作</h2><h3 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h3><pre><code>delete (*names)
+根据删除redis中的任意数据类型（string、hash、list、set、有序set）
+r.delete(&quot;gender&quot;)  # 删除key为gender的键值对1
+</code></pre><h3 id="exists"><a href="#exists" class="headerlink" title="exists"></a>exists</h3><pre><code>检查名字是否存在
+exists(name)
+检测redis的name是否存在，存在就是True，False 不存在
+print(r.exists(&quot;zset1&quot;))1
+keys
+模糊匹配
+keys(pattern=’‘)
+根据模型获取redis的name
+更多：
+KEYS 匹配数据库中所有 key 。
+KEYS h?llo 匹配 hello ， hallo 和 hxllo 等。
+KEYS h*llo 匹配 hllo 和 heeeeello 等。
+KEYS h[ae]llo 匹配 hello 和 hallo ，但不匹配 hillo
+print(r.keys(&quot;foo*&quot;))
+1
+</code></pre><h3 id="expire"><a href="#expire" class="headerlink" title="expire"></a>expire</h3><pre><code>设置超时时间
+expire(name ,time)
+为某个redis的某个name设置超时时间
+r.lpush(&quot;list5&quot;, 11, 22)
+r.expire(&quot;list5&quot;, time=3)
+print(r.lrange(&quot;list5&quot;, 0, -1))
+time.sleep(3)
+print(r.lrange(&quot;list5&quot;, 0, -1))
+</code></pre><h3 id="rname"><a href="#rname" class="headerlink" title="rname"></a>rname</h3><pre><code>重命名
+rename(src, dst)
+对redis的name重命名
+r.lpush(&quot;list5&quot;, 11, 22)
+r.rename(&quot;list5&quot;, &quot;list5-1&quot;)
+randomkey
+随机获取name
+randomkey()
+随机获取一个redis的name（不删除）
+print(r.randomkey())
+1
+</code></pre><h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><pre><code>获取类型
+type(name)
+获取name对应值的类型
+print(r.type(&quot;set1&quot;))
+print(r.type(&quot;hash2&quot;))
+</code></pre><h3 id="scan"><a href="#scan" class="headerlink" title="scan"></a>scan</h3><pre><code>查看所有元素
+scan(cursor=0, match=None, count=None)
+print(r.hscan(&quot;hash2&quot;))
+print(r.sscan(&quot;set3&quot;))
+print(r.zscan(&quot;zset2&quot;))
+print(r.getrange(&quot;foo1&quot;, 0, -1))
+print(r.lrange(&quot;list2&quot;, 0, -1))
+print(r.smembers(&quot;set3&quot;))
+print(r.zrange(&quot;zset3&quot;, 0, -1))
+print(r.hgetall(&quot;hash1&quot;))
+</code></pre><h3 id="scan-iter"><a href="#scan-iter" class="headerlink" title="scan_iter"></a>scan_iter</h3><pre><code>查看所有元素–迭代器
+scan_iter(match=None, count=None)
+for i in r.hscan_iter(&quot;hash1&quot;):
+    print(i)
+
+for i in r.sscan_iter(&quot;set3&quot;):
+    print(i)
+
+for i in r.zscan_iter(&quot;zset3&quot;):
+    print(i)8
+</code></pre><h3 id="other-方法"><a href="#other-方法" class="headerlink" title="other 方法"></a>other 方法</h3><pre><code>print(r.get(&apos;name&apos;))    # 查询key为name的值
+r.delete(&quot;gender&quot;)  # 删除key为gender的键值对
+print(r.keys()) # 查询所有的Key
+print(r.dbsize())   # 当前redis包含多少条数据
+r.save()    # 执行&quot;检查点&quot;操作，将数据写回磁盘。保存时阻塞
+# r.flushdb()        # 清空r中的所有数据
+管道（pipeline）
+redis默认在执行每次请求都会创建（连接池申请连接）和断开（归还连接池）一次连接操作，
+如果想要在一次请求中指定多个命令，则可以使用pipline实现一次请求指定多个命令，并且默认情况下一次pipline 是原子性操作。
+管道（pipeline）是redis在提供单个请求中缓冲多条服务器命令的基类的子类。它通过减少服务器-客户端之间反复的TCP数据库包，从而大大提高了执行批量命令的功能。
+import redis
+import time
+
+pool = redis.ConnectionPool(host=&apos;127.0.0.1&apos;, port=6379, decode_responses=True)
+r = redis.Redis(connection_pool=pool)
+
+# pipe = r.pipeline(transaction=False)    # 默认的情况下，管道里执行的命令可以保证执行的原子性，执行pipe = r.pipeline(transaction=False)可以禁用这一特性。
+# pipe = r.pipeline(transaction=True)
+pipe = r.pipeline() # 创建一个管道
+
+pipe.set(&apos;name&apos;, &apos;jack&apos;)
+pipe.set(&apos;role&apos;, &apos;sb&apos;)
+pipe.sadd(&apos;faz&apos;, &apos;baz&apos;)
+pipe.incr(&apos;num&apos;)    # 如果num不存在则vaule为1，如果存在，则value自增1
+pipe.execute()
+
+print(r.get(&quot;name&quot;))
+print(r.get(&quot;role&quot;))
+print(r.get(&quot;num&quot;))
+
+管道的命令可以写在一起，如：
+pipe.set(&apos;hello&apos;, &apos;redis&apos;).sadd(&apos;faz&apos;, &apos;baz&apos;).incr(&apos;num&apos;).execute()
+print(r.get(&quot;name&quot;))
+print(r.get(&quot;role&quot;))
+print(r.get(&quot;num&quot;))
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持！学如逆水行舟，不进则退！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/1.jpg" alt="海燕 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/2.jpg" alt="海燕 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/23/python资源/" rel="next" title="Python3.x标准模块库目录">
+                <i class="fa fa-chevron-left"></i> Python3.x标准模块库目录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MTA2Ny8xNzU5Mg=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="海燕">
+            
+              <p class="site-author-name" itemprop="name">海燕</p>
+              <p class="site-description motion-element" itemprop="description">学如逆水行舟，不进则退。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="https://www.cnblogs.com/xiao-xue-di/p/9931414.html" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Fover21" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="850781645@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-heart"></i>
+                other links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/xiao-xue-di/p/9931414.html" title="cnblog" target="_blank">cnblog</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.xiaoxuedi.top" title="home" target="_blank">home</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#redis基本命令-String"><span class="nav-number">1.</span> <span class="nav-text">redis基本命令 String</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Set"><span class="nav-number">1.1.</span> <span class="nav-text">Set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setex"><span class="nav-number">1.2.</span> <span class="nav-text">setex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#psetex"><span class="nav-number">1.3.</span> <span class="nav-text">psetex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mset"><span class="nav-number">1.4.</span> <span class="nav-text">mset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mget"><span class="nav-number">1.5.</span> <span class="nav-text">mget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getset"><span class="nav-number">1.6.</span> <span class="nav-text">getset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setrange"><span class="nav-number">1.7.</span> <span class="nav-text">setrange</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setbit"><span class="nav-number">1.8.</span> <span class="nav-text">setbit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getbit"><span class="nav-number">1.9.</span> <span class="nav-text">getbit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bittop"><span class="nav-number">1.10.</span> <span class="nav-text">bittop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strlen"><span class="nav-number">1.11.</span> <span class="nav-text">strlen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#incrfloat"><span class="nav-number">1.12.</span> <span class="nav-text">incrfloat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decr"><span class="nav-number">1.13.</span> <span class="nav-text">decr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#append"><span class="nav-number">1.14.</span> <span class="nav-text">append</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hash操作"><span class="nav-number">2.</span> <span class="nav-text">hash操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hset"><span class="nav-number">2.1.</span> <span class="nav-text">hset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hmset"><span class="nav-number">2.2.</span> <span class="nav-text">hmset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hgetall"><span class="nav-number">2.3.</span> <span class="nav-text">hgetall</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hlen"><span class="nav-number">2.4.</span> <span class="nav-text">hlen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hlen-name"><span class="nav-number">2.5.</span> <span class="nav-text">hlen(name)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hkeys"><span class="nav-number">2.6.</span> <span class="nav-text">hkeys</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hkeys-name"><span class="nav-number">2.7.</span> <span class="nav-text">hkeys(name)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hvals"><span class="nav-number">2.8.</span> <span class="nav-text">hvals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hvals-name"><span class="nav-number">2.9.</span> <span class="nav-text">hvals(name)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexists"><span class="nav-number">2.10.</span> <span class="nav-text">hexists</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexists-name-key"><span class="nav-number">2.11.</span> <span class="nav-text">hexists(name, key)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hdel"><span class="nav-number">2.12.</span> <span class="nav-text">hdel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hincrby"><span class="nav-number">2.13.</span> <span class="nav-text">hincrby</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hincrbyfloat"><span class="nav-number">2.14.</span> <span class="nav-text">hincrbyfloat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hscan"><span class="nav-number">2.15.</span> <span class="nav-text">hscan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hscan-iter"><span class="nav-number">2.16.</span> <span class="nav-text">hscan_iter</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#list列表操作"><span class="nav-number">3.</span> <span class="nav-text">list列表操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lpush"><span class="nav-number">3.1.</span> <span class="nav-text">lpush</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rpush"><span class="nav-number">3.2.</span> <span class="nav-text">rpush</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lpushx-name-value"><span class="nav-number">3.3.</span> <span class="nav-text">lpushx(name,value)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rpushx"><span class="nav-number">3.4.</span> <span class="nav-text">rpushx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linsert"><span class="nav-number">3.5.</span> <span class="nav-text">linsert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lset"><span class="nav-number">3.6.</span> <span class="nav-text">lset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lrem"><span class="nav-number">3.7.</span> <span class="nav-text">lrem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lpop"><span class="nav-number">3.8.</span> <span class="nav-text">lpop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ltrim"><span class="nav-number">3.9.</span> <span class="nav-text">ltrim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lindex"><span class="nav-number">3.10.</span> <span class="nav-text">lindex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rpoplpush"><span class="nav-number">3.11.</span> <span class="nav-text">rpoplpush</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更多："><span class="nav-number">3.12.</span> <span class="nav-text">更多：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集合set操作"><span class="nav-number">4.</span> <span class="nav-text">集合set操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sadd"><span class="nav-number">4.1.</span> <span class="nav-text">sadd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scard"><span class="nav-number">4.2.</span> <span class="nav-text">scard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smembers"><span class="nav-number">4.3.</span> <span class="nav-text">smembers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sdiff"><span class="nav-number">4.4.</span> <span class="nav-text">sdiff</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sdiffstore"><span class="nav-number">4.5.</span> <span class="nav-text">sdiffstore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sinter"><span class="nav-number">4.6.</span> <span class="nav-text">sinter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sinterstore"><span class="nav-number">4.7.</span> <span class="nav-text">sinterstore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sismember"><span class="nav-number">4.8.</span> <span class="nav-text">sismember</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smove"><span class="nav-number">4.9.</span> <span class="nav-text">smove</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spop"><span class="nav-number">4.10.</span> <span class="nav-text">spop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#srem"><span class="nav-number">4.11.</span> <span class="nav-text">srem</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#有序集合sort-set操作"><span class="nav-number">5.</span> <span class="nav-text">有序集合sort set操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#zadd"><span class="nav-number">5.1.</span> <span class="nav-text">zadd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zcard"><span class="nav-number">5.2.</span> <span class="nav-text">zcard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zrange"><span class="nav-number">5.3.</span> <span class="nav-text">zrange</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zrevrange"><span class="nav-number">5.4.</span> <span class="nav-text">zrevrange</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zrangebyscore"><span class="nav-number">5.5.</span> <span class="nav-text">zrangebyscore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zrevrangebyscore"><span class="nav-number">5.6.</span> <span class="nav-text">zrevrangebyscore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zscan"><span class="nav-number">5.7.</span> <span class="nav-text">zscan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zscan-iter"><span class="nav-number">5.8.</span> <span class="nav-text">zscan_iter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zincrby"><span class="nav-number">5.9.</span> <span class="nav-text">zincrby</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zrank"><span class="nav-number">5.10.</span> <span class="nav-text">zrank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zrem"><span class="nav-number">5.11.</span> <span class="nav-text">zrem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zremrangebyrank"><span class="nav-number">5.12.</span> <span class="nav-text">zremrangebyrank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zscore"><span class="nav-number">5.13.</span> <span class="nav-text">zscore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他常用操作"><span class="nav-number">5.14.</span> <span class="nav-text">其他常用操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#delete"><span class="nav-number">5.14.1.</span> <span class="nav-text">delete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exists"><span class="nav-number">5.14.2.</span> <span class="nav-text">exists</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#expire"><span class="nav-number">5.14.3.</span> <span class="nav-text">expire</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rname"><span class="nav-number">5.14.4.</span> <span class="nav-text">rname</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type"><span class="nav-number">5.14.5.</span> <span class="nav-text">type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scan"><span class="nav-number">5.14.6.</span> <span class="nav-text">scan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scan-iter"><span class="nav-number">5.14.7.</span> <span class="nav-text">scan_iter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#other-方法"><span class="nav-number">5.14.8.</span> <span class="nav-text">other 方法</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=27901832&auto=1&height=66"></iframe>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">海燕</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'JhO2EQHln12cbwIJq0yeKc4h-gzGzoHsz',
+        appKey: 'lhPI2FVLzLxY8UYSfsHbd258',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+</body>
+</html>
