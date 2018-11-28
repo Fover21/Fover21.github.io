@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="海燕">
 <meta property="og:description" content="redis介绍redis是一个key-value存储系统，菲关系型数据库。和Memcached类似，他支持存储的value类型相对更多，包括字符串、列表、哈希散列表、集合、有序集合。 这些数据都支持push/pop、add/remove及取交集并集和差集及丰富的操作 而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。 与memcached一样，为了保证效率，数据都在缓">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-22T10:20:54.742Z">
+<meta property="og:updated_time" content="2018-11-26T12:19:22.408Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis之安装">
 <meta name="twitter:description" content="redis介绍redis是一个key-value存储系统，菲关系型数据库。和Memcached类似，他支持存储的value类型相对更多，包括字符串、列表、哈希散列表、集合、有序集合。 这些数据都支持push/pop、add/remove及取交集并集和差集及丰富的操作 而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。 与memcached一样，为了保证效率，数据都在缓">
@@ -403,7 +403,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  802
+                  810
                 </span>
               
 
@@ -468,7 +468,8 @@
 2、redis的速度比memcached快很多
 
 3、redis可以持久化其数据
-</code></pre><h1 id="redis的安装"><a href="#redis的安装" class="headerlink" title="redis的安装"></a>redis的安装</h1><h2 id="方式一：硬盘免安装"><a href="#方式一：硬盘免安装" class="headerlink" title="方式一：硬盘免安装"></a>方式一：硬盘免安装</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis<span class="number">-3.0</span><span class="number">.6</span>.tar.gz  <span class="comment">#下载</span></span><br><span class="line">tar xzf redis<span class="number">-3.0</span><span class="number">.6</span>.tar.gz  <span class="comment">#解压</span></span><br><span class="line">cd redis<span class="number">-3.0</span><span class="number">.6</span>  <span class="comment">#切换到redis</span></span><br><span class="line">make  <span class="comment">#安装</span></span><br></pre></td></tr></table></figure>
+</code></pre><h1 id="redis的安装"><a href="#redis的安装" class="headerlink" title="redis的安装"></a>redis的安装</h1><pre><code>有时候会需要安装gcc
+</code></pre><h2 id="方式一：硬盘免安装"><a href="#方式一：硬盘免安装" class="headerlink" title="方式一：硬盘免安装"></a>方式一：硬盘免安装</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis<span class="number">-3.0</span><span class="number">.6</span>.tar.gz  <span class="comment">#下载</span></span><br><span class="line">tar xzf redis<span class="number">-3.0</span><span class="number">.6</span>.tar.gz  <span class="comment">#解压</span></span><br><span class="line">cd redis<span class="number">-3.0</span><span class="number">.6</span>  <span class="comment">#切换到redis</span></span><br><span class="line">make  <span class="comment">#安装</span></span><br></pre></td></tr></table></figure>
 <pre><code>启动服务端
 
 src/redis-server
@@ -648,7 +649,7 @@ redis的端口：6379
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -659,7 +660,7 @@ redis的端口：6379
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
