@@ -286,6 +286,32 @@
   </entry>
   
   <entry>
+    <title>Python之Linux下的virtualenv&amp;&amp;virtualenvwrapper</title>
+    <link href="http://yoursite.com/2018/06/03/Python%E4%B9%8BLinux%E4%B8%8B%E7%9A%84virtualenv-virtualenvwrapper/"/>
+    <id>http://yoursite.com/2018/06/03/Python之Linux下的virtualenv-virtualenvwrapper/</id>
+    <published>2018-06-03T04:51:45.000Z</published>
+    <updated>2018-12-03T04:54:42.796Z</updated>
+    
+    <content type="html"><![CDATA[<p>virtualenv 可以在系统中建立多个不同并且相互不干扰的虚拟环境。</p><pre><code>#指定清华源下载pip的包pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple virtualenv#升级pip工具pip3 install --upgrade pip</code></pre><h1 id="一、Linux下安装、配置、使用virtualenv"><a href="#一、Linux下安装、配置、使用virtualenv" class="headerlink" title="一、Linux下安装、配置、使用virtualenv"></a>一、Linux下安装、配置、使用virtualenv</h1><pre><code>1.安装virtualenvpip3 install virtualenv 2.创建目录mkdir Myprojectcd Myproject3.创建独立运行环境-命名virtualenv --no-site-packages --python=python3  venv#得到独立第三方包的环境，并且指定解释器是python34.进入虚拟环境source venv/bin/activate#此时进入虚拟环境(venv)Myproject5.安装第三方包(venv)Myproject: pip3 install django==1.9.8#此时pip的包都会安装到venv环境下，venv是针对Myproject创建的6.退出venv环境deactivate命令7.virtualenv是如何创建“独立”的Python运行环境的呢？原理很简单，就是把系统Python复制一份到virtualenv的环境，用命令source venv/bin/activate进入一个virtualenv环境时，virtualenv会修改相关环境变量，让命令python和pip均指向当前的virtualenv环境。</code></pre><h1 id="二、确保开发环境的一致性"><a href="#二、确保开发环境的一致性" class="headerlink" title="二、确保开发环境的一致性"></a>二、确保开发环境的一致性</h1><pre><code>1.假设我们在本地开发环境，准备好了项目+依赖包环境2.现在需要将项目上传至服务器，上线发布3.那么就要保证服务器的python环境一致性解决方案：1.通过命令保证环境的一致性，导出当前python环境的包pip3 freeze &gt; requirements.txt   这将会创建一个 requirements.txt 文件，其中包含了当前环境中所有包及 各自的版本的简单列表。可以使用 “pip list”在不产生requirements文件的情况下， 查看已安装包的列表。2.上传至服务器后，在服务器下创建virtualenv，在venv中导入项目所需的模块依赖pip3 install -r requirements.txt</code></pre><h1 id="三、虚拟环境之virtualenvwrapper"><a href="#三、虚拟环境之virtualenvwrapper" class="headerlink" title="三、虚拟环境之virtualenvwrapper"></a>三、虚拟环境之virtualenvwrapper</h1><pre><code>virtualenv 的一个最大的缺点就是：每次开启虚拟环境之前要去虚拟环境所在目录下的 bin 目录下 source 一下 activate，这就需要我们记住每个虚拟环境所在的目录。并且还有可能你忘记了虚拟环境放在哪。。。一种可行的解决方案是，将所有的虚拟环境目录全都集中起来，例如/opt/all_venv/，并且针对不同的目录做不同的事。使用virtualenvwrapper管理你的虚拟环境（virtualenv），其实他就是统一管理虚拟环境的目录，并且省去了source的步骤。</code></pre><h2 id="步骤1：安装virtualenvwrapper"><a href="#步骤1：安装virtualenvwrapper" class="headerlink" title="步骤1：安装virtualenvwrapper"></a>步骤1：安装virtualenvwrapper</h2><p>pip3 install virtualenvwrapper</p><h2 id="步骤2：设置Linux的环境变量，每次启动就加载virtualenvwrapper"><a href="#步骤2：设置Linux的环境变量，每次启动就加载virtualenvwrapper" class="headerlink" title="步骤2：设置Linux的环境变量，每次启动就加载virtualenvwrapper"></a>步骤2：设置Linux的环境变量，每次启动就加载virtualenvwrapper</h2><pre><code>把下面两行代码添加到 ~/.bashrc文件中打开文件vim ~/.bashrc写入以下两行代码export WORKON_HOME=~/Envs   #设置virtualenv的统一管理目录export VIRTUALENVWRAPPER_VIRTUALENV_ARGS=&apos;--no-site-packages&apos;   #添加virtualenvwrapper的参数，生成干净隔绝的环境export VIRTUALENVWRAPPER_PYTHON=/opt/python347/bin/python3     #指定python解释器source /opt/python34/bin/virtualenvwrapper.sh #执行virtualenvwrapper安装脚本读取文件，使得生效，此时已经可以使用virtalenvwrappersource ~/.bashrc</code></pre><h2 id="步骤3：基本使用virtualenvwrapper"><a href="#步骤3：基本使用virtualenvwrapper" class="headerlink" title="步骤3：基本使用virtualenvwrapper"></a>步骤3：基本使用virtualenvwrapper</h2><pre><code>创建一个虚拟环境：$ mkvirtualenv my_django115这会在 ~/Envs 中创建 my_django115 文件夹。在虚拟环境上工作：激活虚拟环境my_django115$ workon my_django115再创建一个新的虚拟环境$ mkvirtualenv my_django2virtualenvwrapper 提供环境名字的tab补全功能。当有很多环境， 并且很难记住它们的名字时，这就显得很有用。workon还可以任意停止你当前的环境，可以在多个虚拟环境中来回切换workon django1.15workon django2.0也可以手动停止虚拟环境deactivate删除虚拟环境，需要先退出虚拟环境rmvirtualenv my_django115</code></pre><h2 id="步骤四：常用其他命令"><a href="#步骤四：常用其他命令" class="headerlink" title="步骤四：常用其他命令"></a>步骤四：常用其他命令</h2><pre><code>lsvirtualenv列举所有的环境。cdvirtualenv导航到当前激活的虚拟环境的目录中，比如说这样您就能够浏览它的 site-packages 。cdsitepackages和上面的类似，但是是直接进入到 site-packages 目录中。lssitepackages显示 site-packages 目录中的内容。完整官网介绍：https://virtualenvwrapper.readthedocs.io/en/latest/command_ref.html</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;virtualenv 可以在系统中建立多个不同并且相互不干扰的虚拟环境。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#指定清华源下载pip的包
+pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple virtualenv
+#升级
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>redis之python使用手册</title>
     <link href="http://yoursite.com/2018/03/23/redis%E4%B9%8Bpython%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/"/>
     <id>http://yoursite.com/2018/03/23/redis之python使用手册/</id>
@@ -476,29 +502,6 @@ vim 具有程序编辑的能力，可以主动的以字体颜色辨别语法的�
       
       
         &lt;h1 id=&quot;redis的两种链接方式&quot;&gt;&lt;a href=&quot;#redis的两种链接方式&quot; class=&quot;headerlink&quot; title=&quot;redis的两种链接方式&quot;&gt;&lt;/a&gt;redis的两种链接方式&lt;/h1&gt;&lt;h2 id=&quot;简单链接&quot;&gt;&lt;a href=&quot;#简单链接&quot; cla
-      
-    
-    </summary>
-    
-      <category term="redis" scheme="http://yoursite.com/categories/redis/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>redis之安装</title>
-    <link href="http://yoursite.com/2018/02/22/redis%E4%B9%8B%E5%AE%89%E8%A3%85/"/>
-    <id>http://yoursite.com/2018/02/22/redis之安装/</id>
-    <published>2018-02-22T09:45:52.000Z</published>
-    <updated>2018-11-26T12:19:22.408Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="redis介绍"><a href="#redis介绍" class="headerlink" title="redis介绍"></a>redis介绍</h1><p>redis是一个key-value存储系统，菲关系型数据库。和Memcached类似，<br>他支持存储的value类型相对更多，包括字符串、列表、哈希散列表、集合、有序集合。</p><pre><code>这些数据都支持push/pop、add/remove及取交集并集和差集及丰富的操作而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都在缓存的内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现master-slave(主从)同步</code></pre><p>本质：将数据保存在内存中</p><p>用提：redis可以做缓存；redis可以做消息队列</p><p>特性：</p><pre><code>1，可以做持久化：在配置文件设置，如果你要保存到文件，可以添加设置，就算电脑不小心关键了，数据还是存在的。这个要不要保存都要自己来定。2.支持存放数据的格式多（5中）</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">'k1'</span>:<span class="string">'hiayan'</span>,  <span class="comment">#第一种字符串格式</span></span><br><span class="line">    <span class="string">'k2'</span>:[<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>,<span class="number">44</span>], <span class="comment">#第二种列表格式</span></span><br><span class="line">    <span class="string">'k3'</span>:&#123;<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>,<span class="number">44</span>&#125;, <span class="comment">#第三种集合格式</span></span><br><span class="line">    <span class="string">'k4'</span>:&#123;                 <span class="comment">#第四种,字典，也可以叫做哈希散列表,</span></span><br><span class="line">            <span class="string">'n1'</span>:<span class="string">'xxx'</span>,</span><br><span class="line">            <span class="string">'n2'</span>:<span class="string">'fff'</span></span><br><span class="line">        &#125;,</span><br><span class="line">    <span class="string">'k5'</span>:&#123;(<span class="number">11</span>,<span class="number">1</span>),(<span class="string">'xxx'</span>:<span class="number">5</span>)&#125; <span class="comment">#有序集合</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h1 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h1><p>1、为什么使用redis？使用redis有哪些好处？</p><pre><code>1，速度快，因为数据在内存中，类似HashMap的优势就是查找和操作的时间复杂度都是o(1)2，支持丰富的数据类型，支持string，list，set，sorted set，hash3，支持事务，操作都是原子性，所谓的原子性就是对数据的更改要么全部执行，要么全部不执行4，丰富的特性：可用于缓存，消息，按key设置过期时间，过期后将会自动删除。</code></pre><p>2、redis的速度memcached有哪些优势？</p><pre><code>1、memcached所有的值均是简单的字符串，redis作为其替代者，支持更为丰富的数据类型。2、redis的速度比memcached快很多3、redis可以持久化其数据</code></pre><h1 id="redis的安装"><a href="#redis的安装" class="headerlink" title="redis的安装"></a>redis的安装</h1><pre><code>有时候会需要安装gcc</code></pre><h2 id="方式一：硬盘免安装"><a href="#方式一：硬盘免安装" class="headerlink" title="方式一：硬盘免安装"></a>方式一：硬盘免安装</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis<span class="number">-3.0</span><span class="number">.6</span>.tar.gz  <span class="comment">#下载</span></span><br><span class="line">tar xzf redis<span class="number">-3.0</span><span class="number">.6</span>.tar.gz  <span class="comment">#解压</span></span><br><span class="line">cd redis<span class="number">-3.0</span><span class="number">.6</span>  <span class="comment">#切换到redis</span></span><br><span class="line">make  <span class="comment">#安装</span></span><br></pre></td></tr></table></figure><pre><code>启动服务端src/redis-server启动客户端src/redis-cliredis&gt; set foo barOKredis&gt; get foo&quot;bar&quot;</code></pre><h2 id="方式二：安装包"><a href="#方式二：安装包" class="headerlink" title="方式二：安装包"></a>方式二：安装包</h2><pre><code>yum install redis /etc/init.d/redis start  #开启 /etc/init.d/redis restart  #重启配置：/etc/redis/redis.conf #默认会读取这个文件去运行</code></pre><h2 id="方式三：rpm安装"><a href="#方式三：rpm安装" class="headerlink" title="方式三：rpm安装"></a>方式三：rpm安装</h2><pre><code>公司说你安装以下redis　　有两种情况：　　　　1、直接给你rpm包　　　　2、或者说你直接yum install redis 　　　　　　- 安装公司自定制　　　　　　- 安装官方ls #查看ctrl+c #停止结束进程（找服务器并杀掉）：ps -e|grep redis #杀掉kill -9 12343 #重新运行远程操作rdis的模块（模块的本质是通过socket进行通信的）mysql的端口：3306redis的端口：6379</code></pre><h1 id="Python操作Redis"><a href="#Python操作Redis" class="headerlink" title="Python操作Redis"></a>Python操作Redis</h1><p>sudo pip install redis<br>or<br>sudo easy_install redis<br>or<br>源码安装<br>详见：<a href="https://github.com/WoLpH/redis-py" target="_blank" rel="noopener">https://github.com/WoLpH/redis-py</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;redis介绍&quot;&gt;&lt;a href=&quot;#redis介绍&quot; class=&quot;headerlink&quot; title=&quot;redis介绍&quot;&gt;&lt;/a&gt;redis介绍&lt;/h1&gt;&lt;p&gt;redis是一个key-value存储系统，菲关系型数据库。和Memcached类似，&lt;br&gt;他支
       
     
     </summary>
