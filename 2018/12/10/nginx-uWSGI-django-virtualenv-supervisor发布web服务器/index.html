@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="https://www.cnblogs.com/xiao-xue-di/p/9931414.html" title="海燕" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="导论12345678910111213141516171819202122232425262728WSGI是Web服务器网关接口。它是一个规范，描述了Web服务器如何与Web应用程序通信，以及Web应用程序如何链接在一起以处理一个请求，（接收请求，处理请求，响应请求）基于wsgi运行的框架有bottle,DJango,Flask,用于解析动态HTTP请求支持WSGI的服务器    wsgiref">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx_uWSGI_django_virtualenv_supervisor发布web服务器">
+<meta property="og:url" content="http://yoursite.com/2018/12/10/nginx-uWSGI-django-virtualenv-supervisor发布web服务器/index.html">
+<meta property="og:site_name" content="海燕">
+<meta property="og:description" content="导论12345678910111213141516171819202122232425262728WSGI是Web服务器网关接口。它是一个规范，描述了Web服务器如何与Web应用程序通信，以及Web应用程序如何链接在一起以处理一个请求，（接收请求，处理请求，响应请求）基于wsgi运行的框架有bottle,DJango,Flask,用于解析动态HTTP请求支持WSGI的服务器    wsgiref">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-10T09:35:04.446Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx_uWSGI_django_virtualenv_supervisor发布web服务器">
+<meta name="twitter:description" content="导论12345678910111213141516171819202122232425262728WSGI是Web服务器网关接口。它是一个规范，描述了Web服务器如何与Web应用程序通信，以及Web应用程序如何链接在一起以处理一个请求，（接收请求，处理请求，响应请求）基于wsgi运行的框架有bottle,DJango,Flask,用于解析动态HTTP请求支持WSGI的服务器    wsgiref">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/10/nginx-uWSGI-django-virtualenv-supervisor发布web服务器/">
+
+
+
+
+
+  <title>nginx_uWSGI_django_virtualenv_supervisor发布web服务器 | 海燕</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">海燕</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">热爱编程，爱算法，爱生活，爱钻研</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            个人
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-thumbs-up"></i> <br>
+            
+            留言板
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "c3816c66"
+    });
+  daovoice('update');
+  </script>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/10/nginx-uWSGI-django-virtualenv-supervisor发布web服务器/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="海燕">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/tx.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="海燕">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">nginx_uWSGI_django_virtualenv_supervisor发布web服务器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-10T15:59:29+08:00">
+                2018-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/10/nginx-uWSGI-django-virtualenv-supervisor发布web服务器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/10/nginx-uWSGI-django-virtualenv-supervisor发布web服务器/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  20
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="导论"><a href="#导论" class="headerlink" title="导论"></a>导论</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">WSGI是Web服务器网关接口。它是一个规范，描述了Web服务器如何与Web应用程序通信，以及Web应用程序如何链接在一起以处理一个请求，（接收请求，处理请求，响应请求）</span><br><span class="line">基于wsgi运行的框架有bottle,DJango,Flask,用于解析动态HTTP请求</span><br><span class="line">支持WSGI的服务器</span><br><span class="line">    wsgiref</span><br><span class="line">        python自带的web服务器</span><br><span class="line">    Gunicorn</span><br><span class="line">        用于linux的 python wsgi Http服务器，常用于各种django，flask结合部署服务器。</span><br><span class="line">    mode_wsgi</span><br><span class="line">        实现了Apache与wsgi应用程序的结合</span><br><span class="line">    uWSGI</span><br><span class="line">        C语言开发，快速，自我修复，开发人员友好的WSGI服务器，用于Python Web应用程序的专业部署和开发。</span><br><span class="line"></span><br><span class="line">在部署python程序web应用程序时，可以根据性能的需求，选择合适的wsgi server，不同的wsgi server区别在于并发支持上，有单线程，多进程，多线程，协程的区别，其功能还是近似，无非是请求路由，执行对应的函数，返回处理结果。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Django部署</span><br><span class="line"></span><br><span class="line">Django的主要部署平台是 WSGI，这是用于Web服务器和应用程序的Python标准。</span><br><span class="line"></span><br><span class="line">Django的 startproject管理命令设置一个简单的默认WSGI配置，可以根据需要为您的项目进行调整，并指示任何符合WSGI的应用程序服务器使用。</span><br><span class="line"></span><br><span class="line">application </span><br><span class="line">使用WSGI部署的关键概念是应用程序服务器用于与代码通信的 application 可调用。它通常在服务器可访问的Python模块中作为名为 application 的对象提供。</span><br><span class="line"></span><br><span class="line">startproject 命令创建包含这样的 application 可调用的文件 &lt;project_name&gt;/wsgi.py. ，它被Django的开发服务器和生产WSGI部署使用。</span><br><span class="line">WSGI服务器从其配置中获取 application 可调用的路径。 Django的内置服务器，即 runserver 命令，从 WSGI_APPLICATION 设置读取它。</span><br></pre></td></tr></table></figure>
+<h2 id="为什么用nginx和uwsgi"><a href="#为什么用nginx和uwsgi" class="headerlink" title="为什么用nginx和uwsgi"></a>为什么用nginx和uwsgi</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1、首先nginx 是对外的服务接口，外部浏览器通过url访问nginx,</span><br><span class="line"></span><br><span class="line">2、nginx 接收到浏览器发送过来的http请求，将包进行解析，分析url，如果是静态文件请求就直接访问用户给nginx配置的静态文件目录，直接返回用户请求的静态文件，</span><br><span class="line"></span><br><span class="line">如果不是静态文件，而是一个动态的请求，那么nginx就将请求转发给uwsgi,uwsgi 接收到请求之后将包进行处理，处理成wsgi可以接受的格式，并发给wsgi,wsgi 根</span><br><span class="line">据请求调用应用程序的某个文件，某个文件的某个函数，最后处理完将返回值再次交给wsgi,wsgi将返回值进行打包，打包成uwsgi能够接收的格式，uwsgi接收wsgi 发</span><br><span class="line">送的请求，并转发给nginx,nginx最终将返回值返回给浏览器。</span><br><span class="line"></span><br><span class="line">1、要知道第一级的nginx并不是必须的，uwsgi完全可以完成整个的和浏览器交互的流程，但是要考虑到某些情况</span><br><span class="line">安全问题，程序不能直接被浏览器访问到，而是通过nginx,nginx只开放某个接口，uwsgi本身是内网接口，这样运维人员在nginx上加上安全性的限制，可以达到保护程序的作用。</span><br><span class="line"></span><br><span class="line">2、负载均衡问题，一个uwsgi很可能不够用，即使开了多个work也是不行，毕竟一台机器的cpu和内存都是有限的，有了nginx做代理，一个nginx可以代理多台uwsgi完成uwsgi的负载均衡。</span><br><span class="line"></span><br><span class="line">3、静态文件问题，用django或是uwsgi这种东西来负责静态文件的处理是很浪费的行为，而且他们本身对文件的处理也不如nginx好，所以整个静态文件的处理都直接由nginx完成，静态文件</span><br><span class="line">的访问完全不去经过uwsgi以及其后面的东西。</span><br><span class="line"></span><br><span class="line">为什么要用nginx,uwsgi</span><br></pre></td></tr></table></figure>
+<h2 id="nginx有关"><a href="#nginx有关" class="headerlink" title="nginx有关"></a>nginx有关</h2><p>nginx官网</p>
+<pre><code>http://nginx.org/en/
+</code></pre><p>nginx有关uwsgi模块介绍</p>
+<pre><code>http://nginx.org/en/docs/http/ngx_http_uwsgi_module.html
+</code></pre><p>nginx、WSGI、uwsgi、uWSGI、django这几个关系</p>
+<p>wsgi     全称web server gateway interface，wsgi不是服务器，也不是python模块，只是一种协议，<br>         描述web server如何和web application通信的规则。运行在wsgi上的web框架有bottle，flask，django<br>uwsgi    和wsgi一样是通信协议，是uWSGI服务器的单独协议，用于定义传输信息的类型<br>uWSGI    是一个web服务器，实现了WSGI协议，uwsgi协议。a<br>nginx    web服务器，更加安全，更好的处理处理静态资源，缓存功能，负载均衡，因此nginx的强劲性能，配合uWSGI服务器会更加安全，性能有保障。<br>django   高级的python web框架，用于快速开发，解决web开发的大部分麻烦，程序员可以更专注业务逻辑，无须重新造轮子</p>
+<h1 id="Django-Nginx-uwsgi安装配置"><a href="#Django-Nginx-uwsgi安装配置" class="headerlink" title="Django Nginx+uwsgi安装配置"></a>Django Nginx+uwsgi安装配置</h1><pre><code>以前我们使用 python manage.py runserver 来运行服务器。
+这只适用测试环境中使用。正式发布的服务，需要一个可以稳定而持续的服务器。
+</code></pre><h2 id="基础开发环境配置"><a href="#基础开发环境配置" class="headerlink" title="基础开发环境配置"></a>基础开发环境配置</h2><pre><code>yum groupinstall &quot;Development tools&quot;
+yum install zlib-devel bzip2-devel pcre-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel
+</code></pre><h2 id="提前安装好"><a href="#提前安装好" class="headerlink" title="提前安装好"></a>提前安装好</h2><pre><code>python3环境
+
+virtualenv
+
+django1.11.11
+</code></pre><h3 id="安装django1-11"><a href="#安装django1-11" class="headerlink" title="安装django1.11"></a>安装django1.11</h3><pre><code>pip3 install django==1.11
+</code></pre><h4 id="创建django项目mysite"><a href="#创建django项目mysite" class="headerlink" title="创建django项目mysite"></a>创建django项目mysite</h4><pre><code>django-admin startproject mysite
+</code></pre><h4 id="创建app01"><a href="#创建app01" class="headerlink" title="创建app01"></a>创建app01</h4><pre><code>python3 manage.py startapp app01
+mysite/settings.py
+</code></pre><h4 id="settings-py设置"><a href="#settings-py设置" class="headerlink" title="settings.py设置"></a>settings.py设置</h4><pre><code>ALLOWED_HOSTS = [&apos;*&apos;]
+install app01
+mysite/urls.py
+
+from app01 import views
+urlpatterns = [
+    url(r&apos;^admin/&apos;, admin.site.urls),
+    url(r&apos;^hello_django/&apos;, views.hello),
+]
+</code></pre><h4 id="app01-views-py"><a href="#app01-views-py" class="headerlink" title="app01/views.py"></a>app01/views.py</h4><pre><code>from django.shortcuts import render,HttpResponse
+
+# Create your views here.
+def hello(request):
+    print(&apos;request is :&apos;,request)
+    return HttpResponse(&apos;django is ok &apos;)
+</code></pre><h2 id="安装uWSGI"><a href="#安装uWSGI" class="headerlink" title="安装uWSGI"></a>安装uWSGI</h2><pre><code>进入虚拟环境venv，安装uwsgi
+(venv) [root@slave 192.168.11.64 /opt]$pip3 install uwsgi
+检查uwsgi版本
+(venv) [root@slave 192.168.11.64 /opt]$uwsgi --version
+2.0.17.1
+</code></pre><h3 id="检查uwsgi-python版本"><a href="#检查uwsgi-python版本" class="headerlink" title="检查uwsgi python版本"></a>检查uwsgi python版本</h3><pre><code>uwsgi --python-version
+</code></pre><p>运行简单的uWSGI</p>
+<p>启动一个python</p>
+<pre><code>uwsgi --http :8000 --wsgi-file test.py
+http :8000: 使用http协议，端口8000
+wsgi-file test.py: 加载指定的文件，test.py
+#test.py
+def application(env, start_response):
+    start_response(&apos;200 OK&apos;, [(&apos;Content-Type&apos;,&apos;text/html&apos;)])
+    return [b&quot;Hello World&quot;] # python3
+</code></pre><h3 id="uWsgi热加载python程序"><a href="#uWsgi热加载python程序" class="headerlink" title="uWsgi热加载python程序"></a>uWsgi热加载python程序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在启动命令后面加上参数</span><br><span class="line">uwsgi --http :8088 --module mysite.wsgi --py-autoreload=1 </span><br><span class="line">#发布命令</span><br><span class="line">command= /home/venv/bin/uwsgi --uwsgi 0.0.0.0:8000 --chdir /opt/mysite --home=/home/venv --module mysite.wsgi</span><br><span class="line">#此时修改django代码，uWSGI会自动加载django程序，页面生效</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+<p>运行django程序</p>
+<pre><code>#mysite/wsgi.py  确保找到这个文件
+uwsgi --http :8000 --module mysite.wsgi
+module mysite.wsgi: 加载指定的wsgi模块
+</code></pre><p>uwsgi配置文件</p>
+<pre><code>uwsgi支持ini、xml等多种配置方式，本文以 ini 为例， 在/etc/目录下新建uwsgi_nginx.ini，添加如下配置：
+
+# mysite_uwsgi.ini file
+[uwsgi]
+
+# Django-related settings
+# the base directory (full path)
+chdir           = /opt/mysite
+# Django&apos;s wsgi file
+module          = mysite.wsgi
+# the virtualenv (full path)
+home            = /opt/venv
+# process-related settings
+# master
+master          = true
+# maximum number of worker processes
+processes       = 1
+# the socket (use the full path to be safe
+socket          = 0.0.0.0:8000
+# ... with appropriate permissions - may be needed
+# chmod-socket    = 664
+# clear environment on exit
+vacuum          = true
+</code></pre><h2 id="指定配置文件启动命令"><a href="#指定配置文件启动命令" class="headerlink" title="指定配置文件启动命令"></a>指定配置文件启动命令</h2><pre><code>uwsgi --ini  /etc/uwsgi_nginx.ini
+</code></pre><h2 id="配置nginx结合uWSGI"><a href="#配置nginx结合uWSGI" class="headerlink" title="配置nginx结合uWSGI"></a>配置nginx结合uWSGI</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  1;</span><br><span class="line">error_log  logs/error.log;</span><br><span class="line">pid        logs/nginx.pid;</span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line">    access_log  logs/access.log  main;</span><br><span class="line">    sendfile        on;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line">　　#nginx反向代理uwsgi</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  192.168.11.64;</span><br><span class="line">        location / &#123;</span><br><span class="line">　　　　  #nginx自带ngx_http_uwsgi_module模块，起到nginx和uwsgi交互作用</span><br><span class="line">         #通过uwsgi_pass设置服务器地址和协议，讲动态请求转发给uwsgi处理</span><br><span class="line">         include  /opt/nginx1-12/conf/uwsgi_params;</span><br><span class="line">         uwsgi_pass 0.0.0.0:8000;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line">　　　　  #nginx处理静态页面资源</span><br><span class="line">　　　　  location /static&#123;</span><br><span class="line">　　　　　　　　alias /opt/nginx1-12/static;　　　</span><br><span class="line">         &#125;</span><br><span class="line">　　　　　#nginx处理媒体资源</span><br><span class="line">　　　　　location /media&#123;</span><br><span class="line">　　　　　　　　alias /opt/nginx1-12/media;　　</span><br><span class="line">         &#125;</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;
+                    &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;
+                    &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;
+    access_log  logs/access.log  main;
+    sendfile        on;
+    keepalive_timeout  65;
+    upstream crm_django {
+        server 192.168.12.77:8000;
+    }
+
+    # 虚拟主机一
+    server {
+        listen       80;
+        server_name  www.xx.com;
+        location / {
+            uwsgi_pass  crm_django;
+            include /opt/nginx1-12/conf/uwsgi_params;
+        }
+        location /static {
+            alias /opt/static/;
+        }
+    }
+</code></pre><h1 id="以上配置完启动nginx"><a href="#以上配置完启动nginx" class="headerlink" title="以上配置完启动nginx"></a>以上配置完启动nginx</h1><h1 id="supervisor"><a href="#supervisor" class="headerlink" title="supervisor"></a>supervisor</h1><p>supervisor 是基于 python 的任务管理工具，用来自动运行各种后台任务，当然你也能直接利用 nohup 命令使任务自动后台运行，<br>但如果要重启任务，每次都自己手动 kill 掉任务进程，这样很繁琐，而且一旦程序错误导致进程退出的话，系统也无法自动重载任务。</p>
+<p>这里要配置基于virtualenv的supervisor</p>
+<p>由于supervisor在python3下无法使用，因此只能用python2去下载！！！！！！</p>
+<pre><code>#注意此时已经退出虚拟环境了！！！！！
+yum install python-setuptools
+easy_install supervisor
+通过命令生成supervisor的配支文件
+
+echo_supervisord_conf &gt; /etc/supervisord.conf
+然后再/etc/supervisord.conf末尾添加上如下代码！！！！！！
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">supervisord.conf配置文件参数解释</span><br><span class="line">[program:xx]是被管理的进程配置参数，xx是进程的名称</span><br><span class="line">[program:xx]</span><br><span class="line">command=/opt/apache-tomcat-8.0.35/bin/catalina.sh run  ; 程序启动命令</span><br><span class="line">autostart=true       ; 在supervisord启动的时候也自动启动</span><br><span class="line">startsecs=10         ; 启动10秒后没有异常退出，就表示进程正常启动了，默认为1秒</span><br><span class="line">autorestart=true     ; 程序退出后自动重启,可选值：[unexpected,true,false]，默认为unexpected，表示进程意外杀死后才重启</span><br><span class="line">startretries=3       ; 启动失败自动重试次数，默认是3</span><br><span class="line">user=tomcat          ; 用哪个用户启动进程，默认是root</span><br><span class="line">priority=999         ; 进程启动优先级，默认999，值小的优先启动</span><br><span class="line">redirect_stderr=true ; 把stderr重定向到stdout，默认false</span><br><span class="line">stdout_logfile_maxbytes=20MB  ; stdout 日志文件大小，默认50MB</span><br><span class="line">stdout_logfile_backups = 20   ; stdout 日志文件备份数，默认是10</span><br><span class="line">; stdout 日志文件，需要注意当指定目录不存在时无法正常启动，所以需要手动创建目录（supervisord 会自动创建日志文件）</span><br><span class="line">stdout_logfile=/opt/apache-tomcat-8.0.35/logs/catalina.out</span><br><span class="line">stopasgroup=false     ;默认为false,进程被杀死时，是否向这个进程组发送stop信号，包括子进程</span><br><span class="line">killasgroup=false     ;默认为false，向进程组发送kill信号，包括子进程</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[program:my]</span><br><span class="line">#command=/opt/venv/bin/uwsgi --ini  /etc/uwsgi_nginx.ini  #这里是结合virtualenv的命令 和supervisor的精髓！！！！</span><br><span class="line">command= /home/venv/bin/uwsgi --uwsgi 0.0.0.0:8000 --chdir /opt/mysite --home=/home/venv --module mysite.wsgi</span><br><span class="line">#--home指的是虚拟环境目录  --module找到 mysite/wsgi.py</span><br></pre></td></tr></table></figure>
+<p>最后启动supervisor，完成uWSGI启动django，nginx反向代理</p>
+<p>supervisord -c /etc/supervisord.conf #启动supervisor<br>supervisorctl -c /etxc/supervisord.conf restart my  #重启my项目<br>supervisorctl -c /etc/supervisord.conf [start|stop|restart] [program-name|all]</p>
+<p>重新加载supervisor</p>
+<pre><code>一、添加好配置文件后
+
+二、更新新的配置到supervisord    
+
+supervisorctl update
+三、重新启动配置中的所有程序
+
+supervisorctl reload
+四、启动某个进程(program_name=你配置中写的程序名称)
+
+supervisorctl start program_name
+五、查看正在守候的进程
+
+supervisorctl
+六、停止某一进程 (program_name=你配置中写的程序名称)
+
+pervisorctl stop program_name
+七、重启某一进程 (program_name=你配置中写的程序名称)
+
+supervisorctl restart program_name
+八、停止全部进程
+
+supervisorctl stop all
+注意：显示用stop停止掉的进程，用reload或者update都不会自动重启。
+</code></pre><h1 id="django的静态文件与nginx配置-重点"><a href="#django的静态文件与nginx配置-重点" class="headerlink" title="django的静态文件与nginx配置  重点"></a>django的静态文件与nginx配置  重点</h1><pre><code>django的静态文件与nginx配置
+mysite/settings.py
+
+STATIC_ROOT=&apos;/opt/nginx1-12/static&apos;
+STATIC_URL = &apos;/static/&apos;
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,&quot;static&quot;),
+]
+上述的参数STATIC_ROOT用在哪？
+
+通过python3 manage.py collectstatic 收集所有你使用的静态文件保存到STATIC_ROOT！
+
+STATIC_ROOT 文件夹 是用来将所有STATICFILES_DIRS中所有文件夹中的文件，以及各app中static中的文件都复制过来
+# 把这些文件放到一起是为了用nginx等部署的时候更方便
+</code></pre><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="linux基本管理命令"><a href="#linux基本管理命令" class="headerlink" title="linux基本管理命令"></a>linux基本管理命令</h2><pre><code>服务器上安装服务,python3.6(宿主机上的物理解释器)
+1.虚拟解释器
+virtualenv
+虚拟出多个干净、隔离的python解释器环境
+问题：管理上较为麻烦，需要找到venv的路径，并且source activate 才能激活虚拟环境
+2.
+virtualenvwrapper工具
+更为方便的使用以及管理virtualenv
+1.配置好环境变量之后，每次开机就加载这个软件
+2.workon 激活并且切换多个虚拟环境
+mkvirtualenv  创建
+lsvirtualenv
+cdvirtualenv
+rmvirtualenv
+</code></pre><h2 id="mariadb"><a href="#mariadb" class="headerlink" title="mariadb"></a>mariadb</h2><pre><code>mariadb(mysql)，与django连接，存储数据(yum install mariadb-server mariadb-client)
+初始化连接数据库
+    __init.py__
+    import pymysql 
+    pymysql.install()
+本地django连接linux上的数据库注意事项：
+1.防火墙问题，需配置规则，或者关闭防火墙
+    使用云服务器的同学，需要注意开通3306端口（安全组功能）
+2.远程连接mysql，需要授权，远程连接
+grant all privileges .....
+</code></pre><h2 id="edis"><a href="#edis" class="headerlink" title="edis"></a>edis</h2><pre><code>import redis 
+</code></pre><h2 id="准备django项目"><a href="#准备django项目" class="headerlink" title="准备django项目"></a>准备django项目</h2><pre><code>准备django项目 &gt;  crm 在服务器上运行crm
+</code></pre><p>1.把本地代码，传至linux<br>        -scp(linux与linux网络传输)<br>        -xshell(yum install  lrzsz)  (windows)<br>                    lrzsz  可以通过如下俩命令管理文件，也可以直接拖拽文件<br>                    rz   接收<br>                    sz   发送<br>            lrzsz只适用于小文件，大文件，请用xftp<br>        -xftp (更为高效的企业级文件传输协议软件)</p>
+<p>2.django项目需要配置allow_hosts=[‘*’]，允许所有主机访问<br>        debug=True  #返回给项目一个debug信息，暴露了项目配置信息，因此在线上要关闭</p>
+<h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>1.web服务器，用户的统一入口，<br>    我们的想法是，让用户通过nginx这个入口，就能访问到我们的应用服务器的功能<br>    <a href="http://www.pythonav.cn" target="_blank" rel="noopener">www.pythonav.cn</a>     入口   &lt;   80端口<br>    端口转发，反向代理<br>    80端口的请求  &gt;   8000的端口应用</p>
+<pre><code>server{}虚拟主机
+</code></pre><p>2.反向代理服务器</p>
+<pre><code>proxy_pass  后端应用服务器的ip:port   (转发给一个单点机器)
+proxy_pass  upstream负载均衡池
+</code></pre><p>3.负载均衡服务器</p>
+<pre><code>nginx接收到了基于wsgi协议的动态请求，然后通过uwsgi_pass转发给uwsgi服务器
+
+uwsgi_pass  mydjango;
+
+upstream mydjango {
+    server 192.168.12.1:8000 weight=1;
+    server 192.168.12.2:8000 weight=5;
+    server 192.168.12.3:8000 weight=10;
+}
+</code></pre><p>4.处理静态文件，者是nginx的天然优势，处理静态文件的高并发性性能</p>
+<pre><code>www.python.com/static/xxx.js
+    文件存放目录/data/static/xxx.js
+www.python.com/static/xxx.css
+    文件存放目录/data/static/xxx.css 
+www.python.com/static/xxx.jpg
+    文件存放目录/data/static/xxx.jpg
+
+
+location /static  {
+    alias /data/static;
+}
+
+
+
+uwsgi 
+    uwsgi服务器：
+    通过uwsgi这个软件启动crm项目，且是一个支持高并发，多进程的一个应用服务器
+    uwsgi --module  crm 
+
+    python3 manage.py runserver 0.0.0.0:8000  ××  不再用这种单机形式启动crm
+    django-admin startproject   crm
+    django-admin startapp      app01
+        crm 
+            -crm
+                -wsgi.py   (重点级的文件，django启动，实现wsgi协议的文件)
+            -manage.py
+</code></pre><h2 id="常见问题："><a href="#常见问题：" class="headerlink" title="常见问题："></a>常见问题：</h2><pre><code>uwsgi  启动crm的时候，非常有可能报错一个 no application(找不到应用)
+uwsgi找不到你的crm的wsgi.py
+    其实uwsgi是通过这个application对象加载crm的
+    application = get_wsgi_application()
+</code></pre><h2 id="进程管理工具："><a href="#进程管理工具：" class="headerlink" title="进程管理工具："></a>进程管理工具：</h2><pre><code>启动进程后，通过命令 手动管理 
+ps -ef |grep uwsgi 
+#启停uwsgi 
+kill -9 pid 
+pkill uwsgi 
+killall uwsgi 
+
+
+#管理nginx 
+
+ps -ef 
+kill 
+
+#管理mysql
+ps -ef 
+
+kill 
+
+
+#进程管理工具 
+supervisor 服务启动后
+
+
+supervisorctl ，可以通过这个命令，非常方便的管理进程，也可以统一启动，停止所有的进程
+    批量管理进程
+    mysql : running/stop 
+    nginx :     running/stop
+    uwsgi:running/stop
+</code></pre><h1 id="项目发布配置手册："><a href="#项目发布配置手册：" class="headerlink" title="项目发布配置手册："></a>项目发布配置手册：</h1><p> (更换不同的服务器环境，首先就要解决环境依赖的问题)</p>
+<pre><code>1.pip3 frezz &gt; requirements.py 
+2. pip3 install -r requirements.py 
+3.docker 
+</code></pre><p> 1.准备python环境，准备虚拟环境，激活了虚拟环境<br>    mkvirtualenv nbcrm<br>        检测是否虚拟环境正常<br>        which pip3<br>        which python3 </p>
+<p>2.安装django模块（此时的操作都是在nbcrm这个虚拟环境下了）<br>    pip3 install django==1.11.11</p>
+<p>3.安装pymysql连接mysql数据库<br>    pip3 install pymysql</p>
+<p>4.安装django的一个django-multiselectfield</p>
+<pre><code>pip3 install django-multiselectfield
+</code></pre><p>5.解决项目的数据库连接问题，修改settings.py<br>    1.启动linux的数据库，创建对应的数据库，密码设置等等<br>    create database nb_crm;<br>    2.更改settings.py<br>    DATABASES = {<br>            ‘default’: {<br>                ‘ENGINE’: ‘django.db.backends.mysql’,<br>                ‘NAME’: ‘nb_crm’, #数据库名<br>                ‘HOST’: ‘127.0.0.1’,  #这里服务器的ip地址<br>                ‘PORT’: 3306,    #端口<br>                ‘USER’: ‘root’,    #用户名<br>                ‘PASSWORD’: ‘redhat123’,   #用户密码<br>            }<br>        }<br>    3.更改允许主机<br>    ALLOWED_HOSTS = [‘*’]</p>
+<pre><code>4.线上关闭debug(肖锋的这个nb_crm先别改debug了)，默认先用True
+debug=True 
+</code></pre><h2 id="使用uwsgi启动django"><a href="#使用uwsgi启动django" class="headerlink" title="使用uwsgi启动django"></a>使用uwsgi启动django</h2><p>1.安装uwsgi</p>
+<pre><code>pip3 install -i https://pypi.douban.com/simple uwsgi
+</code></pre><p>2.通过uwsgi命令启动python应用</p>
+<pre><code>uwsgi --http   0.0.0.0:8888  --wsgi-file test1.py  
+    --http  指明是http协议
+    --socket 启动一个socket 链接
+    --wsgi-file  指明一个python应用文件
+</code></pre><p>3.通过uwsgi启动django项目(问题是，uwsgi不处理static静态文件的配置)<br>    uwsgi –http :8888  –module Nb_crm.wsgi    </p>
+<p>4.uwsgi可以热加载项目</p>
+<pre><code>uwsgi --http :9999  --module mycrm.wsgi --py-autoreload=1 
+--py-autoreload是告诉uwsgi自动重启加载django项目
+</code></pre><p>5.通过uwsgi的配置文件启动项目</p>
+<pre><code>1.手动创建uwsgi.ini文件
+touch uwsgi.ini
+2.写入如下配置
+[uwsgi]
+    #项目的绝对路径，定位到项目的第一层
+    chdir           = /opt/NB_crm
+    #指明项目的wsgi文件路径
+    module          = NB_crm.wsgi
+    #指明你的虚拟解释器的第一层路径
+    home            = /root/Envs/nbcrm
+    #指明通过uwsgi，启动多少个进程
+    processes       = 5
+
+    #非常重要
+    #非常重要
+    #非常重要
+    #如果你已经配置了nginx(启动了nginx服务，配置了uwsgi_pass)，请用这个socket连接
+    #socket          = 0.0.0.0:8000
+
+    #如果你没用nginx，想通过uwsgi直接启动web服务，指明http协议
+    http = 0.0.0.0:9999
+
+    #在退出uwsgi环境后，清空环境变量
+    vacuum          = true
+</code></pre><p>6.通过配置文件启动NB_crm（注意uwsgi不会处理静态文件，如果有，也是浏览器的缓存！！！！）<br>    uwsgi –ini  uwsgi.ini </p>
+<p>7.配置django的settings.py，收集所有NB_crm项目所需的静态文件<br>    1.#通过命令，收集整个项目所有的静态文件，放入到/opt/static/<br>        STATIC_ROOT=’/opt/static/‘<br>    2.执行命令<br>        python3 manage.py collectstatic<br>    3.此时NB_crm的所有静态文件，都跑到/opt/static/底下了<br>        (nbcrm) [root@node1 /opt/NB_crm 11:09:33]#ls /opt/static/<br>        admin  css  imgs  js  plugins</p>
+<p>8.配置nginx<br>    1.配置一个网站入口，当用户访问192.168.12.96:80 这个web应用时，自动将请求转发给uwsgi，uwsgi处理后，返回给nginx，返回给用户<br>    当请求是192.168.12.96:80的时候，其实访问的是192.168.12.96:9999  这是动态请求，因为我是找到的uwsgi</p>
+<pre><code>#匹配度最低的写法，因此就是任何的请求都访问到这里
+
+2.通过nginx去处理静态文件 
+
+
+3.nginx.conf配置如下
+
+#定义负载均衡池，里面放入uwsgi的地址
+upstream nbcrm {
+    server 127.0.0.1:8000;
+</code></pre><p>}</p>
+<pre><code>server {
+   listen 80;
+   server_name  www.xx.com;
+   #讲nginx入口的请求，直接反向代理给uwsgi
+   location / {
+     uwsgi_pass  nbcrm;
+     include /opt/nginx1-12/conf/uwsgi_params;
+</code></pre><p>}</p>
+<pre><code>#通过nginx处理nbcrm的静态文件
+location /static {
+    alias /opt/static/;
+    }
+}
+</code></pre><p>9.更改uwsgi.ini ，指明socket连接，结合uwsgi 和nginx</p>
+<pre><code>#如果你已经配置了nginx，请用这个socket连接
+socket          = 0.0.0.0:8000
+</code></pre><p>10.启动uwsgi.ini<br>    uwsgi –ini uwsgi.ini </p>
+<pre><code>启动nginx
+
+./nginx 
+
+
+并且访问nginx的域名入口，查看是否能访问到uwsgi项目，并且静态文件是否正常
+
+www.xx.com   查看浏览器状态
+</code></pre><p>11.配置supversior，管理uwsgi进程</p>
+<pre><code>注意，请退出虚拟环境，在宿主机环境下，安装supvervisor
+</code></pre><p>1.安装easy_install ，python2的软件包管理工具 ，如果有了可以忽略<br>    yum install python-setuptools</p>
+<pre><code>#安装软件
+easy_install supervisor
+</code></pre><p>2.使用supervisor命令,常用命令如下<br>    生成配置文件<br>    echo_supervisord_conf &gt;  /etc/supervisord.conf</p>
+<p>3.修改配置文件，添加任务，按照自己的机器环境修改此命令<br>    [program:crm_project]</p>
+<pre><code>#启动uwsgi的命令就是这个
+command=/root/Envs/nbcrm/bin/uwsgi  --ini /opt/NB_crm/uwsgi.ini
+#自动启动uwsgi，挂了之后自动加载
+autorestart=true
+</code></pre><p>4.启动supvervisord服务，启动uwsgi    </p>
+<pre><code>#服务端命令，用于启动这个服务
+supervisord -c  /etc/supervisord.conf
+</code></pre><p>5.通过命令管理uwsgi<br>    supervisorctl 直接回车，进入交互式管理状态</p>
+<pre><code>[root@node1 ~ 11:53:32]#supervisorctl 
+crm_project                         RUNNING   pid 2008, uptime 0:01:56
+</code></pre><p>也可以通过命令交互式的管理uwsgi</p>
+<pre><code>#服务端启动后，通过命令管理软件
+
+supervisorctl  start crm_project
+supervisorctl  stop  crm_project 
+supervisorctl status crm_project
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持！学如逆水行舟，不进则退！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/1.jpg" alt="海燕 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/2.jpg" alt="海燕 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/06/nginx入门与实践/" rel="next" title="nginx入门与实践">
+                <i class="fa fa-chevron-left"></i> nginx入门与实践
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MTA2Ny8xNzU5Mg=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/tx.jpg" alt="海燕">
+            
+              <p class="site-author-name" itemprop="name">海燕</p>
+              <p class="site-description motion-element" itemprop="description">学如逆水行舟，不进则退。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="https://www.cnblogs.com/xiao-xue-di/p/9931414.html" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Fover21" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="850781645@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-heart"></i>
+                other links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/xiao-xue-di/p/9931414.html" title="cnblog" target="_blank">cnblog</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.xiaoxuedi.top" title="home" target="_blank">home</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#导论"><span class="nav-number">1.</span> <span class="nav-text">导论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么用nginx和uwsgi"><span class="nav-number">1.1.</span> <span class="nav-text">为什么用nginx和uwsgi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx有关"><span class="nav-number">1.2.</span> <span class="nav-text">nginx有关</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Django-Nginx-uwsgi安装配置"><span class="nav-number">2.</span> <span class="nav-text">Django Nginx+uwsgi安装配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础开发环境配置"><span class="nav-number">2.1.</span> <span class="nav-text">基础开发环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提前安装好"><span class="nav-number">2.2.</span> <span class="nav-text">提前安装好</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装django1-11"><span class="nav-number">2.2.1.</span> <span class="nav-text">安装django1.11</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建django项目mysite"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">创建django项目mysite</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建app01"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">创建app01</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#settings-py设置"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">settings.py设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#app01-views-py"><span class="nav-number">2.2.1.4.</span> <span class="nav-text">app01/views.py</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装uWSGI"><span class="nav-number">2.3.</span> <span class="nav-text">安装uWSGI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#检查uwsgi-python版本"><span class="nav-number">2.3.1.</span> <span class="nav-text">检查uwsgi python版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uWsgi热加载python程序"><span class="nav-number">2.3.2.</span> <span class="nav-text">uWsgi热加载python程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指定配置文件启动命令"><span class="nav-number">2.4.</span> <span class="nav-text">指定配置文件启动命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置nginx结合uWSGI"><span class="nav-number">2.5.</span> <span class="nav-text">配置nginx结合uWSGI</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以上配置完启动nginx"><span class="nav-number">3.</span> <span class="nav-text">以上配置完启动nginx</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#supervisor"><span class="nav-number">4.</span> <span class="nav-text">supervisor</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#django的静态文件与nginx配置-重点"><span class="nav-number">5.</span> <span class="nav-text">django的静态文件与nginx配置  重点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux基本管理命令"><span class="nav-number">6.1.</span> <span class="nav-text">linux基本管理命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mariadb"><span class="nav-number">6.2.</span> <span class="nav-text">mariadb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#edis"><span class="nav-number">6.3.</span> <span class="nav-text">edis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备django项目"><span class="nav-number">6.4.</span> <span class="nav-text">准备django项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx"><span class="nav-number">6.5.</span> <span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题："><span class="nav-number">6.6.</span> <span class="nav-text">常见问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程管理工具："><span class="nav-number">6.7.</span> <span class="nav-text">进程管理工具：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目发布配置手册："><span class="nav-number">7.</span> <span class="nav-text">项目发布配置手册：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用uwsgi启动django"><span class="nav-number">7.1.</span> <span class="nav-text">使用uwsgi启动django</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=27901832&auto=1&height=66"></iframe>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">海燕</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'JhO2EQHln12cbwIJq0yeKc4h-gzGzoHsz',
+        appKey: 'lhPI2FVLzLxY8UYSfsHbd258',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+</body>
+</html>
