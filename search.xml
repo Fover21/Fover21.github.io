@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[git安装教程]]></title>
+    <url>%2F2019%2F05%2F22%2Fgit%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B%2F</url>
+    <content type="text"><![CDATA[Git安装教程（windows）12Git是当今最流行的版本控制软件，它包含了许多高级工具.下载地址：https://git-scm.com/downloads 第一步：点击next 第二步：文件位置存储，可根据自己盘的情况安装 第三步：安装配置文件，自己需要的都选上，下一步 第四步：不创建启动文件夹，下一步 第五步：选择默认的编辑器，我们直接用推荐的就行，下一步 第六步：勾上第二项，这样就可以在cmd中操作，下一步 第七步：使用默认设置就信，下一步 第八步：配置行结束标志，保持默认“Chechout” 第九步：在终端模拟器选则页中，默认即可，配置后Git 第十步：最后配置Git额外选项默认即可，然后安装 第十一步：安装过程 第十二步：使用Git，桌面快捷方式界面如下，打开就可以使用 1上述过程便是在windows环境下安装git的大致过程，对于不同的git版本安装过程可能会略有差异，但是整体步骤均相同。]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[搭建git服务器]]></title>
+    <url>%2F2019%2F05%2F19%2F%E6%90%AD%E5%BB%BAgit%E6%9C%8D%E5%8A%A1%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[gitlab服务器搭建安装centos7 建议4G内存]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[django-debug-toolbar]]></title>
     <url>%2F2019%2F03%2F02%2Fdjango-debug-toolbar%2F</url>
     <content type="text"><![CDATA[django-debug-toolbar 调试工具使用文档安装1pip install django-debug-toolbar 配置在settings.py文件中添加配置： 12345678910111213141516171819202122232425262728293031323334INSTALLED_APPS = [ # ... 'django.contrib.staticfiles', # ... 'debug_toolbar',]STATIC_URL = '/static/'MIDDLEWARE = [ # ... 'debug_toolbar.middleware.DebugToolbarMiddleware', # ...]INTERNAL_IPS = [ '127.0.0.1',]# 添加debug-toolbar的中间件DEBUG_TOOLBAR_PANELS = [ 'debug_toolbar.panels.versions.VersionsPanel', 'debug_toolbar.panels.timer.TimerPanel', 'debug_toolbar.panels.settings.SettingsPanel', 'debug_toolbar.panels.headers.HeadersPanel', 'debug_toolbar.panels.request.RequestPanel', 'debug_toolbar.panels.sql.SQLPanel', 'debug_toolbar.panels.staticfiles.StaticFilesPanel', 'debug_toolbar.panels.templates.TemplatesPanel', 'debug_toolbar.panels.cache.CachePanel', 'debug_toolbar.panels.signals.SignalsPanel', 'debug_toolbar.panels.logging.LoggingPanel', 'debug_toolbar.panels.redirects.RedirectsPanel',] 在urls.py中添加内容 12345if settings.DEBUG: import debug_toolbar urlpatterns = [ url(r'^debug/', include(debug_toolbar.urls)), ] + urlpatterns 配置完成，启动项目即可。 参考文档：官方文档]]></content>
@@ -329,11 +339,6 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[tags]]></title>
-    <url>%2Ftags%2Findex.html</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
     <title><![CDATA[个人简介]]></title>
     <url>%2Fabout%2Findex.html</url>
     <content type="text"><![CDATA[危机感 | 对失败的容忍度 海燕 在苍茫的大海上，狂风卷集着乌云。在乌云和大海之间，海燕像黑色的闪电，在高傲地飞翔。 一会儿翅膀碰着波浪，一会儿箭一般地直冲向乌云，它叫喊着，──就在这鸟儿勇敢的叫喊声里，乌云听出了欢乐。 在这叫喊声里──充满着对暴风雨的渴望！在这叫喊声里，乌云听出了愤怒的力量、热情的火焰和胜利的信心。 海鸥在暴风雨来临之前呻吟着，──呻吟着，它们在大海上飞窜，想把自己对暴风雨的恐惧，掩藏到大海深处。 海鸭也在呻吟着，──它们这些海鸭啊，享受不了生活的战斗的欢乐：轰隆隆的雷声就把它们吓坏了。 蠢笨的企鹅，胆怯地把肥胖的身体躲藏到悬崖底下……只有那高傲的海燕，勇敢地，自由自在地，在泛起白沫的大海上飞翔！ 乌云越来越暗，越来越低，向海面直压下来，而波浪一边歌唱，一边冲向高空，去迎接那雷声。 雷声轰响。波浪在愤怒的飞沫中呼叫，跟狂风争鸣。看吧，狂风紧紧抱起一层层巨浪，恶狠狠地把它们甩到悬崖上，把这些大块的翡翠摔成尘雾和碎末。 海燕叫喊着，飞翔着，像黑色的闪电，箭一般地穿过乌云，翅膀掠起波浪的飞沫。 看吧，它飞舞着，像个精灵，──高傲的、黑色的暴风雨的精灵，——它在大笑，它又在号叫……它笑那些乌云，它因为欢乐而号叫！ 这个敏感的精灵，——它从雷声的震怒里，早就听出了困乏，它深信，乌云遮不住太阳，──是的，遮不住的！ 狂风吼叫……雷声轰响…… 一堆堆乌云，像青色的火焰，在无底的大海上燃烧。大海抓住闪电的箭光，把它们熄灭在自己的深渊里。这些闪电的影子，活像一条条火蛇，在大海里蜿蜒游动，一晃就消失了。 ——暴风雨！暴风雨就要来啦！ 这是勇敢的海燕，在怒吼的大海上，在闪电中间，高傲地飞翔；这是胜利的预言家在叫喊： ——让暴风雨来得更猛烈些吧！]]></content>
@@ -347,5 +352,10 @@
     <title><![CDATA[留言板]]></title>
     <url>%2Fguestbook%2Findex.html</url>
     <content type="text"><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[tags]]></title>
+    <url>%2Ftags%2Findex.html</url>
+    <content type="text"></content>
   </entry>
 </search>
