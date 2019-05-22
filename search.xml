@@ -4,6 +4,9 @@
     <title><![CDATA[git安装教程]]></title>
     <url>%2F2019%2F05%2F22%2Fgit%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B%2F</url>
     <content type="text"><![CDATA[Git安装教程（windows）12Git是当今最流行的版本控制软件，它包含了许多高级工具.下载地址：https://git-scm.com/downloads 第一步：点击next 第二步：文件位置存储，可根据自己盘的情况安装 第三步：安装配置文件，自己需要的都选上，下一步 第四步：不创建启动文件夹，下一步 第五步：选择默认的编辑器，我们直接用推荐的就行，下一步 第六步：勾上第二项，这样就可以在cmd中操作，下一步 第七步：使用默认设置就信，下一步 第八步：配置行结束标志，保持默认“Chechout” 第九步：在终端模拟器选则页中，默认即可，配置后Git 第十步：最后配置Git额外选项默认即可，然后安装 第十一步：安装过程 第十二步：使用Git，桌面快捷方式界面如下，打开就可以使用 1上述过程便是在windows环境下安装git的大致过程，对于不同的git版本安装过程可能会略有差异，但是整体步骤均相同。]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
   </entry>
   <entry>
     <title><![CDATA[搭建git服务器]]></title>
